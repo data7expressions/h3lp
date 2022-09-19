@@ -34,10 +34,12 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('lint', ['exec:lint'])
 	grunt.registerTask('build', ['lint', 'clean:build', 'exec:tsc'])
-	grunt.registerTask('test', ['exec:test'])
-	grunt.registerTask('dist', ['build', 'test', 'clean:dist', 'copy:lib', 'copy:readme', 'copy:license', 'create-package'])
+	// grunt.registerTask('test', ['exec:test'])
+	// grunt.registerTask('dist', ['build', 'test', 'clean:dist', 'copy:lib', 'copy:readme', 'copy:license', 'create-package'])
+	// grunt.registerTask('to_develop', ['build', 'test', 'exec:to_develop'])
+	grunt.registerTask('dist', ['build', 'clean:dist', 'copy:lib', 'copy:readme', 'copy:license', 'create-package'])
 	grunt.registerTask('release', ['dist', 'exec:release'])
-	grunt.registerTask('to_develop', ['build', 'test', 'exec:to_develop'])
+	grunt.registerTask('to_develop', ['build', 'exec:to_develop'])
 	grunt.registerTask('doc', ['exec:doc'])
 	grunt.registerTask('default', [])
 }
