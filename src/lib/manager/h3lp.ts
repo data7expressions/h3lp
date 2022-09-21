@@ -57,6 +57,14 @@ export class H3lp {
 		return this.helper.nvl2(value, a, b)
 	}
 
+	public tryParse (value:string):any|null {
+		return this.helper.tryParse(value)
+	}
+
+	public async sleep (ms = 1000): Promise<void> {
+		return this.helper.sleep(ms)
+	}
+
 	public clone (obj:any):any {
 		return this.obj.clone(obj)
 	}
@@ -169,6 +177,14 @@ export class H3lp {
 		return this.validator.isTimeFormat(value)
 	}
 
+	public between (value: any, from: any, to: any): boolean {
+		return this.validator.between(value, from, to)
+	}
+
+	public includes (list: any[]|string, value: any): boolean {
+		return this.validator.includes(list, value)
+	}
+
 	public async existsPath (sourcePath:string):Promise<boolean> {
 		return this.fs.existsPath(sourcePath)
 	}
@@ -211,10 +227,6 @@ export class H3lp {
 
 	public solveEnvironmentVariables (source:any): void {
 		return this.environment.solveEnvironmentVariables(source)
-	}
-
-	public tryParse (value:string):any|null {
-		return this.helper.tryParse(value)
 	}
 
 	public isPositiveInteger (value:any) {

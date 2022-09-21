@@ -113,4 +113,16 @@ export class Validator {
 		const regex = /\[0-2]\d:[0-5]\d:[0-5]\d/
 		return value.match(regex) !== null
 	}
+
+	public between (value: any, from: any, to: any): boolean {
+		return value >= from && value < to
+	}
+
+	public includes (list: any[]|string, value: any): boolean {
+		if (list && value) {
+			return list.includes(value)
+		} else {
+			return false
+		}
+	}
 }
