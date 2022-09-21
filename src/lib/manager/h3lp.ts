@@ -210,7 +210,7 @@ export class H3lp {
 	}
 
 	public async readFile (filePath: string): Promise<string|null> {
-		return this.fs.resolvePath(filePath)
+		return this.fs.readFile(filePath)
 	}
 
 	public async removeFile (path:string):Promise<void> {
