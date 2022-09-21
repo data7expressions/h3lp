@@ -65,6 +65,18 @@ export class H3lp {
 		return this.helper.sleep(ms)
 	}
 
+	public toString (value: any): string {
+		return this.helper.toString(value)
+	}
+
+	public toNumber (value: any): number {
+		return this.helper.toNumber(value)
+	}
+
+	public concat (...values:any[]) :any {
+		return this.helper.concat(values)
+	}
+
 	public clone (obj:any):any {
 		return this.obj.clone(obj)
 	}
