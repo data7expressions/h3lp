@@ -64,9 +64,9 @@ export class HttpHelper {
 		if (isUri.test(source)) {
 			return new URL(path, source).href
 		}
-		const pathParts = path.split('/')
-		const sourceParts = source.split('/')
-		const newParts = sourceParts.splice(1, sourceParts.length - (pathParts.length + 1))
+		const pathParts = path.split('/').filter(p => p !== '')
+		const sourceParts = source.split('/').filter(p => p !== '')
+		const newParts = sourceParts.splice(0, sourceParts.length - pathParts.length)
 		return newParts.join('/') + '/' + pathParts.join('/')
 	}
 }

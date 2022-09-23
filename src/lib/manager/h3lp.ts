@@ -20,7 +20,7 @@ export class H3lp {
 		this.helper = new Helper(this.validator)
 		this.fs = new FsHelper()
 		this.http = new HttpHelper(this.helper)
-		this.obj = new ObjectHelper()
+		this.obj = new ObjectHelper(this.http)
 		this.environment = new EnvironmentHelper(this.helper)
 		this.delta = new DeltaHelper(this.validator)
 	}
@@ -99,6 +99,22 @@ export class H3lp {
 
 	public fromEntries (array: any[]):any {
 		return this.obj.fromEntries(array)
+	}
+
+	public jsonPath (obj: any, path:string): any {
+		return this.obj.jsonPath(obj, path)
+	}
+
+	public createKey (data:any):string {
+		return this.obj.createKey(data)
+	}
+
+	public findInObject (obj: any, predicate: (value:any)=>boolean): any {
+		return this.obj.findInObject(obj, predicate)
+	}
+
+	public findAllInObject (obj: any, predicate: (value:any)=>boolean): any[] {
+		return this.obj.findAllInObject(obj, predicate)
 	}
 
 	public isObject (obj:any):boolean {
