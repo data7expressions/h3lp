@@ -134,7 +134,7 @@ export class ObjectHelper {
 					return found
 				}
 			}
-		} else if (typeof obj === 'object') {
+		} else if (obj !== null && typeof obj === 'object') {
 			if (predicate(obj)) {
 				return obj
 			}
@@ -157,7 +157,7 @@ export class ObjectHelper {
 					results.push(...found)
 				}
 			}
-		} else if (typeof obj === 'object') {
+		} else if (obj !== null && typeof obj === 'object') {
 			if (predicate(obj)) {
 				results.push(obj)
 			}

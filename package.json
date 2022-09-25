@@ -1,6 +1,6 @@
 {
 	"name": "h3lp",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "Helper for nodeJs",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -19,7 +19,7 @@
 	},
 	"scripts": {
 		"lint": "grunt lint",
-		"build": "grunt build",		
+		"build": "grunt build",
 		"dist": "grunt dist",
 		"to_develop": "grunt to_develop",
 		"release": "grunt release",
