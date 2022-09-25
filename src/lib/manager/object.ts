@@ -114,13 +114,13 @@ export class ObjectHelper {
 			for (const item of data) {
 				items.push(this.createKey(item))
 			}
-			return `[${items.join(',')}]`
+			return `[${items.join(',')}]`.toLowerCase()
 		} else if (typeof data === 'object') {
 			const values:any[] = []
 			for (const entry of Object.entries(data)) {
 				values.push(`${entry[0]}:${this.createKey(entry[1])}`)
 			}
-			return `{${values.join(',')}}`
+			return `{${values.join(',')}}`.toLowerCase()
 		} else {
 			return data
 		}
