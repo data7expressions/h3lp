@@ -1,7 +1,7 @@
 import { h3lp } from './../lib'
 
 const source = [
-	'Hola mundo !!!',
+	'!!! Hola mundo !!!',
 	'abcdefghijklmnopqrstuvwxyz0123456789',
 	'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 	'?.><":\\\'|";:[{]}=+-_)(*&^%$#@!~` ',
