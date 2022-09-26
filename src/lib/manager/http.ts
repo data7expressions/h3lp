@@ -1,11 +1,11 @@
-import { Helper } from './helper'
+import { StringHelper } from './string'
 import https from 'https'
 import http from 'http'
 
 export class HttpHelper {
-	private helper: Helper
-	constructor (helper: Helper) {
-		this.helper = helper
+	private string: StringHelper
+	constructor (string: StringHelper) {
+		this.string = string
 	}
 
 	public async get (uri: any): Promise<any> {
@@ -45,10 +45,10 @@ export class HttpHelper {
 		let url = source
 		// https://splunktool.com/json-schema-validation-with-escaped-characters-in-patterns-fails
 		if (url.includes('~1')) {
-			url = this.helper.replace(url, '~1', '/')
+			url = this.string.replace(url, '~1', '/')
 		}
 		if (url.includes('~0')) {
-			url = this.helper.replace(url, '~0', '~')
+			url = this.string.replace(url, '~0', '~')
 		}
 		// https://www.geeksforgeeks.org/how-to-retain-special-characters-in-expressjs-router-url-request/
 		// https://codeforgeek.com/how-to-encode-decode-url-javascript/

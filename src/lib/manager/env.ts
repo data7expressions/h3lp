@@ -1,9 +1,12 @@
-import { Helper } from './helper'
+import { StringHelper } from './string'
+import { Utils } from './utils'
 
-export class EnvironmentHelper {
-	private helper: Helper
-	constructor (helper: Helper) {
-		this.helper = helper
+export class EnvHelper {
+	private utils: Utils
+	private string: StringHelper
+	constructor (utils: Utils, string: StringHelper) {
+		this.utils = utils
+		this.string = string
 	}
 
 	public getEnvironmentVariable (text: string): string | undefined {
@@ -41,11 +44,11 @@ export class EnvironmentHelper {
 			}
 			const environmentVariableValue = process.env[environmentVariable]
 			if (environmentVariableValue === undefined || environmentVariableValue === null) {
-				text = this.helper.replace(text, '${' + environmentVariable + '}', '')
+				text = this.string.replace(text, '${' + environmentVariable + '}', '')
 			} else {
-				const objValue = this.helper.tryParse(environmentVariableValue)
+				const objValue = this.utils.tryParse(environmentVariableValue)
 				const value = objValue ? JSON.stringify(objValue) : environmentVariableValue
-				text = this.helper.replace(text, '${' + environmentVariable + '}', value)
+				text = this.string.replace(text, '${' + environmentVariable + '}', value)
 			}
 		}
 		return text

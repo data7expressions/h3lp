@@ -1,6 +1,6 @@
 import { Validator } from './validator'
 import { exec } from 'child_process'
-export class Helper {
+export class Utils {
 	private validator: Validator
 	constructor (validator: Validator) {
 		this.validator = validator
@@ -26,33 +26,8 @@ export class Helper {
 		})
 	}
 
-	public replace (string:string, search:string, replace:string) {
-		return string.split(search).join(replace)
-	}
-
-	public toString (value: any): string {
-		return this.validator.isNull(value) ? '' : value.toString()
-	}
-
 	public toNumber (value: any): number {
 		return this.validator.isNull(value) ? 0 : parseFloat(value)
-	}
-
-	public concat (...values:any[]) :any {
-		if (!values || values.length === 0) {
-			return ''
-		}
-		if (typeof values[0] === 'string') {
-			return ''.concat(...values)
-		} else if (Array.isArray(values[0])) {
-			return [].concat(...values)
-		} else {
-			const list:any[] = []
-			for (const value of values) {
-				list.push(value)
-			}
-			return list
-		}
 	}
 
 	public nvl (value:any, _default:any):any {
