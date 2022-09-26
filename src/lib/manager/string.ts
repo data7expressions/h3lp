@@ -1,9 +1,5 @@
 import { Validator } from './validator'
-
-export interface NormalizeOptions {
-	toLower?: boolean
-	toUpper?: boolean
-}
+import { NormalizeOptions } from './../model/string'
 
 export class StringHelper {
 	private validator: Validator

@@ -1,22 +1,15 @@
-import { Utils } from './utils'
-import { Validator } from './validator'
-import { FsHelper } from './fs'
-import { HttpHelper } from './http'
-import { ObjectHelper } from './object'
-import { EnvHelper } from './env'
-import { StringHelper, NormalizeOptions } from './string'
-import { DeltaHelper } from './delta'
-import { Delta } from '../index'
+import { Utils, Validator, FsHelper, HttpHelper, ObjectHelper, EnvHelper, StringHelper, DeltaHelper } from './'
+import { Delta, NormalizeOptions } from '../index'
 
 export class H3lp {
-	private utils:Utils
-	private validator:Validator
-	private fs:FsHelper
-	private http:HttpHelper
-	private obj:ObjectHelper
-	private env:EnvHelper
-	private delta:DeltaHelper
-	private string:StringHelper
+	public utils:Utils
+	public validator:Validator
+	public fs:FsHelper
+	public http:HttpHelper
+	public obj:ObjectHelper
+	public env:EnvHelper
+	public delta:DeltaHelper
+	public string:StringHelper
 	constructor () {
 		this.validator = new Validator()
 		this.utils = new Utils(this.validator)
