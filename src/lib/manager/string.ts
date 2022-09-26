@@ -1,5 +1,10 @@
 import { Validator } from './validator'
 
+export interface NormalizeOptions {
+	toLower?: boolean
+	toUpper?: boolean
+}
+
 export class StringHelper {
 	private validator: Validator
 	constructor (validator: Validator) {
@@ -10,11 +15,11 @@ export class StringHelper {
 		return this.validator.isNull(value) ? '' : value.toString()
 	}
 
-	public replace (string:string, search:string, replace:string) {
+	public replace (string: string, search: string, replace: string) {
 		return string.split(search).join(replace)
 	}
 
-	public concat (...values:any[]) :any {
+	public concat (...values: any[]): any {
 		if (!values || values.length === 0) {
 			return ''
 		}
@@ -23,7 +28,7 @@ export class StringHelper {
 		} else if (Array.isArray(values[0])) {
 			return [].concat(...values)
 		} else {
-			const list:any[] = []
+			const list: any[] = []
 			for (const value of values) {
 				list.push(value)
 			}
@@ -31,21 +36,40 @@ export class StringHelper {
 		}
 	}
 
-	public normalize (value:string): string {
-		const result:string[] = []
+	/**
+	 * Normalize a string with utf-8 characters.
+	 * @param source string to normalize
+	 * @returns returns a lowercase string replacing extraneous characters with ascii characters between 97 to 121 or numbers
+	 */
+	public normalize (source: string, options: NormalizeOptions = {}): string {
+		if (source === null || source === undefined) {
+			return source
+		}
+		const result: string[] = []
 		// https://stackoverflow.com/questions/4547609/how-to-get-character-array-from-a-string
-		const buffer = Array.from(value)
+		const buffer = Array.from(source)
 		const length = buffer.length
 		for (let i = 0; i < length; i++) {
 			const ascii = buffer[i].charCodeAt(0)
-			if ((ascii > 96 && ascii < 122) || (ascii > 47 && ascii < 58)) {
-				// minúsculas y números
+			if (ascii > 47 && ascii < 58) {
+				// numbers
 				result.push(String.fromCharCode(ascii))
+			} else if (ascii > 96 && ascii < 122) {
+				if (options.toUpper) {
+					// convert lowercase  to uppercase
+					result.push(String.fromCharCode(ascii - 32))
+				} else {
+					result.push(String.fromCharCode(ascii))
+				}
 			} else if (ascii > 64 && ascii < 91) {
-				// convierte mayúsculas en minúsculas
-				result.push(String.fromCharCode(ascii + 32))
+				if (options.toLower) {
+					// convert uppercase to lowercase
+					result.push(String.fromCharCode(ascii + 32))
+				} else {
+					result.push(String.fromCharCode(ascii))
+				}
 			} else if (ascii < 48 || (ascii > 90 && ascii < 97) || (ascii > 122 && ascii < 128)) {
-				// caracteres excluidos
+				// excluded characters
 				continue
 			} else if ([216, 248, 7443].includes(ascii)) {
 				// Ø ø ᴓ
@@ -53,84 +77,162 @@ export class StringHelper {
 			} else if ([604, 605, 8488, 42923].includes(ascii)) {
 				// ɜ ɝ ℨ Ɜ
 				result.push('3')
-			} else if ([192, 193, 194, 195, 196, 197, 224, 225, 226, 227, 228, 229, 256, 257, 258, 259, 260, 261, 395, 396, 461, 462, 512, 513, 514, 515, 550, 551, 570, 580, 593, 592, 649, 7424, 7680, 7681, 867, 7840, 7841, 7842, 7843, 11365, 11373, 11375].includes(ascii)) {
-				// À Á Â Ã Ä Å à á â ã ä å Ā ā Ă ă Ą ą Ƌ ƌ Ǎ ǎ Ȁ ȁ Ȃ ȃ Ȧ ȧ Ⱥ Ʉ ɑ ɐ ʉ ᴀ Ḁ ḁ  ͣ Ạ ạ Ả ả ⱥ Ɑ Ɐ
-				result.push('a')
-			} else if ([384, 385, 386, 387, 579, 595, 606, 665, 7427, 7682, 7683, 7684, 7685, 7686, 7687, 8468, 8492].includes(ascii)) {
-				// ƀ Ɓ Ƃ ƃ Ƀ ɓ ɞ  ʙ ᴃ Ḃ ḃ Ḅ ḅ Ḇ ḇ ℔ ℬ
-				result.push('b')
-			} else if ([199, 231, 262, 263, 264, 265, 266, 267, 268, 269, 390, 391, 392, 596, 597, 663, 7428, 7440, 7442, 872, 8450, 8579, 8580].includes(ascii)) {
-				// Ç ç Ć ć Ĉ ĉ Ċ ċ Č č Ɔ Ƈ ƈ ɔ ɕ  ʗ ᴄ ᴐ ᴒ   ͨ  ℂ Ↄ ↄ
-				result.push('c')
-			} else if ([270, 271, 272, 273, 393, 394, 545, 598, 599, 7429, 873, 7690, 7691, 7692, 7693, 7694, 7695, 7696, 7697, 7698, 7699, 8517, 8518].includes(ascii)) {
-				// Ď ď Đ đ  Ɖ Ɗ ȡ ɖ ɗ ᴅ  ͩ Ḋ ḋ Ḍ ḍ Ḏ ḏ Ḑ ḑ Ḓ ḓ ⅅ ⅆ
-				result.push('d')
-			} else if ([200, 201, 202, 203, 232, 233, 234, 235, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 338, 339, 398, 400, 477, 516, 517, 518, 519, 552, 553, 571, 572, 582, 583, 600, 603, 7431, 7432, 868, 7704, 7705, 7706, 7707, 7864, 7865, 7866, 7867, 7868, 7869, 8493, 8495, 8496, 8519, 8959].includes(ascii)) {
-				// È É Ê Ëè é ê ë Ē ē Ĕ ĕ Ė ė Ę ę Ě ě  Œ œ Ǝ Ɛ ǝ Ȅ ȅ Ȇ ȇ Ȩ ȩ Ȼ ȼ Ɇ ɇ ɘ ɛ ᴇ ᴈ  ͤ Ḙ ḙ Ḛ ḛ Ẹ ẹ Ẻ ẻ Ẽ ẽ ℭ ℯ ℰ ⅇ ⋿
-				result.push('e')
-			} else if ([401, 402, 589, 619, 620, 607, 7710, 7711, 7835, 8497, 8498, 8526].includes(ascii)) {
-				// Ƒ ƒ ɍ ɫ ɬ ɟ Ḟ ḟ ẛ ℱ Ⅎ ⅎ
-				result.push('f')
-			} else if ([284, 285, 286, 287, 288, 289, 290, 291, 403, 484, 485, 486, 487, 500, 501, 608, 609, 610, 666, 667, 7712, 7713, 8458, 8513, 42924].includes(ascii)) {
-				// Ĝ ĝ Ğ ğ Ġ ġ Ģ ģ Ɠ Ǥ ǥ Ǧ ǧ Ǵ ǵ ɠ ɡ ɢ ʚ ʛ Ḡ ḡ ℊ ⅁ Ɡ
-				result.push('g')
-			} else if ([292, 293, 294, 295, 542, 543, 614, 686, 688, 668, 874, 7714, 7715, 7716, 7717, 7718, 7719, 7720, 7721, 7722, 7723, 8341, 8459, 8460, 8461, 42893, 42922].includes(ascii)) {
-				// Ĥ ĥ Ħ ħ Ȟ ȟ ɦ ʮ ʰ ʜ   ͪ Ḣ ḣ Ḥ ḥ Ḧ ḧ Ḩ ḩ Ḫ ḫ ₕ ℋ ℌ ℍ Ɥ Ɦ
-				result.push('h')
-			} else if ([204, 205, 206, 207, 236, 237, 238, 239, 296, 297, 298, 299, 300, 301, 302, 303, 304, 407, 463, 464, 520, 521, 522, 523, 616, 618, 7433, 7522, 869, 7724, 7725, 7880, 7881, 7882, 7883, 8305, 8520].includes(ascii)) {
-				// Ì Í Î Ïì í î ï Ĩ ĩ Ī ī Ĭ ĭ Į į İ Ɨ Ǐ ǐ Ȉ ȉ Ȋ ȋ ɨ ɪ ᴉ ᵢ  ͥ Ḭ ḭ Ỉ ỉ Ị ị ⁱ ⅈ
-				result.push('i')
-			} else if ([308, 309, 584, 585, 567, 669, 7434, 690, 8464, 8465, 8521].includes(ascii)) {
-				// Ĵ ĵ Ɉ ɉ ȷ ʝ ᴊ ʲ ℐ ℑ ⅉ
-				result.push('j')
-			} else if ([408, 409, 488, 489, 670, 7435, 7728, 7729, 7730, 7731, 7732, 7733, 8342, 42928].includes(ascii)) {
-				// Ƙ ƙ Ǩ ǩ ʞ ᴋ Ḱ ḱ Ḳ ḳ Ḵ ḵ ₖ Ʞ
-				result.push('k')
-			} else if ([313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 410, 564, 621, 671, 7436, 737, 7734, 7735, 7738, 7739, 7740, 7741, 8343, 8466, 8467, 8514, 8515, 11362, 42925].includes(ascii)) {
-				// Ĺ ĺ Ļ ļ Ľ ľ Ŀ ŀ Ł ł ƚ ȴ ɭ ʟ ᴌ ˡ Ḷ ḷ Ḻ ḻ Ḽ ḽ ₗ ℒ ℓ ⅂ ⅃ Ɫ Ɬ
-				result.push('l')
-			} else if ([623, 624, 625, 7437, 7455, 875, 7742, 7743, 7744, 7745, 7746, 7747, 8344, 8499, 11374].includes(ascii)) {
-				// ɯ ɰ ɱ  ᴍ ᴟ  ͫ Ḿ ḿ Ṁ ṁ Ṃ ṃ ₘ ℳ Ɱ
-				result.push('m')
-			} else if ([209, 241, 323, 324, 325, 326, 327, 328, 413, 414, 504, 505, 544, 626, 627, 628, 565, 7438, 7748, 7749, 7750, 7751, 7752, 7753, 7754, 7755, 8345, 8469].includes(ascii)) {
-				// Ñ ñ Ń ń Ņ ņ Ň ň Ɲ ƞ  Ǹ ǹ Ƞ ɲ ɳ ɴ ȵ ᴎ Ṅ ṅ Ṇ ṇ Ṉ ṉ Ṋ ṋ ₙ ℕ
-				result.push('n')
-			} else if ([210, 211, 212, 213, 214, 242, 243, 244, 245, 246, 332, 333, 334, 335, 336, 337, 415, 416, 417, 465, 466, 524, 525, 526, 527, 558, 559, 629, 7439, 7441, 870, 7884, 7885, 7886, 7887, 8500].includes(ascii)) {
-				// Ò Ó Ô Õ Ö ò ó ô õ ö Ō ō Ŏ ŏ Ő ő Ɵ Ơ ơ Ǒ ǒ Ȍ ȍ Ȏ ȏ Ȯ ȯ ɵ ᴏ ᴑ  ͦ Ọ ọ Ỏ ỏ ℴ
-				result.push('o')
-			} else if ([420, 421, 7448, 7764, 7765, 7766, 7767, 8346, 8472, 8473].includes(ascii)) {
-				// Ƥ ƥ ᴘ Ṕ ṕ Ṗ ṗ ₚ ℘ ℙ
-				result.push('p')
-			} else if ([586, 587, 672, 8474, 8506].includes(ascii)) {
-				// Ɋ ɋ ʠ ℚ ℺
-				result.push('q')
-			} else if ([340, 341, 342, 343, 344, 345, 422, 528, 529, 530, 531, 633, 634, 635, 636, 637, 638, 639, 640, 641, 588, 7449, 7450, 7523, 691, 692, 694, 876, 7768, 7769, 7770, 7771, 7774, 8475, 8476, 8477, 11364].includes(ascii)) {
-				// Ŕ ŕ Ŗ ŗ Ř ř Ʀ Ȑ ȑ Ȓ ȓ ɹ ɺ ɻ ɼ ɽ ɾ ɿ ʀ ʁ Ɍ ᴙ ᴚ ᵣ ʳ ʴ ʶ  ͬ Ṙ ṙ Ṛ ṛ Ṟ ℛ ℜ ℝ Ɽ
-				result.push('r')
-			} else if ([346, 347, 348, 349, 350, 351, 352, 353, 536, 537, 575, 642, 738, 7775, 7776, 7777, 7778, 7779, 8347, 11390].includes(ascii)) {
-				// Ś ś Ŝ ŝ Ş ş Š š Ș ș ȿ ʂ ˢ ṟ Ṡ ṡ Ṣ ṣ ₛ Ȿ
-				result.push('s')
-			} else if ([354, 355, 356, 357, 358, 359, 427, 428, 429, 430, 538, 539, 574, 573, 566, 647, 648, 7451, 877, 7786, 7787, 7788, 7789, 7790, 7791, 7792, 7793, 8348, 11366, 42929].includes(ascii)) {
-				// Ţ ţ Ť ť Ŧ ŧ ƫ Ƭ ƭ Ʈ Ț ț Ⱦ Ƚ ȶ ʇ ʈ ᴛ  ͭ Ṫ ṫ Ṭ ṭ Ṯ ṯ Ṱ ṱ ₜ  ⱦ Ʇ
-				result.push('t')
-			} else if ([217, 218, 219, 220, 249, 250, 251, 252, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 431, 432, 434, 467, 468, 532, 533, 534, 535, 651, 7452, 7453, 7454, 7524, 871, 7794, 7795, 7796, 7797, 7798, 7799, 7908, 7909, 7910, 7911].includes(ascii)) {
-				// Ù Ú Û Ü ù ú û ü Ũ ũ Ū ū Ŭ ŭ Ů ů Ű ű Ư ư Ʋ Ǔ ǔ Ȕ ȕ Ȗ ȗ ʋ  ᴜ ᴝ ᴞ ᵤ  ͧ Ṳ ṳ Ṵ ṵ Ṷ ṷ Ụ ụ Ủ ủ
-				result.push('u')
-			} else if ([652, 7456, 7525, 878, 7804, 7805, 7806, 7807].includes(ascii)) {
-				// ʌ ᴠ ᵥ  ͮ Ṽ ṽ Ṿ ṿ
-				result.push('v')
-			} else if ([372, 373, 412, 653, 7457, 695, 7808, 7809, 7810, 7811, 7812, 7813, 7814, 7815, 7816, 7817].includes(ascii)) {
-				// Ŵ ŵ Ɯ ʍ ᴡ ʷ Ẁ ẁ Ẃ ẃ Ẅ ẅ Ẇ ẇ Ẉ ẉ
-				result.push('w')
-			} else if ([739, 879, 7818, 7819, 7820, 7821, 10005, 10006, 10007, 10008].includes(ascii)) {
-				// ˣ  ͯ Ẋ ẋ Ẍ ẍ ✕ ✖ ✗ ✘
-				result.push('x')
-			} else if ([221, 253, 255, 370, 371, 374, 375, 376, 435, 436, 562, 563, 590, 591, 613, 654, 655, 696, 7822, 7823, 7922, 7923, 7924, 7925, 7926, 7927, 7928, 7929, 8516].includes(ascii)) {
-				// Ý ý ÿ Ų ų Ŷ ŷ Ÿ Ƴ ƴ Ȳ ȳ Ɏ ɏ ɥ ʎ ʏ ʸ Ẏ ẏ Ỳ ỳ Ỵ ỵ Ỷ ỷ Ỹ ỹ ⅄
-				result.push('y')
-			} else if ([377, 378, 379, 380, 381, 382, 437, 438, 548, 549, 656, 657, 576, 7458, 7824, 7825, 7826, 7827, 7828, 7829, 8484, 11391].includes(ascii)) {
-				// Ź ź Ż ż Ž ž Ƶ ƶ Ȥ ȥ ʐ ʑ ɀ ᴢ Ẑ ẑ Ẓ ẓ Ẕ ẕ ℤ Ɀ
-				result.push('z')
+			} else if ([224, 225, 226, 227, 228, 229, 257, 259, 261, 395, 396, 462, 513, 515, 551, 593, 592, 7681, 867, 7841, 7843, 11365].includes(ascii)) {
+				// à á â ã ä å ā ă ą Ƌ ƌ ǎ ȁ ȃ ȧ ɑ ɐ ḁ  ͣ ạ ả ⱥ
+				result.push(options.toUpper ? 'A' : 'a')
+			} else if ([384, 385, 386, 387, 7683, 7687, 8468, 7685, 595].includes(ascii)) {
+				// ƀ Ɓ Ƃ ƃ ḃ ḇ ℔ ḅ ɓ
+				result.push(options.toUpper ? 'B' : 'b')
+			} else if ([231, 263, 265, 269, 392, 596, 597, 267, 872, 8580].includes(ascii)) {
+				// ç ć ĉ č ƈ ɔ ɕ ċ  ͨ ↄ
+				result.push(options.toUpper ? 'C' : 'c')
+			} else if ([271, 545, 598, 599, 273, 873, 7691, 7693, 7695, 7697, 7699, 8518].includes(ascii)) {
+				// ď  ȡ ɖ ɗ đ  ͩ ḋ ḍ ḏ ḑ ḓ ⅆ
+				result.push(options.toUpper ? 'D' : 'd')
+			} else if ([232, 233, 234, 235, 275, 277, 279, 281, 283, 339, 477, 517, 519, 553, 571, 572, 583, 600, 868, 7705, 7707, 7865, 7867, 7869, 8493, 8495, 8519].includes(ascii)) {
+				// è é ê ë ē ĕ ė ę ě œ ǝ ȅ ȇ ȩ Ȼ ȼ ɇ ɘ  ͤ ḙ ḛ ẹ ẻ ẽ ℭ ℯ ⅇ
+				result.push(options.toUpper ? 'E' : 'e')
+			} else if ([402, 589, 619, 620, 607, 7711, 7835].includes(ascii)) {
+				// ƒ ɍ ɫ ɬ ɟ ḟ ẛ
+				result.push(options.toUpper ? 'F' : 'f')
+			} else if ([285, 287, 289, 291, 485, 487, 501, 608, 609, 7713, 8458, 42924].includes(ascii)) {
+				// ĝ ğ ġ ģ ǥ ǧ ǵ ɠ ɡ ḡ ℊ Ɡ
+				result.push(options.toUpper ? 'G' : 'g')
+			} else if ([293, 295, 543, 614, 686, 688, 874, 7715, 7717, 7721, 8341, 7723, 42893, 7719].includes(ascii)) {
+				// ĥ ħ ȟ ɦ ʮ ʰ  ͪ ḣ ḥ ḩ  ₕ ḫ Ɥ ḧ
+				result.push(options.toUpper ? 'H' : 'h')
+			} else if ([297, 299, 301, 303, 464, 521, 523, 236, 237, 238, 239, 616, 7522, 869, 7725, 7433, 8305, 8520, 7883].includes(ascii)) {
+				// ĩ ī ĭ į ǐ ȉ ȋ ì í î ï ɨ ᵢ  ͥ ḭ ᴉ ⁱ ⅈ ị
+				result.push(options.toUpper ? 'I' : 'i')
+			} else if ([585, 669, 690, 8464, 8521].includes(ascii)) {
+				// ɉ ʝ ʲ ℐ ⅉ
+				result.push(options.toUpper ? 'J' : 'j')
+			} else if ([409, 489, 670, 7729, 7733, 8342].includes(ascii)) {
+				// ƙ ǩ ʞ ḱ ḵ ₖ
+				result.push(options.toUpper ? 'K' : 'k')
+			} else if ([314, 316, 318, 320, 322, 410, 564, 621, 737, 8343, 7735, 7741, 8466, 8467, 7739].includes(ascii)) {
+				// ĺ ļ ľ ŀ ł ƚ ȴ ɭ ˡ ₗ ḷ ḽ ℒ ℓ ḻ
+				result.push(options.toUpper ? 'L' : 'l')
+			} else if ([623, 624, 625, 7455, 875, 7743, 7745, 7747, 8344].includes(ascii)) {
+				// ɯ ɰ ɱ ᴟ  ͫ ḿ ṁ ṃ ₘ
+				result.push(options.toUpper ? 'M' : 'm')
+			} else if ([241, 324, 326, 328, 414, 505, 626, 627, 565, 7749, 7751, 7753, 7755, 8345].includes(ascii)) {
+				// ñ ń ņ ň ƞ ǹ ɲ ɳ ȵ ṅ ṇ ṉ ṋ ₙ
+				result.push(options.toUpper ? 'N' : 'n')
+			} else if ([242, 243, 244, 245, 246, 333, 335, 337, 417, 466, 525, 527, 7439, 7441, 870, 7885, 8500, 559, 629, 7887].includes(ascii)) {
+				// ò ó ô õ ö ō ŏ ő ơ ǒ ȍ ȏ ᴏ ᴑ  ͦ ọ ℴ  ȯ ɵ ỏ
+				result.push(options.toUpper ? 'O' : 'o')
+			} else if ([421, 7448, 7765, 7767, 8346, 8472].includes(ascii)) {
+				// ƥ ᴘ ṕ ṗ ₚ ℘
+				result.push(options.toUpper ? 'P' : 'p')
+			} else if ([586, 587, 672].includes(ascii)) {
+				// Ɋ ɋ ʠ
+				result.push(options.toUpper ? 'Q' : 'q')
+			} else if ([341, 343, 345, 529, 531, 633, 634, 635, 636, 637, 638, 639, 7523, 691, 692, 876, 7769, 7771, 7775].includes(ascii)) {
+				// ŕ ŗ ř ȑ ȓ ɹ ɺ ɻ ɼ ɽ ɾ ɿ ᵣ ʳ ʴ  ͬ ṙ ṛ ṟ
+				result.push(options.toUpper ? 'R' : 'r')
+			} else if ([347, 349, 351, 353, 537, 575, 642, 738, 7777, 7779, 8347].includes(ascii)) {
+				// ś ŝ ş š ș ȿ ʂ ˢ ṡ ṣ ₛ
+				result.push(options.toUpper ? 'S' : 's')
+			} else if ([355, 357, 359, 427, 429, 429, 573, 566, 647, 648, 7451, 877, 7787, 7789, 7791, 7793, 8348, 11366].includes(ascii)) {
+				// ţ ť ŧ ƫ ƭ ƭ Ƚ ȶ ʇ ʈ ᴛ  ͭ ṫ ṭ ṯ ṱ ₜ ⱦ
+				result.push(options.toUpper ? 'T' : 't')
+			} else if ([249, 250, 251, 252, 361, 363, 365, 367, 369, 432, 434, 468, 533, 535, 651, 7452, 7453, 7454, 7524, 871, 7795, 7797, 7799, 7909, 7911].includes(ascii)) {
+				// ù ú û ü ũ ū ŭ ů ű ư Ʋ ǔ ȕ ȗ ʋ ᴜ ᴝ ᴞ ᵤ  ͧ ṳ ṵ ṷ ụ ủ
+				result.push(options.toUpper ? 'U' : 'u')
+			} else if ([7456, 7525, 878, 652, 7807].includes(ascii)) {
+				// ᴠ ᵥ  ͮ ʌ ṿ
+				result.push(options.toUpper ? 'V' : 'v')
+			} else if ([373, 653, 7457, 695].includes(ascii)) {
+				// ŵ ʍ ᴡ ʷ
+				result.push(options.toUpper ? 'W' : 'w')
+			} else if ([739, 879, 7819, 7821, 10005, 10006, 10007, 10008].includes(ascii)) {
+				// ˣ  ͯ ẋ  ẍ ✕ ✖ ✗ ✘ x
+				result.push(options.toUpper ? 'X' : 'x')
+			} else if ([253, 255, 371, 375, 563, 435, 436, 591, 613, 654, 655, 696, 7823, 7923, 7925, 7927, 7929].includes(ascii)) {
+				// ý ÿ ų ŷ ȳ Ƴ ƴ ɏ ɥ ʎ ʏ ʸ ẏ ỳ ỵ ỷ ỹ
+				result.push(options.toUpper ? 'Y' : 'y')
+			} else if ([378, 380, 382, 438, 549, 656, 657, 576, 7458, 7825, 7827, 7829].includes(ascii)) {
+				// ź ż ž ƶ ȥ ʐ ʑ ɀ ᴢ ẑ ẓ ẕ
+				result.push(options.toUpper ? 'Z' : 'z')
+			} else if ([192, 193, 194, 195, 196, 197, 256, 258, 260, 461, 512, 514, 550, 570, 580, 649, 7424, 7680, 7840, 7842, 11373, 11375].includes(ascii)) {
+				// À Á Â Ã Ä Å Ā Ă Ą Ǎ Ȁ Ȃ Ȧ Ⱥ Ʉ ʉ ᴀ Ḁ Ạ Ả Ɑ Ɐ
+				result.push(options.toLower ? 'a' : 'A')
+			} else if ([579, 606, 665, 7427, 7682, 7684, 7686, 8492].includes(ascii)) {
+				// Ƀ ɞ ʙ ᴃ Ḃ Ḅ Ḇ ℬ
+				result.push(options.toLower ? 'b' : 'B')
+			} else if ([199, 262, 264, 266, 268, 390, 391, 663, 7428, 7440, 7442, 8450, 8579].includes(ascii)) {
+				// Ç Ć Ĉ Ċ Č Ɔ Ƈ ʗ ᴄ ᴐ ᴒ ℂ Ↄ
+				result.push(options.toLower ? 'c' : 'C')
+			} else if ([270, 272, 393, 394, 7429, 7690, 7692, 7694, 7696, 7698, 8517].includes(ascii)) {
+				// Ď Đ Ɖ Ɗ ᴅ Ḋ Ḍ Ḏ  Ḑ Ḓ ⅅ
+				result.push(options.toLower ? 'd' : 'D')
+			} else if ([200, 201, 202, 203, 274, 276, 278, 280, 282, 338, 398, 400, 516, 518, 552, 582, 603, 7431, 7432, 7704, 7706, 7864, 7866, 7868, 8496, 8959].includes(ascii)) {
+				// È É Ê Ë Ē Ĕ Ė Ę Ě Œ Ǝ Ɛ Ȅ Ȇ Ȩ Ɇ ɛ ᴇ ᴈ Ḙ Ḛ Ẹ Ẻ Ẽ ℰ ⋿
+				result.push(options.toLower ? 'e' : 'E')
+			} else if ([401, 7710, 8497, 8498, 8526].includes(ascii)) {
+				// Ƒ Ḟ ℱ Ⅎ ⅎ
+				result.push(options.toLower ? 'f' : 'F')
+			} else if ([284, 286, 288, 290, 403, 484, 486, 500, 610, 666, 667, 7712, 8513].includes(ascii)) {
+				// Ĝ Ğ Ġ Ģ Ɠ Ǥ Ǧ Ǵ ɢ ʚ ʛ Ḡ ⅁
+				result.push(options.toLower ? 'g' : 'G')
+			} else if ([292, 294, 542, 668, 7714, 7716, 7718, 7720, 7722, 8459, 8460, 8461, 42922].includes(ascii)) {
+				// Ĥ Ħ Ȟ ʜ Ḣ Ḥ Ḧ Ḩ Ḫ ℋ ℌ ℍ Ɦ
+				result.push(options.toLower ? 'h' : 'H')
+			} else if ([296, 298, 300, 302, 304, 407, 463, 520, 522, 204, 205, 206, 207, 618, 7724, 7880, 7881, 7882].includes(ascii)) {
+				// Ĩ Ī Ĭ Į İ Ɨ Ǐ Ȉ Ȋ Ì Í Î Ï ɪ Ḭ Ỉ ỉ Ị
+				result.push(options.toLower ? 'i' : 'I')
+			} else if ([308, 309, 584, 567, 7434, 8465].includes(ascii)) {
+				// Ĵ ĵ Ɉ ȷ ᴊ ℑ
+				result.push(options.toLower ? 'j' : 'J')
+			} else if ([408, 488, 7435, 7728, 7730, 7731, 7732, 42928].includes(ascii)) {
+				// Ƙ Ǩ ᴋ Ḱ Ḳ ḳ Ḵ Ʞ
+				result.push(options.toLower ? 'k' : 'K')
+			} else if ([313, 315, 317, 319, 321, 671, 7436, 7734, 7738, 7740, 8514, 8515, 11362, 42925].includes(ascii)) {
+				// Ĺ Ļ Ľ Ŀ Ł ʟ ᴌ Ḷ Ḻ Ḽ ⅂ ⅃ Ɫ Ɬ
+				result.push(options.toLower ? 'l' : 'L')
+			} else if ([7437, 7742, 7744, 7746, 8499, 11374].includes(ascii)) {
+				// ᴍ Ḿ Ṁ Ṃ ℳ Ɱ
+				result.push(options.toLower ? 'm' : 'M')
+			} else if ([209, 323, 325, 327, 413, 504, 544, 628, 7438, 7748, 7750, 7752, 7754, 8469].includes(ascii)) {
+				// Ñ Ń Ņ Ň Ɲ Ǹ Ƞ ɴ ᴎ Ṅ Ṇ Ṉ Ṋ ℕ
+				result.push(options.toLower ? 'n' : 'N')
+			} else if ([210, 211, 212, 213, 214, 332, 334, 336, 415, 416, 465, 524, 526, 558, 7884, 7886].includes(ascii)) {
+				// Ò Ó Ô Õ Ö Ō Ŏ Ő Ɵ Ơ Ǒ Ȍ Ȏ Ȯ Ọ Ỏ
+				result.push(options.toLower ? 'o' : 'O')
+			} else if ([420, 7764, 7766, 8473].includes(ascii)) {
+				// Ƥ Ṕ Ṗ ℙ
+				result.push(options.toLower ? 'p' : 'P')
+			} else if ([490, 491, 8474, 8506].includes(ascii)) {
+				// Ǫ ǫ ℚ ℺
+				result.push(options.toLower ? 'q' : 'Q')
+			} else if ([340, 342, 344, 422, 528, 530, 640, 641, 588, 7449, 7450, 694, 7768, 7770, 7774, 8475, 8476, 8477, 11364].includes(ascii)) {
+				// Ŕ Ŗ Ř Ʀ Ȑ Ȓ ʀ ʁ Ɍ ᴙ ᴚ ʶ Ṙ Ṛ Ṟ ℛ ℜ ℝ Ɽ
+				result.push(options.toLower ? 'r' : 'R')
+			} else if ([346, 348, 350, 352, 536, 7776, 7778, 11390].includes(ascii)) {
+				// Ś Ŝ Ş Š Ș Ṡ Ṣ Ȿ
+				result.push(options.toLower ? 's' : 'S')
+			} else if ([354, 356, 358, 428, 430, 538, 574, 7786, 7788, 7790, 7792, 42929].includes(ascii)) {
+				// Ţ Ť Ŧ Ƭ Ʈ Ț Ⱦ Ṫ Ṭ Ṯ  Ṱ Ʇ
+				result.push(options.toLower ? 't' : 'T')
+			} else if ([217, 218, 219, 220, 360, 362, 364, 366, 368, 431, 467, 532, 534, 7794, 7796, 7798, 7908, 7910].includes(ascii)) {
+				// Ù Ú Û Ü Ũ Ū Ŭ Ů Ű Ư Ǔ Ȕ Ȗ Ṳ Ṵ Ṷ Ụ Ủ
+				result.push(options.toLower ? 'u' : 'U')
+			} else if ([7804, 7805, 7806].includes(ascii)) {
+				// Ṽ ṽ Ṿ
+				result.push(options.toLower ? 'v' : 'V')
+			} else if ([412, 372, 7808, 7809, 7810, 7811, 7812, 7813, 7814, 7815, 7816, 7817].includes(ascii)) {
+				// Ɯ Ŵ Ẁ ẁ Ẃ ẃ Ẅ ẅ Ẇ ẇ Ẉ ẉ
+				result.push(options.toLower ? 'w' : 'W')
+			} else if ([7818, 7820].includes(ascii)) {
+				// Ẋ Ẍ
+				result.push(options.toLower ? 'x' : 'X')
+			} else if ([221, 370, 374, 376, 562, 590, 7822, 7922, 7924, 7926, 7928, 8516].includes(ascii)) {
+				// Ý Ų Ŷ Ÿ Ȳ Ɏ Ẏ Ỳ Ỵ Ỷ Ỹ ⅄
+				result.push(options.toLower ? 'y' : 'Y')
+			} else if ([377, 379, 381, 437, 548, 7824, 7826, 7828, 8484, 11391].includes(ascii)) {
+				// Ź Ż Ž Ƶ Ȥ Ẑ Ẓ Ẕ ℤ Ɀ
+				result.push(options.toLower ? 'z' : 'Z')
 			}
 		}
 		return result.join('')
@@ -229,13 +331,13 @@ export class StringHelper {
 
 	// https://stackoverflow.com/questions/27194359/javascript-pluralize-an-english-string
 	/**
-    * Returns the plural of an English word.
-    *
-    * @export
-    * @param {string} word
-    * @param {number} [amount]
-    * @returns {string}
-    */
+	* Returns the plural of an English word.
+	*
+	* @export
+	* @param {string} word
+	* @param {number} [amount]
+	* @returns {string}
+	*/
 	public plural (word: string, amount?: number): string {
 		if (amount !== undefined && amount === 1) {
 			return word
@@ -264,13 +366,13 @@ export class StringHelper {
 	}
 
 	/**
-    * Returns the singular of an English word.
-    *
-    * @export
-    * @param {string} word
-    * @param {number} [amount]
-    * @returns {string}
-    */
+	* Returns the singular of an English word.
+	*
+	* @export
+	* @param {string} word
+	* @param {number} [amount]
+	* @returns {string}
+	*/
 	public singular (word: string, amount?: number): string {
 		if (amount !== undefined && amount !== 1) {
 			return word
