@@ -64,7 +64,7 @@ const source = [
 
 const result:any[] = []
 for (const p of source) {
-	const target = h3lp.string.normalize(p, {})
+	const target = h3lp.normalize(p, { })
 	result.push({ s: p, t: target })
 }
 console.log(result.map(p => `${p.s} => ${p.t} `).join('\n'))
