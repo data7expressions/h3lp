@@ -16,7 +16,7 @@ module.exports = function (grunt) {
 			dist: ['dist']
 		},
 		copy: {
-			lib: { expand: true, cwd: 'build', src: '**', dest: 'dist/' },
+			lib: { expand: true, cwd: 'build/lib', src: '**', dest: 'dist/' },
 			readme: { expand: true, src: './README.md', dest: 'dist/' },
 			license: { expand: true, src: './LICENSE', dest: 'dist/' }
 		}
