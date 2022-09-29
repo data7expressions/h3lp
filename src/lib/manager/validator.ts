@@ -1,7 +1,6 @@
 export class Validator {
 	private reInt:RegExp
 	private reDecimal:RegExp
-	private reString:RegExp
 	private reAlphanumeric:RegExp
 	private reDate:RegExp
 	private reDateTime: RegExp
@@ -9,8 +8,6 @@ export class Validator {
 	constructor () {
 		this.reInt = /^[0-9]+$/ // /^\d+$/
 		this.reDecimal = /^[0-9]*[.][0-9]+$/ // /^\d+\.\d+$/
-		// TODO: string, unlike alphanumeric, must consider all the characters that can go in a string, including special characters
-		this.reString = /[a-zA-Z0-9_.]+$/
 		this.reAlphanumeric = /[a-zA-Z0-9_.]+$/
 		this.reDate = /^\d{4}-\d{2}-\d{2}$/
 		this.reDateTime = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/
@@ -94,39 +91,35 @@ export class Validator {
 		}
 	}
 
-	public isBooleanFormat (value: any): boolean {
+	public isBooleanFormat (value: string): boolean {
 		return ['true', 'false'].includes(value)
 	}
 
-	public isNumberFormat (value: any): boolean {
+	public isNumberFormat (value: string): boolean {
 		return this.isDecimalFormat(value)
 	}
 
-	public isIntegerFormat (value: any): boolean {
+	public isIntegerFormat (value: string): boolean {
 		return this.reInt.test(value)
 	}
 
-	public isDecimalFormat (value: any): boolean {
+	public isDecimalFormat (value: string): boolean {
 		return this.reDecimal.test(value)
 	}
 
-	public isStringFormat (value: any): boolean {
-		return this.reString.test(value)
-	}
-
-	public isAlphanumeric (value: any): boolean {
+	public isAlphanumeric (value: string): boolean {
 		return this.reAlphanumeric.test(value)
 	}
 
-	public isDateFormat (value: any): boolean {
+	public isDateFormat (value: string): boolean {
 		return this.reDate.test(value)
 	}
 
-	public isDateTimeFormat (value: any): boolean {
+	public isDateTimeFormat (value: string): boolean {
 		return this.reDateTime.test(value)
 	}
 
-	public isTimeFormat (value: any): boolean {
+	public isTimeFormat (value: string): boolean {
 		return this.reTime.test(value)
 	}
 
