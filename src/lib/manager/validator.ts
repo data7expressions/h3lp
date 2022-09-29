@@ -1,4 +1,23 @@
 export class Validator {
+	private reInt:RegExp
+	private reDecimal:RegExp
+	private reString:RegExp
+	private reAlphanumeric:RegExp
+	private reDate:RegExp
+	private reDateTime: RegExp
+	private reTime: RegExp
+	constructor () {
+		this.reInt = /^[0-9]+$/ // /^\d+$/
+		this.reDecimal = /^[0-9]*[.][0-9]+$/ // /^\d+\.\d+$/
+		// TODO: string, unlike alphanumeric, must consider all the characters that can go in a string, including special characters
+		this.reString = /[a-zA-Z0-9_.]+$/
+		this.reAlphanumeric = /[a-zA-Z0-9_.]+$/
+		this.reDate = /^\d{4}-\d{2}-\d{2}$/
+		this.reDateTime = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/
+		// https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime
+		this.reTime = /\[0-2]\d:[0-5]\d:[0-5]\d/
+	}
+
 	public isObject (obj:any):boolean {
 		return obj && typeof obj === 'object' && obj.constructor === Object && !Array.isArray(obj)
 	}
@@ -84,34 +103,31 @@ export class Validator {
 	}
 
 	public isIntegerFormat (value: any): boolean {
-		const regex = /^\d+$/
-		return value.match(regex) !== null
+		return this.reInt.test(value)
 	}
 
 	public isDecimalFormat (value: any): boolean {
-		const regex = /^\d+\.\d+$/
-		return value.match(regex) !== null
+		return this.reDecimal.test(value)
 	}
 
 	public isStringFormat (value: any): boolean {
-		const regex = /[a-zA-Z0-9_.]+$/
-		return value.match(regex) !== null
+		return this.reString.test(value)
+	}
+
+	public isAlphanumeric (value: any): boolean {
+		return this.reAlphanumeric.test(value)
 	}
 
 	public isDateFormat (value: any): boolean {
-		const regex = /^\d{4}-\d{2}-\d{2}$/
-		return value.match(regex) !== null
+		return this.reDate.test(value)
 	}
 
 	public isDateTimeFormat (value: any): boolean {
-		const regex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/
-		return value.match(regex) !== null
+		return this.reDateTime.test(value)
 	}
 
 	public isTimeFormat (value: any): boolean {
-		// https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime
-		const regex = /\[0-2]\d:[0-5]\d:[0-5]\d/
-		return value.match(regex) !== null
+		return this.reTime.test(value)
 	}
 
 	public between (value: any, from: any, to: any): boolean {
