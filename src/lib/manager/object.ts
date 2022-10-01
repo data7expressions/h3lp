@@ -31,7 +31,7 @@ export class ObjectHelper {
 		return obj
 	}
 
-	public getNames (value:string):string[] {
+	public names (value:string):string[] {
 		if (value === '.') {
 			// in case "".[0].name" where var is "."
 			return [value]
@@ -69,7 +69,7 @@ export class ObjectHelper {
 		return value
 	}
 
-	public sortObject (source: any):any {
+	public sort (source: any):any {
 		const target:any = {}
 		for (const key of Object.keys(source).sort()) {
 			target[key] = source[key]
@@ -96,7 +96,7 @@ export class ObjectHelper {
 		let _current = obj as any
 		for (let i = 0; i < parts.length; i++) {
 			let part = parts[i]
-			part = this.http.decodeUrl(part)
+			part = this.http.decode(part)
 			const child = _current[part]
 			if (child === undefined) {
 				return undefined
@@ -126,10 +126,10 @@ export class ObjectHelper {
 		}
 	}
 
-	public findInObject (obj: any, predicate: (value:any)=>boolean): any {
+	public find (obj: any, predicate: (value:any)=>boolean): any {
 		if (Array.isArray(obj)) {
 			for (const item of obj) {
-				const found = this.findInObject(item, predicate)
+				const found = this.find(item, predicate)
 				if (found) {
 					return found
 				}
@@ -139,7 +139,7 @@ export class ObjectHelper {
 				return obj
 			}
 			for (const property of Object.values(obj)) {
-				const found = this.findInObject(property, predicate)
+				const found = this.find(property, predicate)
 				if (found) {
 					return found
 				}
@@ -148,11 +148,11 @@ export class ObjectHelper {
 		return undefined
 	}
 
-	public findAllInObject (obj: any, predicate: (value:any)=>boolean): any[] {
+	public filter (obj: any, predicate: (value:any)=>boolean): any[] {
 		const results:any[] = []
 		if (Array.isArray(obj)) {
 			for (const item of obj) {
-				const found = this.findAllInObject(item, predicate)
+				const found = this.filter(item, predicate)
 				if (found.length > 0) {
 					results.push(...found)
 				}
@@ -162,7 +162,7 @@ export class ObjectHelper {
 				results.push(obj)
 			}
 			for (const property of Object.values(obj)) {
-				const found = this.findAllInObject(property, predicate)
+				const found = this.filter(property, predicate)
 				if (found.length > 0) {
 					results.push(...found)
 				}

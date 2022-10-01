@@ -2,8 +2,8 @@ import fs from 'fs'
 import path from 'path'
 
 export class FsHelper {
-	public async existsPath (sourcePath:string):Promise<boolean> {
-		const fullPath = this.resolvePath(sourcePath)
+	public async exists (sourcePath:string):Promise<boolean> {
+		const fullPath = this.resolve(sourcePath)
 		return new Promise<boolean>((resolve) => {
 			fs.access(fullPath, (err) => {
 				if (err) {
@@ -15,15 +15,15 @@ export class FsHelper {
 		})
 	}
 
-	public async createIfNotExists (sourcePath:string):Promise<void> {
-		const fullPath = this.resolvePath(sourcePath)
-		if (await this.existsPath(fullPath)) { return }
+	public async create (sourcePath:string):Promise<void> {
+		const fullPath = this.resolve(sourcePath)
+		if (await this.exists(fullPath)) { return }
 		return new Promise<void>((resolve, reject) => {
 			fs.mkdir(fullPath, { recursive: true }, err => err ? reject(err) : resolve())
 		})
 	}
 
-	public resolvePath (source:string):string {
+	public resolve (source:string):string {
 		const _source = source.trim()
 		if (_source.startsWith('.')) {
 			return path.join(process.cwd(), source)
@@ -34,9 +34,9 @@ export class FsHelper {
 		return source
 	}
 
-	public async readFile (filePath: string): Promise<string|null> {
-		const fullPath = this.resolvePath(filePath)
-		if (!await this.existsPath(fullPath)) {
+	public async read (filePath: string): Promise<string|null> {
+		const fullPath = this.resolve(filePath)
+		if (!await this.exists(fullPath)) {
 			return null
 		}
 		return new Promise<string>((resolve, reject) => {
@@ -44,15 +44,15 @@ export class FsHelper {
 		})
 	}
 
-	public async removeFile (fullPath:string):Promise<void> {
-		if (!await this.existsPath(fullPath)) { return }
+	public async remove (fullPath:string):Promise<void> {
+		if (!await this.exists(fullPath)) { return }
 		return new Promise<void>((resolve, reject) => {
 			fs.unlink(fullPath, err => err ? reject(err) : resolve())
 		})
 	}
 
-	public async copyFile (src: string, dest:string): Promise<void> {
-		if (!await this.existsPath(src)) {
+	public async copy (src: string, dest:string): Promise<void> {
+		if (!await this.exists(src)) {
 			throw new Error(`not exists ${src}`)
 		}
 		return new Promise<void>((resolve, reject) => {
@@ -60,9 +60,9 @@ export class FsHelper {
 		})
 	}
 
-	public async writeFile (filePath: string, content: string): Promise<void> {
+	public async write (filePath: string, content: string): Promise<void> {
 		const dir = path.dirname(filePath)
-		if (!await this.existsPath(dir)) {
+		if (!await this.exists(dir)) {
 			await this.mkdir(dir)
 		}
 		return new Promise<void>((resolve, reject) => {

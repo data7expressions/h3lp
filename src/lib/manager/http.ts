@@ -41,7 +41,7 @@ export class HttpHelper {
 		})
 	}
 
-	public decodeUrl (source:string) {
+	public decode (source:string) {
 		let url = source
 		// https://splunktool.com/json-schema-validation-with-escaped-characters-in-patterns-fails
 		if (url.includes('~1')) {

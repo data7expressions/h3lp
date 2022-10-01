@@ -9,7 +9,7 @@ export class EnvHelper {
 		this.string = string
 	}
 
-	public getEnvironmentVariable (text: string): string | undefined {
+	public get (text: string): string | undefined {
 		const startIndex = text.indexOf('${')
 		if (startIndex < 0) {
 			return undefined
@@ -21,24 +21,24 @@ export class EnvHelper {
 		return text.substring(startIndex + 2, endIndex)
 	}
 
-	public solveEnvironmentVariables (source: any): void {
+	public solve (source: any): void {
 		if (typeof source !== 'object') {
 			return
 		}
 		for (const name in source) {
 			const child = source[name]
 			if (typeof child === 'string' && child.indexOf('${') >= 0) {
-				source[name] = this.replaceEnvironmentVariable(child)
+				source[name] = this.replace(child)
 			} else if (typeof child === 'object') {
-				this.solveEnvironmentVariables(child)
+				this.solve(child)
 			}
 		}
 	}
 
-	private replaceEnvironmentVariable (text: any): any {
+	private replace (text: any): any {
 		// there can be more than one environment variable in text
 		while (text.indexOf('${') >= 0) {
-			const environmentVariable = this.getEnvironmentVariable(text)
+			const environmentVariable = this.get(text)
 			if (!environmentVariable) {
 				continue
 			}
