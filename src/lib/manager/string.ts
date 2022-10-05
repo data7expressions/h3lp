@@ -15,7 +15,7 @@ export class StringHelper {
 		return string.split(search).join(replace)
 	}
 
-	public concat (...values: any[]): any {
+	public concat (values: any[]): any {
 		if (!values || values.length === 0) {
 			return ''
 		}
@@ -30,6 +30,20 @@ export class StringHelper {
 			}
 			return list
 		}
+	}
+
+	public capitalize = function (str: string): string {
+		return str.charAt(0).toUpperCase() + str.slice(1)
+	}
+
+	public initCap (str: string): string {
+		const newStr = str.split(' ')
+		let i
+		const arr = []
+		for (i = 0; i < newStr.length; i++) {
+			arr.push(this.capitalize(newStr[i]))
+		}
+		return arr.join(' ')
 	}
 
 	/**
