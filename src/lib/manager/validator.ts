@@ -60,10 +60,16 @@ export class Validator {
 	}
 
 	public isString (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		return typeof value === 'string'
 	}
 
 	public isDate (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		if (typeof value === 'string') {
 			return this.isDateFormat(value as string)
 		} else {
@@ -72,6 +78,9 @@ export class Validator {
 	}
 
 	public isDateTime (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		if (typeof value === 'string') {
 			return this.isDateTimeFormat(value as string)
 		} else {
@@ -80,10 +89,16 @@ export class Validator {
 	}
 
 	public isArray (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		return Array.isArray(value)
 	}
 
 	public isTime (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		if (typeof value === 'string') {
 			return this.isTimeFormat(value as string)
 		} else {
@@ -91,39 +106,60 @@ export class Validator {
 		}
 	}
 
-	public isBooleanFormat (value: string): boolean {
-		return ['true', 'false'].includes(value)
+	public isBooleanFormat (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
+		return ['true', 'false'].includes(value.toString())
 	}
 
-	public isNumberFormat (value: string): boolean {
+	public isNumberFormat (value: any): boolean {
 		return this.isDecimalFormat(value)
 	}
 
-	public isIntegerFormat (value: string): boolean {
+	public isIntegerFormat (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		return this.reInt.test(value)
 	}
 
-	public isDecimalFormat (value: string): boolean {
+	public isDecimalFormat (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		return this.reDecimal.test(value)
 	}
 
-	public isAlphanumeric (value: string): boolean {
+	public isAlphanumeric (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		return this.reAlphanumeric.test(value)
 	}
 
-	public isDateFormat (value: string): boolean {
+	public isDateFormat (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		return this.reDate.test(value)
 	}
 
-	public isDateTimeFormat (value: string): boolean {
+	public isDateTimeFormat (value: any): boolean {
 		return this.reDateTime.test(value)
 	}
 
-	public isTimeFormat (value: string): boolean {
+	public isTimeFormat (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
 		return this.reTime.test(value)
 	}
 
 	public between (value: any, from: any, to: any): boolean {
+		if (value === null || value === undefined || from === null || from === undefined || to === null || to === undefined) {
+			return false
+		}
 		return value >= from && value < to
 	}
 
