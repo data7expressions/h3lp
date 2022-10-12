@@ -7,11 +7,20 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "lab",
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/src/dev/lab.ts"            
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "lab object",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/dev/labs/object.ts"            
         }
     ]
 }

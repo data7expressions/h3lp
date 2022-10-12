@@ -1,8 +1,11 @@
 import { HttpHelper } from './http'
+import { Validator } from './validator'
 export class ObjectHelper {
 	private http: HttpHelper
-	constructor (http: HttpHelper) {
+	private validator: Validator
+	constructor (http: HttpHelper, validator: Validator) {
 		this.http = http
+		this.validator = validator
 	}
 
 	public clone (obj:any):any {
@@ -46,10 +49,17 @@ export class ObjectHelper {
 		}
 	}
 
-	public getValue (names:string[], source:any) :any {
+	public getValue (name:string, source:any) :any {
+		const names = this.names(name)
 		let value = source
 		for (const name of names) {
 			if (Array.isArray(value)) {
+				// Example: orders.0.number
+				if (this.validator.isPositiveInteger(name)) {
+					const index = parseInt(name)
+					value = value[index]
+					continue
+				}
 				let result:any[] = []
 				for (const item of value) {
 					if (item[name] !== undefined) {

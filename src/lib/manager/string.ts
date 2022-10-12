@@ -46,6 +46,16 @@ export class StringHelper {
 		return arr.join(' ')
 	}
 
+	public template (template:string, values:any): string {
+		// info https://www.tutorialstonight.com/javascript-string-format.php
+		return template.replace(/\${([a-zA-Z0-9_.]+)}/g, (match, field) => {
+			if (values) {
+				const value = values[field]
+				return typeof value === 'undefined' ? match : value
+			}
+		})
+	}
+
 	/**
 	 * Normalize a string with utf-8 characters.
 	 * @param source string to normalize

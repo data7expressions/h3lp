@@ -20,6 +20,7 @@
 	"scripts": {
 		"lint": "grunt lint",
 		"build": "grunt build",
+		"test": "grunt test",
 		"dist": "grunt dist",
 		"to_develop": "grunt to_develop",
 		"release": "grunt release",
