@@ -1,9 +1,10 @@
+/* eslint-disable no-template-curly-in-string */
 import { h3lp } from '../../lib'
 describe('string', () => {
 	const context = JSON.parse('{"firstName":"Pedro","lastName":"Brieger","portal":"www.nodal.am"}')
 	test('template', () => {
-		expect(h3lp.string.template('${firstName} ${lastName} es el autor del portal ${portal}',context)).toStrictEqual('Pedro Brieger es el autor del portal www.nodal.am')
-		expect(h3lp.string.template('no existe ${noExiste}',context)).toStrictEqual('no existe ${noExiste}')
+		expect(h3lp.string.template('${firstName} ${lastName} es el autor del portal ${portal}', context)).toStrictEqual('Pedro Brieger es el autor del portal www.nodal.am')
+		expect(h3lp.string.template('no existe ${noExiste}', context)).toStrictEqual('no existe ${noExiste}')
 	})
 	test('capitalize', () => {
 		expect(h3lp.string.capitalize('hello world')).toStrictEqual('Hello world')

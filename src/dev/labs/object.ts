@@ -44,7 +44,7 @@ import { h3lp } from '../../lib'
 	await h3lp.fs.write(`./src/dev/tests/${testSuite.name}.json`, JSON.stringify(testSuite, null, 2))
 
 	const template = {
-		template: 'import { h3lp } from \'../../lib\'\ndescribe(\'${name}\', () => {\n\tconst context = JSON.parse(\'${context}\')\n${cases}})\n',
+		template: '/* eslint-disable object-curly-spacing */\n/* eslint-disable comma-spacing */\n/* eslint-disable key-spacing */\n/* eslint-disable quote-props */import { h3lp } from \'../../lib\'\ndescribe(\'${name}\', () => {\n\tconst context = JSON.parse(\'${context}\')\n${cases}})\n',
 		cases: [{
 			name: 'access',
 			template: '\t\texpect(h3lp.obj.getValue(\'${test}\', context)).toStrictEqual(${result})\n'

@@ -79,10 +79,10 @@ import { h3lp } from '../../lib'
 	await h3lp.fs.write(`./src/dev/tests/${testSuite.name}.json`, JSON.stringify(testSuite, null, 2))
 
 	const template = {
-		template: 'import { h3lp } from \'../../lib\'\ndescribe(\'${name}\', () => {\n\tconst context = JSON.parse(\'${context}\')\n${cases}})\n',
+		template: '/* eslint-disable no-template-curly-in-string */\nimport { h3lp } from \'../../lib\'\ndescribe(\'${name}\', () => {\n\tconst context = JSON.parse(\'${context}\')\n${cases}})\n',
 		cases: [{
 			name: 'template',
-			template: '\t\texpect(h3lp.string.template(\'${test}\',context)).toStrictEqual(${result})\n'
+			template: '\t\texpect(h3lp.string.template(\'${test}\', context)).toStrictEqual(${result})\n'
 		},
 		{
 			name: 'capitalize',

@@ -36,7 +36,9 @@ export class TestHelper {
 			}
 			for (const test of _case.tests) {
 				let result
-				if (typeof test.result === 'object') {
+				if (Array.isArray(test.result)) {
+					result = this.string.replace(JSON.stringify(test.result), '"', '\'')
+				} else if (typeof test.result === 'object') {
 					result = JSON.stringify(test.result)
 				} else if (typeof test.result === 'string') {
 					result = `'${test.result}'`
