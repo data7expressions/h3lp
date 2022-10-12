@@ -21,6 +21,15 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/src/dev/labs/object.ts"            
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "lab string",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/dev/labs/string.ts"            
         }
     ]
 }

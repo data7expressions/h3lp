@@ -43,10 +43,11 @@ export class TestHelper {
 				} else {
 					result = test.result
 				}
-				const testText = this.string.template(caseTemplate.testTemplate, { test: test.test, result: result })
+				const testText = this.string.template(caseTemplate.template, { test: test.test, result: result })
 				tests.push(testText)
 			}
-			const caseText = this.string.template(caseTemplate.template, { name: _case.name, tests: tests.join('') })
+			// eslint-disable-next-line no-template-curly-in-string
+			const caseText = this.string.template('\ttest(\'${name}\', () => {\n${tests}\t})\n', { name: _case.name, tests: tests.join('') })
 			cases.push(caseText)
 		}
 		return this.string.template(template.template, { name: suite.name, context: suite.context !== undefined ? JSON.stringify(suite.context) : '{}', cases: cases.join('') })

@@ -1,0 +1,182 @@
+{
+  "name": "string",
+  "context": {
+    "firstName": "Pedro",
+    "lastName": "Brieger",
+    "portal": "www.nodal.am"
+  },
+  "cases": [
+    {
+      "name": "template",
+      "tests": [
+        {
+          "test": "${firstName} ${lastName} es el autor del portal ${portal}",
+          "result": "Pedro Brieger es el autor del portal www.nodal.am"
+        },
+        {
+          "test": "no existe ${noExiste}",
+          "result": "no existe ${noExiste}"
+        }
+      ]
+    },
+    {
+      "name": "capitalize",
+      "tests": [
+        {
+          "test": "hello world",
+          "result": "Hello world"
+        },
+        {
+          "test": "house",
+          "result": "House"
+        }
+      ]
+    },
+    {
+      "name": "initCap",
+      "tests": [
+        {
+          "test": "Lo peor que hacen los malos es obligarnos a dudar de los buenos",
+          "result": "Lo Peor Que Hacen Los Malos Es Obligarnos A Dudar De Los Buenos"
+        },
+        {
+          "test": "El dinero no puede comprar la vida",
+          "result": "El Dinero No Puede Comprar La Vida"
+        },
+        {
+          "test": "Los hermanos sean unidos porque ésa es la ley primera",
+          "result": "Los Hermanos Sean Unidos Porque Ésa Es La Ley Primera"
+        }
+      ]
+    },
+    {
+      "name": "normalize",
+      "tests": [
+        {
+          "test": "abcdefghijklmnopqrstuvwxyz",
+          "result": "abcdefghijklmnopqrstuvwxyz"
+        },
+        {
+          "test": "0123456789",
+          "result": "0123456789"
+        },
+        {
+          "test": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+          "result": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        },
+        {
+          "test": "Ø ø",
+          "result": "00"
+        },
+        {
+          "test": "À Á Â Ã Ä Å à á â ã ä å Ā ā Ă ă Ą ą Ƌ ƌ Ǎ ǎ Ȁ ȁ Ȃ ȃ Ȧ ȧ",
+          "result": "AAAAAAaaaaaaAaAaAaaaAaAaAaAa"
+        },
+        {
+          "test": "ƀ Ɓ Ƃ ƃ",
+          "result": "bbbb"
+        },
+        {
+          "test": "Ç ç Ć ć Ĉ ĉ Ċ ċ Č č Ɔ Ƈ ƈ",
+          "result": "CcCcCcCcCcCCc"
+        },
+        {
+          "test": "Ď ď Đ đ  Ɖ Ɗ ȡ",
+          "result": "DdDdDDd"
+        },
+        {
+          "test": "È É Ê Ëè é ê ë Ē ē Ĕ ĕ Ė ė Ę ę Ě ě  Œ œ Ǝ Ɛ ǝ Ȅ ȅ Ȇ ȇ Ȩ ȩ",
+          "result": "EEEEeeeeEeEeEeEeEeEeEEeEeEeEe"
+        },
+        {
+          "test": "Ƒ ƒ",
+          "result": "Ff"
+        },
+        {
+          "test": "Ì Í Î Ïì í î ï",
+          "result": "IIIIiiii"
+        },
+        {
+          "test": "Ĝ ĝ Ğ ğ Ġ ġ Ģ ģ Ɠ Ǥ ǥ Ǧ ǧ Ǵ ǵ",
+          "result": "GgGgGgGgGGgGgGg"
+        },
+        {
+          "test": "Ĥ ĥ Ħ ħ Ȟ ȟ",
+          "result": "HhHhHh"
+        },
+        {
+          "test": "Ĩ ĩ Ī ī Ĭ ĭ Į į İ Ɨ Ǐ ǐ Ȉ ȉ Ȋ ȋ",
+          "result": "IiIiIiIiIIIiIiIi"
+        },
+        {
+          "test": "Ĵ ĵ",
+          "result": "JJ"
+        },
+        {
+          "test": "Ƙ ƙ Ǩ ǩ",
+          "result": "KkKk"
+        },
+        {
+          "test": "Ĺ ĺ Ļ ļ Ľ ľ Ŀ ŀ Ł ł ƚ",
+          "result": "LlLlLlLlLll"
+        },
+        {
+          "test": "Ñ ñ Ń ń Ņ ņ Ň ň Ɲ ƞ  Ǹ ǹ Ƞ",
+          "result": "NnNnNnNnNnNnN"
+        },
+        {
+          "test": "Ò Ó Ô Õ Ö ò ó ô õ ö Ō ō Ŏ ŏ Ő ő Ɵ Ơ ơ Ǒ ǒ Ȍ ȍ Ȏ ȏ Ȯ ȯ",
+          "result": "OOOOOoooooOoOoOoOOoOoOoOoOo"
+        },
+        {
+          "test": "Ƥ ƥ",
+          "result": "Pp"
+        },
+        {
+          "test": "Ǫ ǫ",
+          "result": "QQ"
+        },
+        {
+          "test": "Ŕ ŕ Ŗ ŗ Ř ř Ʀ Ȑ ȑ Ȓ ȓ",
+          "result": "RrRrRrRRrRr"
+        },
+        {
+          "test": "Ś ś Ŝ ŝ Ş ş Š š Ș ș",
+          "result": "SsSsSsSsSs"
+        },
+        {
+          "test": "Ţ ţ Ť ť Ŧ ŧ ƫ Ƭ ƭ Ʈ Ț ț",
+          "result": "TtTtTttTtTT"
+        },
+        {
+          "test": "Ù Ú Û Ü ù ú û ü Ũ ũ Ū ū Ŭ ŭ Ů ů Ű ű Ư ư Ʋ Ǔ ǔ Ȕ ȕ Ȗ ȗ",
+          "result": "UUUUuuuuUuUuUuUuUuUuuUuUuUu"
+        },
+        {
+          "test": "Ý ý ÿ Ų ų",
+          "result": "YyyYy"
+        },
+        {
+          "test": "Ŵ ŵ",
+          "result": "Ww"
+        },
+        {
+          "test": " Ŷ ŷ Ÿ Ȳ ȳ",
+          "result": "YyYYy"
+        },
+        {
+          "test": "Ɯ",
+          "result": "W"
+        },
+        {
+          "test": "Ƴ ƴ",
+          "result": "yy"
+        },
+        {
+          "test": "Ź ź Ż ż Ž ž Ƶ ƶ Ȥ ȥ",
+          "result": "ZzZzZzZzZz"
+        }
+      ]
+    }
+  ]
+}

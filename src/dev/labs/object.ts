@@ -47,8 +47,7 @@ import { h3lp } from '../../lib'
 		template: 'import { h3lp } from \'../../lib\'\ndescribe(\'${name}\', () => {\n\tconst context = JSON.parse(\'${context}\')\n${cases}})\n',
 		cases: [{
 			name: 'access',
-			template: '\ttest(\'${name}\', () => {\n${tests}\t})\n',
-			testTemplate: '\t\texpect(h3lp.obj.getValue(\'${test}\', context)).toStrictEqual(${result})\n'
+			template: '\t\texpect(h3lp.obj.getValue(\'${test}\', context)).toStrictEqual(${result})\n'
 		}]
 	}
 	const content = h3lp.test.build(testSuite, template)

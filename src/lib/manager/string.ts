@@ -74,7 +74,7 @@ export class StringHelper {
 			if (ascii > 47 && ascii < 58) {
 				// numbers
 				result.push(String.fromCharCode(ascii))
-			} else if (ascii > 96 && ascii < 122) {
+			} else if (ascii > 96 && ascii < 123) {
 				if (options.toUpper) {
 					// convert lowercase  to uppercase
 					result.push(String.fromCharCode(ascii - 32))

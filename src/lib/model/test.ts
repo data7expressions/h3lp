@@ -31,7 +31,6 @@ export interface TestSuiteRequest {
 export interface TestCaseTemplate {
 	name:string
 	template:string
-    testTemplate:string
 }
 
 export interface TestSuiteTemplate {
