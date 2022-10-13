@@ -2,6 +2,7 @@ export class Validator {
 	private reInt:RegExp
 	private reDecimal:RegExp
 	private reAlphanumeric:RegExp
+	private reAlpha:RegExp
 	private reDate:RegExp
 	private reDateTime: RegExp
 	private reTime: RegExp
@@ -9,6 +10,7 @@ export class Validator {
 		this.reInt = /^[0-9]+$/ // /^\d+$/
 		this.reDecimal = /^[0-9]*[.][0-9]+$/ // /^\d+\.\d+$/
 		this.reAlphanumeric = /[a-zA-Z0-9_.]+$/
+		this.reAlpha = /[a-zA-Z]+$/
 		this.reDate = /^\d{4}-\d{2}-\d{2}$/
 		this.reDateTime = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/
 		// https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime
@@ -136,6 +138,13 @@ export class Validator {
 			return false
 		}
 		return this.reAlphanumeric.test(value)
+	}
+
+	public isAlpha (value: any): boolean {
+		if (value === null || value === undefined) {
+			return false
+		}
+		return this.reAlpha.test(value)
 	}
 
 	public isDateFormat (value: any): boolean {

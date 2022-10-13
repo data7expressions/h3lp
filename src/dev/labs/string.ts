@@ -2,15 +2,13 @@
 import { h3lp } from '../../lib'
 
 (async () => {
-	const context = {
-		firstName: 'Pedro',
-		lastName: 'Brieger',
-		portal: 'www.nodal.am'
-
-	}
 	const test = {
 		name: 'string',
-		context: context,
+		context: {
+			firstName: 'Pedro',
+			lastName: 'Brieger',
+			portal: 'www.nodal.am'
+		},
 		cases: [{
 			name: 'template',
 			func: (item: any, context:any) => h3lp.string.template(item, context),
@@ -75,8 +73,8 @@ import { h3lp } from '../../lib'
 		}
 		]
 	}
-	const testSuite = h3lp.test.buildSuite(test)
-	await h3lp.fs.write(`./src/dev/tests/${testSuite.name}.json`, JSON.stringify(testSuite, null, 2))
+	const suite = h3lp.test.buildSuite(test)
+	await h3lp.fs.write(`./src/dev/tests/${suite.name}.json`, JSON.stringify(suite, null, 2))
 
 	const template = {
 		template: '/* eslint-disable no-template-curly-in-string */\nimport { h3lp } from \'../../lib\'\ndescribe(\'${name}\', () => {\n\tconst context = JSON.parse(\'${context}\')\n${cases}})\n',
@@ -97,6 +95,6 @@ import { h3lp } from '../../lib'
 			template: '\t\texpect(h3lp.string.normalize(\'${test}\')).toStrictEqual(${result})\n'
 		}]
 	}
-	const content = h3lp.test.build(testSuite, template)
-	await h3lp.fs.write(`./src/tests/__tests__/${testSuite.name}.test.ts`, content)
+	const content = h3lp.test.build(suite, template)
+	await h3lp.fs.write(`./src/tests/__tests__/${suite.name}.test.ts`, content)
 })()
