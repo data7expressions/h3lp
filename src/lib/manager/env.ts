@@ -67,35 +67,4 @@ export class EnvHelper {
 		}
 		return result.join('')
 	}
-
-	// public get (text: string): string | undefined {
-	// const startIndex = text.indexOf('${')
-	// if (startIndex < 0) {
-	// return undefined
-	// }
-	// const endIndex = text.indexOf('}', startIndex + 2)
-	// if (endIndex < 0) {
-	// throw new Error(`Environment variable not found end character "?" in ${text}`)
-	// }
-	// return text.substring(startIndex + 2, endIndex)
-	// }
-
-	// private replace (text: any): any {
-	// // there can be more than one environment variable in text
-	// while (text.indexOf('${') >= 0) {
-	// const environmentVariable = this.get(text)
-	// if (!environmentVariable) {
-	// continue
-	// }
-	// const environmentVariableValue = process.env[environmentVariable]
-	// if (environmentVariableValue === undefined || environmentVariableValue === null) {
-	// text = this.string.replace(text, '${' + environmentVariable + '}', '')
-	// } else {
-	// const objValue = this.utils.tryParse(environmentVariableValue)
-	// const value = objValue ? JSON.stringify(objValue) : environmentVariableValue
-	// text = this.string.replace(text, '${' + environmentVariable + '}', value)
-	// }
-	// }
-	// return text
-	// }
 }

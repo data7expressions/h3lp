@@ -49,7 +49,7 @@ export class ObjectHelper {
 		}
 	}
 
-	public getValue (name:string, source:any) :any {
+	public getValue (source:any, name:string) :any {
 		const names = this.names(name)
 		let value = source
 		for (const name of names) {
@@ -77,6 +77,34 @@ export class ObjectHelper {
 			}
 		}
 		return value
+	}
+
+	public setValue (source:any, name:string, value:any):void {
+		const names = name.split('.')
+		const level = names.length - 1
+		let data = source
+		for (let i = 0; i < names.length; i++) {
+			const name = names[i]
+			// if is an array and name is a positive integer
+			if (Array.isArray(data) && this.validator.isPositiveInteger(name)) {
+				const index = Number(name)
+				// If the index exceeds the length of the array, nothing assigns it.
+				if (index >= data.length) {
+					return
+				}
+				if (i === level) {
+					data[index] = value
+				} else {
+					data = data[index]
+				}
+			} else {
+				if (i === level) {
+					data[name] = value
+				} else {
+					data = data[name]
+				}
+			}
+		}
 	}
 
 	public sort (source: any):any {
