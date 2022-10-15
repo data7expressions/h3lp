@@ -30,7 +30,7 @@ import { h3lp } from '../../lib'
 		},
 		cases: [{
 			name: 'access',
-			func: (item: any, context: any) => h3lp.obj.getValue(item, context),
+			func: (item: any, context: any) => h3lp.obj.getValue(context, item),
 			tests: [
 				'orders.number',
 				'orders.0.number',
@@ -48,7 +48,7 @@ import { h3lp } from '../../lib'
 		template: '/* eslint-disable object-curly-spacing */\n/* eslint-disable comma-spacing */\n/* eslint-disable key-spacing */\n/* eslint-disable quote-props */import { h3lp } from \'../../lib\'\ndescribe(\'${name}\', () => {\n\tconst context = JSON.parse(\'${context}\')\n${cases}})\n',
 		cases: [{
 			name: 'access',
-			template: '\t\texpect(h3lp.obj.getValue(\'${test}\', context)).toStrictEqual(${result})\n'
+			template: '\t\texpect(h3lp.obj.getValue(context,\'${test}\')).toStrictEqual(${result})\n'
 		}]
 	}
 	const content = h3lp.test.build(suite, template)
