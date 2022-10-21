@@ -2,10 +2,8 @@ import { Delta } from '../index'
 import { Validator } from './validator'
 
 export class DeltaHelper {
-	private validator:Validator
-	constructor (validator:Validator) {
-		this.validator = validator
-	}
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly validator:Validator) {}
 
 	public deltaWithSimpleArrays (current:any, old?:any):Delta {
 		const delta = new Delta()

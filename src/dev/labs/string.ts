@@ -11,7 +11,7 @@ import { h3lp } from '../../lib'
 		},
 		cases: [{
 			name: 'template',
-			func: (item: any, context:any) => h3lp.string.template(item, context),
+			func: (item: any, context:any) => h3lp.utils.template(item, context),
 			tests: [
 				'${firstName} ${lastName} es el autor del portal ${portal}',
 				'no existe ${noExiste}'
@@ -80,7 +80,7 @@ import { h3lp } from '../../lib'
 		template: '/* eslint-disable no-template-curly-in-string */\nimport { h3lp } from \'../../lib\'\ndescribe(\'${name}\', () => {\n\tconst context = JSON.parse(\'${context}\')\n${cases}})\n',
 		cases: [{
 			name: 'template',
-			template: '\t\texpect(h3lp.string.template(\'${test}\', context)).toStrictEqual(${result})\n'
+			template: '\t\texpect(h3lp.utils.template(\'${test}\', context)).toStrictEqual(${result})\n'
 		},
 		{
 			name: 'capitalize',

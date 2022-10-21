@@ -1,4 +1,4 @@
-import { Utils, Validator, FsHelper, HttpHelper, ObjectHelper, EnvHelper, StringHelper, DeltaHelper, TestHelper } from './'
+import { Utils, Validator, FsHelper, HttpHelper, ObjectHelper, StringHelper, DeltaHelper, TestHelper } from '.'
 
 export class H3lp {
 	public utils:Utils
@@ -6,7 +6,6 @@ export class H3lp {
 	public fs:FsHelper
 	public http:HttpHelper
 	public obj:ObjectHelper
-	public env:EnvHelper
 	public delta:DeltaHelper
 	public string:StringHelper
 	public test:TestHelper
@@ -18,7 +17,6 @@ export class H3lp {
 		this.string = new StringHelper(this.validator)
 		this.http = new HttpHelper(this.string)
 		this.obj = new ObjectHelper(this.http, this.validator)
-		this.env = new EnvHelper(this.utils)
-		this.test = new TestHelper(this.string)
+		this.test = new TestHelper(this.string, this.utils)
 	}
 }

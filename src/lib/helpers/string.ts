@@ -1,11 +1,9 @@
 import { Validator } from './validator'
-import { NormalizeOptions } from './../model/string'
+import { NormalizeOptions } from '../contract/base'
 
 export class StringHelper {
-	private validator: Validator
-	constructor (validator: Validator) {
-		this.validator = validator
-	}
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly validator: Validator) { }
 
 	public toString (value: any): string {
 		return this.validator.isNull(value) ? '' : value.toString()
@@ -44,16 +42,6 @@ export class StringHelper {
 			arr.push(this.capitalize(newStr[i]))
 		}
 		return arr.join(' ')
-	}
-
-	public template (template:string, values:any): string {
-		// info https://www.tutorialstonight.com/javascript-string-format.php
-		return template.replace(/\${([a-zA-Z0-9_.]+)}/g, (match, field) => {
-			if (values) {
-				const value = values[field]
-				return typeof value === 'undefined' ? match : value
-			}
-		})
 	}
 
 	/**

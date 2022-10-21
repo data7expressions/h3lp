@@ -1,12 +1,8 @@
 import { HttpHelper } from './http'
 import { Validator } from './validator'
 export class ObjectHelper {
-	private http: HttpHelper
-	private validator: Validator
-	constructor (http: HttpHelper, validator: Validator) {
-		this.http = http
-		this.validator = validator
-	}
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly http: HttpHelper, private readonly validator: Validator) { }
 
 	public clone (obj:any):any {
 		return obj && typeof obj === 'object' ? JSON.parse(JSON.stringify(obj)) : obj
@@ -23,11 +19,11 @@ export class ObjectHelper {
 				}
 			}
 		} else if (typeof base === 'object') {
-			for (const k in base) {
-				if (obj[k] === undefined) {
-					obj[k] = this.clone(base[k])
-				} else if (typeof obj[k] === 'object') {
-					this.extends(obj[k], base[k])
+			for (const entry in Object.entries(base)) {
+				if (entry[1] === undefined) {
+					obj[entry[0]] = this.clone(base[entry[0]])
+				} else if (typeof obj[entry[0]] === 'object') {
+					this.extends(obj[entry[0]], base[entry[0]])
 				}
 			}
 		}
@@ -72,7 +68,9 @@ export class ObjectHelper {
 				}
 				value = result
 			} else {
-				if (value[name] === undefined) return null
+				if (value[name] === undefined) {
+					return null
+				}
 				value = value[name]
 			}
 		}
@@ -115,12 +113,12 @@ export class ObjectHelper {
 		return target
 	}
 
-	public fromEntries (array: any[]):any {
-		if (!Array.isArray(array)) {
+	public fromEntries (entries: [string, any][]):any {
+		if (!Array.isArray(entries)) {
 			return {}
 		}
 		const obj:any = {}
-		for (const element of array) {
+		for (const element of entries) {
 			if (!Array.isArray(element) || element.length !== 2) {
 				continue
 			}

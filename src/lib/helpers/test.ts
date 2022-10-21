@@ -1,11 +1,10 @@
-import { TestSuiteRequest, TestSuite, TestCase, TestSuiteTemplate } from '../model/test'
+import { TestSuiteRequest, TestSuite, TestCase, TestSuiteTemplate } from '../contract/test'
+import { Utils } from './utils'
 import { StringHelper } from './string'
 
 export class TestHelper {
-	private string:StringHelper
-	constructor (string: StringHelper) {
-		this.string = string
-	}
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly string: StringHelper, private readonly utils: Utils) { }
 
 	public buildSuite (request: TestSuiteRequest): TestSuite {
 		const suite: TestSuite = { name: request.name, context: request.context, cases: [] }
@@ -45,13 +44,14 @@ export class TestHelper {
 				} else {
 					result = test.result
 				}
-				const testText = this.string.template(caseTemplate.template, { test: test.test, result: result })
+				const testText = this.utils.template(caseTemplate.template, { test: test.test, result: result })
 				tests.push(testText)
 			}
 			// eslint-disable-next-line no-template-curly-in-string
-			const caseText = this.string.template('\ttest(\'${name}\', () => {\n${tests}\t})\n', { name: _case.name, tests: tests.join('') })
+			const caseText = this.utils.template('\ttest(\'${name}\', () => {\n${tests}\t})\n', { name: _case.name, tests: tests.join('') })
 			cases.push(caseText)
 		}
-		return this.string.template(template.template, { name: suite.name, context: suite.context !== undefined ? JSON.stringify(suite.context) : '{}', cases: cases.join('') })
+		const data = { name: suite.name, context: suite.context !== undefined ? JSON.stringify(suite.context) : '{}', cases: cases.join('') }
+		return this.utils.template(template.template, data)
 	}
 }

@@ -3,10 +3,8 @@ import https from 'https'
 import http from 'http'
 
 export class HttpHelper {
-	private string: StringHelper
-	constructor (string: StringHelper) {
-		this.string = string
-	}
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly string: StringHelper) { }
 
 	public async get (uri: any): Promise<any> {
 		// https://www.geeksforgeeks.org/node-js-https-request-function/

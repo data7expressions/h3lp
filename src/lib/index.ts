@@ -1,6 +1,6 @@
-import { H3lp } from './manager/h3lp'
-export * from './manager'
-export * from './model/delta'
-export * from './model/string'
-export * from './model/test'
+import { H3lp } from './helpers/h3lp'
+export * from './helpers'
+export * from './contract/delta'
+export * from './contract/base'
+export * from './contract/test'
 export const h3lp = new H3lp()
