@@ -108,7 +108,11 @@ export class Utils {
 					const match = chars.join('')
 					let value = replacer(match)
 					if (value !== undefined) {
-						value = this.stringTemplate(value, replacer)
+						if (typeof value === 'string') {
+							value = this.stringTemplate(value, replacer)
+						} else {
+							result.push(value)
+						}
 						result.push(value)
 					} else {
 						result.push('${' + match + '}')
