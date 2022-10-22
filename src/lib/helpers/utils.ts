@@ -110,8 +110,6 @@ export class Utils {
 					if (value !== undefined) {
 						if (typeof value === 'string') {
 							value = this.stringTemplate(value, replacer)
-						} else {
-							result.push(value)
 						}
 						result.push(value)
 					} else {
