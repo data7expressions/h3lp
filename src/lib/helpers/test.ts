@@ -1,13 +1,13 @@
 import { TestSuiteRequest, TestSuite, TestCase, TestSuiteTemplate } from '../contract/test'
 import { Utils } from './utils'
 import { StringHelper } from './string'
-
+import { ObjectHelper } from './object'
 export class TestHelper {
 	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly string: StringHelper, private readonly utils: Utils) { }
+	constructor (private readonly string: StringHelper, private readonly obj:ObjectHelper, private readonly utils: Utils) { }
 
 	public buildSuite (request: TestSuiteRequest): TestSuite {
-		const suite: TestSuite = { name: request.name, context: request.context, cases: [] }
+		const suite: TestSuite = { name: request.name, context: this.obj.clone(request.context), cases: [] }
 		for (const _caseRequest of request.cases) {
 			const _case: TestCase = { name: _caseRequest.name, tests: [] }
 			for (const test of _caseRequest.tests) {

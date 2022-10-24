@@ -17,6 +17,6 @@ export class H3lp {
 		this.string = new StringHelper(this.validator)
 		this.http = new HttpHelper(this.string)
 		this.obj = new ObjectHelper(this.http, this.validator)
-		this.test = new TestHelper(this.string, this.utils)
+		this.test = new TestHelper(this.string, this.obj, this.utils)
 	}
 }
