@@ -44,7 +44,10 @@ export class TestHelper {
 				} else {
 					result = test.result
 				}
-				const testText = this.utils.template(caseTemplate.template, { test: test.test, result: result })
+				const testText = this.utils.template(caseTemplate.template, { result: result,
+					// eslint-disable-next-line quotes
+					test: test.test.includes('\n') ? "`" + test.test + "`" : "'" + test.test + "'" 
+				})
 				tests.push(testText)
 			}
 			// eslint-disable-next-line no-template-curly-in-string
