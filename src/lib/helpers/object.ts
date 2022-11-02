@@ -45,8 +45,8 @@ export class ObjectHelper {
 		}
 	}
 
-	public getValue (source:any, name:string) :any {
-		const names = this.names(name)
+	public getValue (source:any, _name:string) :any {
+		const names = this.names(_name)
 		let value = source
 		for (const name of names) {
 			if (Array.isArray(value)) {
@@ -67,17 +67,16 @@ export class ObjectHelper {
 					}
 				}
 				value = result
+			} else if (value[name] === undefined) {
+				return null
 			} else {
-				if (value[name] === undefined) {
-					return null
-				}
 				value = value[name]
 			}
 		}
 		return value
 	}
 
-	public setValue (source:any, name:string, value:any):void {
+	public setValue (source:any, name:string, value:any):boolean {
 		const names = name.split('.')
 		const level = names.length - 1
 		let data = source
@@ -88,21 +87,22 @@ export class ObjectHelper {
 				const index = Number(name)
 				// If the index exceeds the length of the array, nothing assigns it.
 				if (index >= data.length) {
-					return
+					return false
 				}
 				if (i === level) {
 					data[index] = value
 				} else {
 					data = data[index]
 				}
+			} else if (i === level) {
+				data[name] = value
+			} else if (data[name] !== undefined) {
+				data = data[name]
 			} else {
-				if (i === level) {
-					data[name] = value
-				} else {
-					data = data[name]
-				}
+				return false
 			}
 		}
+		return true
 	}
 
 	public sort (source: any):any {
