@@ -11,12 +11,12 @@ export class H3lp {
 	public test:TestHelper
 	constructor () {
 		this.validator = new Validator()
-		this.utils = new Utils(this.validator)
-		this.fs = new FsHelper()
-		this.delta = new DeltaHelper(this.validator)
 		this.string = new StringHelper(this.validator)
 		this.http = new HttpHelper(this.string)
 		this.obj = new ObjectHelper(this.http, this.validator)
-		this.test = new TestHelper(this.string, this.obj, this.utils)
+		this.utils = new Utils(this.validator, this.obj)
+		this.fs = new FsHelper()
+		this.delta = new DeltaHelper(this.validator)
+		this.test = new TestHelper(this.string, this.obj, this.utils, this.fs)
 	}
 }

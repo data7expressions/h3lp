@@ -37,3 +37,7 @@ export interface TestSuiteTemplate {
 	template:string
 	cases:TestCaseTemplate[]
 }
+
+export interface IBuildTest {
+	build(): TestSuiteRequest
+}

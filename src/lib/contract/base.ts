@@ -8,3 +8,7 @@ export interface NormalizeOptions {
 	toLower?: boolean
 	toUpper?: boolean
 }
+
+export interface IReplacer {
+	replace(match:string):string|undefined
+}

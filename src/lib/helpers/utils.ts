@@ -1,8 +1,35 @@
 import { Validator } from './validator'
+import { ObjectHelper } from './object'
+import { IReplacer } from '../contract'
 import { exec } from 'child_process'
+
+export class EnvironmentVariableReplacer implements IReplacer {
+	replace (match: string): string | undefined {
+		return process.env[match]
+	}
+}
+
+export class ContextReplacer implements IReplacer {
+	private _context?: any
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly obj: ObjectHelper) {}
+
+	public context (context: any): ContextReplacer {
+		this._context = context
+		return this
+	}
+
+	replace (match: string): string | undefined {
+		return this.obj.getValue(this._context, match)
+	}
+}
+
 export class Utils {
 	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly validator: Validator) { }
+	constructor (
+		private readonly validator: Validator,
+		private readonly obj: ObjectHelper
+	) {}
 
 	public getType (value: any): string {
 		if (Array.isArray(value)) return 'array'
@@ -13,7 +40,10 @@ export class Utils {
 		return typeof value
 	}
 
-	public async exec (command: string, cwd: string = process.cwd()): Promise<any> {
+	public async exec (
+		command: string,
+		cwd: string = process.cwd()
+	): Promise<any> {
 		return new Promise<string>((resolve, reject) => {
 			exec(command, { cwd: cwd }, (error: any, stdout: any, stderr: any) => {
 				if (stdout) return resolve(stdout)
@@ -28,7 +58,7 @@ export class Utils {
 		return this.validator.isNull(value) ? 0 : parseFloat(value)
 	}
 
-	public nvl (value:any, _default:any):any {
+	public nvl (value: any, _default: any): any {
 		return !this.validator.isEmpty(value) ? value : _default
 	}
 
@@ -36,7 +66,7 @@ export class Utils {
 		return this.validator.isNotNull(value) ? a : b
 	}
 
-	public tryParse (value:string):any|null {
+	public tryParse (value: string): any | null {
 		try {
 			return JSON.parse(value)
 		} catch {
@@ -50,35 +80,50 @@ export class Utils {
 		})
 	}
 
-	public hashCode (text:string):number {
+	public hashCode (text: string): number {
 		let hash = 0
 		if (text.length === 0) return hash
 		for (let i = 0; i < text.length; i++) {
 			const chr = text.charCodeAt(i)
-			hash = ((hash << 5) - hash) + chr
+			hash = (hash << 5) - hash + chr
 			hash |= 0
 		}
 		return hash
 	}
 
 	public solveEnvironmentVars (source: any): any {
-		return this.template(source, (match:string) => process.env[match], true)
+		return this.template(source, this.createEnvironmentVariableReplacer(), true)
 	}
 
-	public template (template: any, replacer:((match:string)=>string|undefined) | any, parse = false): string {
-		const _replacer = typeof replacer === 'object' ? (p:string) => replacer[p] : replacer
+	public createEnvironmentVariableReplacer () {
+		return new EnvironmentVariableReplacer()
+	}
+
+	public createContextReplacer () {
+		return new ContextReplacer(this.obj)
+	}
+
+	public template (
+		template: any,
+		replacer: IReplacer | any,
+		parse = false
+	): string {
+		const _replacer =
+			typeof replacer === 'object'
+				? this.createContextReplacer().context(replacer)
+				: replacer
 		return this.anyTemplate(template, _replacer, parse)
 	}
 
-	private anyTemplate (source: any, replacer:(match:string)=>string|undefined, parse:boolean): any {
+	private anyTemplate (source: any, replacer: IReplacer, parse: boolean): any {
 		if (Array.isArray(source)) {
-			const result:any[] = []
+			const result: any[] = []
 			for (let i = 0; i < source.length; i++) {
 				result.push(this.anyTemplate(source[i], replacer, parse))
 			}
 			return result
 		} else if (typeof source === 'object') {
-			const result:any = {}
+			const result: any = {}
 			for (const entry of Object.entries(source)) {
 				result[entry[0]] = this.anyTemplate(entry[1], replacer, parse)
 			}
@@ -95,10 +140,10 @@ export class Utils {
 		}
 	}
 
-	private stringTemplate (template: string, replacer:(match:string)=>string|undefined): string {
+	private stringTemplate (template: string, replacer: IReplacer): string {
 		const buffer = Array.from(template)
 		const length = buffer.length
-		const result:string[] = []
+		const result: string[] = []
 		let chars = []
 		let isEnvironmentVariable = false
 		for (let index = 0; index < length; index++) {
@@ -106,7 +151,7 @@ export class Utils {
 			if (isEnvironmentVariable) {
 				if (current === '}') {
 					const match = chars.join('')
-					let value = replacer(match)
+					let value = replacer.replace(match)
 					if (value !== undefined) {
 						if (typeof value === 'string') {
 							value = this.stringTemplate(value, replacer)
@@ -120,7 +165,11 @@ export class Utils {
 				} else {
 					chars.push(current)
 				}
-			} else if (index < length - 1 && current === '$' && buffer[index + 1] === '{') {
+			} else if (
+				index < length - 1 &&
+				current === '$' &&
+				buffer[index + 1] === '{'
+			) {
 				isEnvironmentVariable = true
 				index++
 			} else {
