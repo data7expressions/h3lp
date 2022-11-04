@@ -152,7 +152,7 @@ export class Utils {
 				if (current === '}') {
 					const match = chars.join('')
 					let value = replacer.replace(match)
-					if (value !== undefined) {
+					if (value !== undefined && value !== null) {
 						if (typeof value === 'string') {
 							value = this.stringTemplate(value, replacer)
 						}
