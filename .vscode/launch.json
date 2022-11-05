@@ -20,7 +20,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/src/dev/tasks/testSuiteBuilder.ts"            
+            "program": "${workspaceFolder}/src/dev/tasks/buildTestSuite.ts"            
         },
         {
             "type": "node",
@@ -29,7 +29,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/src/dev/tasks/testBuilder.ts"            
+            "program": "${workspaceFolder}/src/dev/tasks/buildTest.ts"            
         }      
     ]
 }

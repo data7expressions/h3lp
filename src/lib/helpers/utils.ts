@@ -108,11 +108,17 @@ export class Utils {
 		replacer: IReplacer | any,
 		parse = false
 	): string {
-		const _replacer =
-			typeof replacer === 'object'
-				? this.createContextReplacer().context(replacer)
-				: replacer
-		return this.anyTemplate(template, _replacer, parse)
+		if (this.implementReplacer(replacer)) {
+			return this.anyTemplate(template, replacer, parse)
+		} else if (typeof replacer === 'object') {
+			return this.anyTemplate(template, this.createContextReplacer().context(replacer), parse)
+		} else {
+			throw new Error('replacer not supported')
+		}
+	}
+
+	public implementReplacer (replacer: any): boolean {
+		return typeof replacer === 'object' && replacer.replace !== undefined && typeof replacer.replace === 'function'
 	}
 
 	private anyTemplate (source: any, replacer: IReplacer, parse: boolean): any {
@@ -145,23 +151,21 @@ export class Utils {
 		const length = buffer.length
 		const result: string[] = []
 		let chars = []
-		let isEnvironmentVariable = false
+		let isVar = false
+		let close = ''
 		for (let index = 0; index < length; index++) {
 			const current = buffer[index]
-			if (isEnvironmentVariable) {
-				if (current === '}') {
+			if (isVar) {
+				if (current === close) {
 					const match = chars.join('')
-					let value = replacer.replace(match)
-					if (value !== undefined && value !== null) {
-						if (typeof value === 'string') {
-							value = this.stringTemplate(value, replacer)
-						}
-						result.push(value)
-					} else {
-						result.push('${' + match + '}')
+					const value = this.replace(match, close, replacer)
+					result.push(value)
+					if (close === ' ') {
+						result.push(' ')
 					}
 					chars = []
-					isEnvironmentVariable = false
+					isVar = false
+					close = ''
 				} else {
 					chars.push(current)
 				}
@@ -170,16 +174,47 @@ export class Utils {
 				current === '$' &&
 				buffer[index + 1] === '{'
 			) {
-				isEnvironmentVariable = true
+				// Example: ${XXX}
+				isVar = true
+				close = '}'
 				index++
+			} else if (
+				index < length - 1 &&
+				current === '$' &&
+				buffer[index + 1] !== ' '
+			) {
+				// Example: $XXX
+				isVar = true
+				close = ' '
 			} else {
 				result.push(current)
 			}
 		}
 		if (chars.length > 0) {
-			result.push('${')
-			result.push(...chars.join(''))
+			if (close === '}') {
+				// Example: 'words ${XXXX'
+				result.push('${')
+				result.push(...chars.join(''))
+			} else {
+				// Example: 'words $XXXX'
+				const value = this.replace(chars.join(''), close, replacer)
+				result.push(value)
+			}
 		}
 		return result.join('')
+	}
+
+	private replace (match:string, close:string, replacer: IReplacer):string {
+		let value = replacer.replace(match)
+		if (value !== undefined && value !== null) {
+			if (typeof value === 'string') {
+				value = this.stringTemplate(value, replacer)
+			}
+			return value
+		} else if (close === '}') {
+			return '${' + match + '}'
+		} else {
+			return '$' + match
+		}
 	}
 }

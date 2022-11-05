@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import { h3lp } from '../lib'
 ;(async () => {
 	const context = {
@@ -5,7 +6,8 @@ import { h3lp } from '../lib'
 		lastName: 'Brieger',
 		portal: 'www.nodal.am'
 	}
-	// eslint-disable-next-line no-template-curly-in-string
-	const result = h3lp.utils.template('no existe ${noExiste}', context)
+	let result = h3lp.utils.template('Display: ${DISPLAY} shell: ${SHELL}', h3lp.utils.createEnvironmentVariableReplacer())
+	console.log(result)
+	result = h3lp.utils.template('Display: $DISPLAY shell: $SHELL', h3lp.utils.createEnvironmentVariableReplacer())
 	console.log(result)
 })()

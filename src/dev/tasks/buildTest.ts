@@ -43,7 +43,12 @@ import { h3lp } from '../../lib'
 	cases: [{
 		name: 'template',
 		template: '\t\texpect(h3lp.utils.template(${test}, context)).toStrictEqual(${result})\n'
-	}]
+	},
+	{
+		name: 'templateEnv',
+		template: '\t\texpect(h3lp.utils.template(${test}, h3lp.utils.createEnvironmentVariableReplacer())).toStrictEqual(${result})\n'
+	}
+	]
 }
 
 ;(async () => {

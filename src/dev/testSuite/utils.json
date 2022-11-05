@@ -74,6 +74,19 @@
           "result": "no existe ${noExiste}"
         }
       ]
+    },
+    {
+      "name": "templateEnv",
+      "tests": [
+        {
+          "test": "Display: ${DISPLAY}  shell: ${SHELL}",
+          "result": "Display: :0  shell: /bin/bash"
+        },
+        {
+          "test": "Display: $DISPLAY shell: $SHELL",
+          "result": "Display: :0 shell: /bin/bash"
+        }
+      ]
     }
   ]
 }

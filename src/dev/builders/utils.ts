@@ -40,7 +40,16 @@ export class UtilsBuildTest implements IBuildTest {
 					'order number ${orders.0.number}',
 					'no existe ${noExiste}'
 				]
-			}]
+			},
+			{
+				name: 'templateEnv',
+				func: (item: any) => h3lp.utils.template(item, h3lp.utils.createEnvironmentVariableReplacer()),
+				tests: [
+					'Display: ${DISPLAY}  shell: ${SHELL}',
+					'Display: $DISPLAY shell: $SHELL'
+				]
+			}
+			]
 		}
 	}
 }
