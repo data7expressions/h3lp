@@ -6,6 +6,9 @@ export class UtilsBuildTest implements IBuildTest {
 		return {
 			name: 'utils',
 			context: {
+				firstName: 'Pedro',
+				lastName: 'Brieger',
+				portal: 'www.nodal.am',
 				orders: [
 					{
 						number: '20001',
@@ -33,7 +36,9 @@ export class UtilsBuildTest implements IBuildTest {
 				name: 'template',
 				func: (item: any, context: any) => h3lp.utils.template(item, context),
 				tests: [
-					'order number ${orders.0.number}'
+					'${firstName} ${lastName} es el autor del portal ${portal}',
+					'order number ${orders.0.number}',
+					'no existe ${noExiste}'
 				]
 			}]
 		}

@@ -1,24 +1,7 @@
 {
   "name": "string",
-  "context": {
-    "firstName": "Pedro",
-    "lastName": "Brieger",
-    "portal": "www.nodal.am"
-  },
+  "context": {},
   "cases": [
-    {
-      "name": "template",
-      "tests": [
-        {
-          "test": "${firstName} ${lastName} es el autor del portal ${portal}",
-          "result": "Pedro Brieger es el autor del portal www.nodal.am"
-        },
-        {
-          "test": "no existe ${noExiste}",
-          "result": "no existe ${noExiste}"
-        }
-      ]
-    },
     {
       "name": "capitalize",
       "tests": [

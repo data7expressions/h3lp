@@ -34,8 +34,14 @@ export interface TestCaseTemplate {
 }
 
 export interface TestSuiteTemplate {
-	template:string
+	header:string
 	cases:TestCaseTemplate[]
+}
+
+export interface TestBuildInfo {
+	suite?: TestSuite
+	source?:string
+	template: TestSuiteTemplate
 }
 
 export interface IBuildTest {

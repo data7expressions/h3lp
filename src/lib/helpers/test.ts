@@ -2,8 +2,9 @@ import {
 	TestSuiteRequest,
 	TestSuite,
 	TestCase,
-	TestSuiteTemplate,
-	IBuildTest
+	IBuildTest,
+	TestBuildInfo,
+	TestSuiteTemplate
 } from '../contract/test'
 import { Utils } from './utils'
 import { FsHelper } from './fs'
@@ -57,16 +58,39 @@ export class TestSuiteBuilder {
 	}
 }
 
-export class TestHelper {
+export class TestBuilder {
+	private tests: TestBuildInfo[] = []
+
 	// eslint-disable-next-line no-useless-constructor
 	constructor (
 		private readonly string: StringHelper,
-		private readonly obj: ObjectHelper,
 		private readonly utils: Utils,
 		private readonly fs: FsHelper
 	) {}
 
-	public build (suite: TestSuite, template: TestSuiteTemplate): string {
+	public add (info: TestBuildInfo): TestBuilder {
+		this.tests.push(info)
+		return this
+	}
+
+	public async build (path: string): Promise<void> {
+		for (const test of this.tests) {
+			if (test.suite === undefined && test.source !== undefined) {
+				const content = await this.fs.read(test.source)
+				if (content === undefined || content === null) {
+					throw new Error(`${test.source} not found`)
+				}
+				test.suite = JSON.parse(content)
+			}
+			if (test.suite === undefined) {
+				throw new Error('Test suite undefined')
+			}
+			const content = this.buildSuite(test.suite, test.template)
+			await this.fs.write(`${path}/${test.suite.name}.test.ts`, content)
+		}
+	}
+
+	private buildSuite (suite: TestSuite, template: TestSuiteTemplate): string {
 		const cases: string[] = []
 		for (const _case of suite.cases) {
 			const tests: string[] = []
@@ -102,13 +126,31 @@ export class TestHelper {
 			)
 			cases.push(caseText)
 		}
-		const data = {
-			name: suite.name,
-			context:
+		const suiteText = this.utils.template(
+			// eslint-disable-next-line no-template-curly-in-string
+			'describe(\'${name}\', () => {\n\tconst context = JSON.parse(\'${context}\')\n${cases}})\n',
+			{
+				name: suite.name,
+				context:
 				suite.context !== undefined ? JSON.stringify(suite.context) : '{}',
-			cases: cases.join('')
-		}
-		return this.utils.template(template.template, data)
+				cases: cases.join('')
+			}
+		)
+		return `${template.header}\n${suiteText}`
+	}
+}
+
+export class TestHelper {
+	// eslint-disable-next-line no-useless-constructor
+	constructor (
+		private readonly string: StringHelper,
+		private readonly obj: ObjectHelper,
+		private readonly utils: Utils,
+		private readonly fs: FsHelper
+	) {}
+
+	public createBuilder (): TestBuilder {
+		return new TestBuilder(this.string, this.utils, this.fs)
 	}
 
 	public createSuiteBuilder (): TestSuiteBuilder {

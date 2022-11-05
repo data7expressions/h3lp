@@ -6,5 +6,5 @@ import { ObjectBuildTest, StringBuildTest, UtilsBuildTest } from '../builders'
 		.add(new ObjectBuildTest())
 		.add(new StringBuildTest())
 		.add(new UtilsBuildTest())
-		.build('./testSuite')
+		.build('./src/dev/testSuite')
 })()

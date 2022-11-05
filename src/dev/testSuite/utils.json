@@ -1,6 +1,9 @@
 {
   "name": "utils",
   "context": {
+    "firstName": "Pedro",
+    "lastName": "Brieger",
+    "portal": "www.nodal.am",
     "orders": [
       {
         "number": "20001",
@@ -59,8 +62,16 @@
       "name": "template",
       "tests": [
         {
+          "test": "${firstName} ${lastName} es el autor del portal ${portal}",
+          "result": "Pedro Brieger es el autor del portal www.nodal.am"
+        },
+        {
           "test": "order number ${orders.0.number}",
           "result": "order number 20001"
+        },
+        {
+          "test": "no existe ${noExiste}",
+          "result": "no existe ${noExiste}"
         }
       ]
     }

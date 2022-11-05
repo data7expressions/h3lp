@@ -5,20 +5,8 @@ export class StringBuildTest implements IBuildTest {
 	public build (): TestSuiteRequest {
 		return {
 			name: 'string',
-			context: {
-				firstName: 'Pedro',
-				lastName: 'Brieger',
-				portal: 'www.nodal.am'
-			},
+			context: {},
 			cases: [
-				{
-					name: 'template',
-					func: (item: any, context: any) => h3lp.utils.template(item, context),
-					tests: [
-						'${firstName} ${lastName} es el autor del portal ${portal}',
-						'no existe ${noExiste}'
-					]
-				},
 				{
 					name: 'capitalize',
 					func: (item: any) => h3lp.string.capitalize(item),
