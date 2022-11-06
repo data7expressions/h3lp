@@ -205,12 +205,9 @@ export class Utils {
 	}
 
 	private replace (match:string, close:string, replacer: IReplacer):string {
-		let value = replacer.replace(match)
+		const value = replacer.replace(match)
 		if (value !== undefined && value !== null) {
-			if (typeof value === 'string') {
-				value = this.stringTemplate(value, replacer)
-			}
-			return value
+			return this.stringTemplate(value, replacer)
 		} else if (close === '}') {
 			return '${' + match + '}'
 		} else {
