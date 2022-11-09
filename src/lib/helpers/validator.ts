@@ -119,46 +119,46 @@ export class Validator {
 		return this.isDecimalFormat(value)
 	}
 
-	public isIntegerFormat (value: any): boolean {
+	public isIntegerFormat (value: string): boolean {
 		if (value === null || value === undefined) {
 			return false
 		}
 		return this.reInt.test(value)
 	}
 
-	public isDecimalFormat (value: any): boolean {
+	public isDecimalFormat (value: string): boolean {
 		if (value === null || value === undefined) {
 			return false
 		}
 		return this.reDecimal.test(value)
 	}
 
-	public isAlphanumeric (value: any): boolean {
+	public isAlphanumeric (value: string): boolean {
 		if (value === null || value === undefined) {
 			return false
 		}
 		return this.reAlphanumeric.test(value)
 	}
 
-	public isAlpha (value: any): boolean {
+	public isAlpha (value: string): boolean {
 		if (value === null || value === undefined) {
 			return false
 		}
 		return this.reAlpha.test(value)
 	}
 
-	public isDateFormat (value: any): boolean {
+	public isDateFormat (value: string): boolean {
 		if (value === null || value === undefined) {
 			return false
 		}
 		return this.reDate.test(value)
 	}
 
-	public isDateTimeFormat (value: any): boolean {
+	public isDateTimeFormat (value: string): boolean {
 		return this.reDateTime.test(value)
 	}
 
-	public isTimeFormat (value: any): boolean {
+	public isTimeFormat (value: string): boolean {
 		if (value === null || value === undefined) {
 			return false
 		}
