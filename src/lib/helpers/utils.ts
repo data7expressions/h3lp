@@ -133,6 +133,7 @@ export class Utils {
 			for (const entry of Object.entries(source)) {
 				result[entry[0]] = this.anyTemplate(entry[1], replacer, parse)
 			}
+			return result
 		} else if (typeof source === 'string') {
 			const result = this.stringTemplate(source, replacer)
 			if (parse) {
