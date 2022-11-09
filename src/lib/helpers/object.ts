@@ -8,14 +8,24 @@ export class ObjectHelper {
 		return obj && typeof obj === 'object' ? JSON.parse(JSON.stringify(obj)) : obj
 	}
 
-	public extends (obj: any, base: any) {
+	public extends (obj: any, base: any):any {
+		if (obj === null || obj === undefined) {
+			return base
+		}
+		if (base === null || base === undefined) {
+			return obj
+		}
+		return this._extends(this.clone(obj), base)
+	}
+
+	private _extends (obj: any, base: any) {
 		if (Array.isArray(base)) {
 			for (const baseChild of base) {
 				const objChild = obj.find((p: any) => p.name === baseChild.name)
 				if (objChild === undefined) {
 					obj.push(this.clone(baseChild))
 				} else {
-					this.extends(objChild, baseChild)
+					this._extends(objChild, baseChild)
 				}
 			}
 		} else if (typeof base === 'object') {
@@ -23,7 +33,7 @@ export class ObjectHelper {
 				if (entry[1] === undefined) {
 					obj[entry[0]] = this.clone(base[entry[0]])
 				} else if (typeof obj[entry[0]] === 'object') {
-					this.extends(obj[entry[0]], base[entry[0]])
+					this._extends(obj[entry[0]], base[entry[0]])
 				}
 			}
 		}
