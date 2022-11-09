@@ -122,6 +122,12 @@ export class Utils {
 	}
 
 	private anyTemplate (source: any, replacer: IReplacer, parse: boolean): any {
+		if (source === undefined) {
+			return undefined
+		}
+		if (source === null) {
+			return null
+		}
 		if (Array.isArray(source)) {
 			const result: any[] = []
 			for (let i = 0; i < source.length; i++) {
@@ -138,7 +144,7 @@ export class Utils {
 			const result = this.stringTemplate(source, replacer)
 			if (parse) {
 				const obj = this.tryParse(result)
-				return obj !== undefined ? obj : result
+				return obj !== null ? obj : result
 			} else {
 				return result
 			}
