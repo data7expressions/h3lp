@@ -36,10 +36,10 @@ export class ObjectHelper {
 			}
 		} else if (typeof base === 'object') {
 			for (const entry of Object.entries(base)) {
-				if (entry[1] === undefined) {
-					obj[entry[0]] = this.clone(base[entry[0]])
+				if (obj[entry[0]] === undefined) {
+					obj[entry[0]] = this.clone(entry[1])
 				} else if (typeof obj[entry[0]] === 'object') {
-					this._extends(obj[entry[0]], base[entry[0]])
+					this._extends(obj[entry[0]], entry[1])
 				}
 			}
 		}
