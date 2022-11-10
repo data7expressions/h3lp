@@ -20,16 +20,22 @@ export class ObjectHelper {
 
 	private _extends (obj: any, base: any) {
 		if (Array.isArray(base)) {
-			for (const baseChild of base) {
-				const objChild = obj.find((p: any) => p.name === baseChild.name)
-				if (objChild === undefined) {
-					obj.push(this.clone(baseChild))
+			if (base.length === 0) {
+				return obj
+			}
+			if (Array.isArray(base[0])) {
+				throw new Error('extends array of array not supported')
+			}
+			for (const itemBase of base) {
+				const index = obj.findIndex((p:any) => p.name === itemBase.name)
+				if (index === -1) {
+					obj.push(this.clone(itemBase))
 				} else {
-					this._extends(objChild, baseChild)
+					this._extends(obj[index], itemBase)
 				}
 			}
 		} else if (typeof base === 'object') {
-			for (const entry in Object.entries(base)) {
+			for (const entry of Object.entries(base)) {
 				if (entry[1] === undefined) {
 					obj[entry[0]] = this.clone(base[entry[0]])
 				} else if (typeof obj[entry[0]] === 'object') {
