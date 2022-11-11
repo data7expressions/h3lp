@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { h3lp } from '../../lib'
+import { h3lp } from '../'
 
 describe('string', () => {
 	const context = JSON.parse('{}')
