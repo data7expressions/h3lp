@@ -210,7 +210,11 @@ export class Utils {
 	private replace (match:string, close:string, replacer: IReplacer):string {
 		const value = replacer.replace(match)
 		if (value !== undefined && value !== null) {
-			return this.stringTemplate(value, replacer)
+			if (typeof value === 'string') {
+				return this.stringTemplate(value, replacer)
+			} else {
+				return value
+			}
 		} else if (close === '}') {
 			return '${' + match + '}'
 		} else {
