@@ -9,12 +9,12 @@ export class StringBuildTest implements IBuildTest {
 			cases: [
 				{
 					name: 'capitalize',
-					func: (item: any) => h3lp.string.capitalize(item),
+					func: (item: any) => h3lp.str.capitalize(item),
 					tests: ['hello world', 'house']
 				},
 				{
 					name: 'initCap',
-					func: (item: any) => h3lp.string.initCap(item),
+					func: (item: any) => h3lp.str.initCap(item),
 					tests: [
 						'Lo peor que hacen los malos es obligarnos a dudar de los buenos',
 						'El dinero no puede comprar la vida',
@@ -23,7 +23,7 @@ export class StringBuildTest implements IBuildTest {
 				},
 				{
 					name: 'normalize',
-					func: (item: any) => h3lp.string.normalize(item),
+					func: (item: any) => h3lp.str.normalize(item),
 					tests: [
 						'abcdefghijklmnopqrstuvwxyz',
 						'0123456789',

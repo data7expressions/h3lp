@@ -4,7 +4,7 @@ import http from 'http'
 
 export class HttpHelper {
 	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly string: StringHelper) { }
+	constructor (private readonly str: StringHelper) { }
 
 	public async get (uri: any): Promise<any> {
 		// https://www.geeksforgeeks.org/node-js-https-request-function/
@@ -43,10 +43,10 @@ export class HttpHelper {
 		let url = source
 		// https://splunktool.com/json-schema-validation-with-escaped-characters-in-patterns-fails
 		if (url.includes('~1')) {
-			url = this.string.replace(url, '~1', '/')
+			url = this.str.replace(url, '~1', '/')
 		}
 		if (url.includes('~0')) {
-			url = this.string.replace(url, '~0', '~')
+			url = this.str.replace(url, '~0', '~')
 		}
 		// https://www.geeksforgeeks.org/how-to-retain-special-characters-in-expressjs-router-url-request/
 		// https://codeforgeek.com/how-to-encode-decode-url-javascript/

@@ -103,11 +103,7 @@ export class Utils {
 		return new ContextReplacer(this.obj)
 	}
 
-	public template (
-		template: any,
-		replacer: IReplacer | any,
-		parse = false
-	): string {
+	public template (template: any, replacer: IReplacer | any, parse = false): string {
 		if (this.implementReplacer(replacer)) {
 			return this.anyTemplate(template, replacer, parse)
 		} else if (typeof replacer === 'object') {

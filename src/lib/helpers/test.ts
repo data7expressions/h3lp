@@ -63,7 +63,7 @@ export class TestBuilder {
 
 	// eslint-disable-next-line no-useless-constructor
 	constructor (
-		private readonly string: StringHelper,
+		private readonly str: StringHelper,
 		private readonly utils: Utils,
 		private readonly fs: FsHelper
 	) {}
@@ -102,7 +102,7 @@ export class TestBuilder {
 			for (const test of _case.tests) {
 				let result
 				if (Array.isArray(test.result)) {
-					result = this.string.replace(JSON.stringify(test.result), '"', '\'')
+					result = this.str.replace(JSON.stringify(test.result), '"', '\'')
 				} else if (typeof test.result === 'object') {
 					result = JSON.stringify(test.result)
 				} else if (typeof test.result === 'string') {

@@ -23,15 +23,15 @@ import { h3lp } from '../'
 `,
 	cases: [{
 		name: 'capitalize',
-		template: '\t\texpect(h3lp.string.capitalize(${test})).toStrictEqual(${result})\n'
+		template: '\t\texpect(h3lp.str.capitalize(${test})).toStrictEqual(${result})\n'
 	},
 	{
 		name: 'initCap',
-		template: '\t\texpect(h3lp.string.initCap(${test})).toStrictEqual(${result})\n'
+		template: '\t\texpect(h3lp.str.initCap(${test})).toStrictEqual(${result})\n'
 	},
 	{
 		name: 'normalize',
-		template: '\t\texpect(h3lp.string.normalize(${test})).toStrictEqual(${result})\n'
+		template: '\t\texpect(h3lp.str.normalize(${test})).toStrictEqual(${result})\n'
 	}]
 }
 
