@@ -8,7 +8,7 @@ const objectTemplate = {
 /* eslint-disable comma-spacing */
 /* eslint-disable key-spacing */
 /* eslint-disable quote-props */
-import { h3lp } from '../../lib'
+import { h3lp } from '../'
 `,
 	cases: [{
 		name: 'access',
@@ -19,7 +19,7 @@ import { h3lp } from '../../lib'
 const stringTemplate = {
 	header:
 `/* eslint-disable @typescript-eslint/no-unused-vars */
-import { h3lp } from '../../lib'
+import { h3lp } from '../'
 `,
 	cases: [{
 		name: 'capitalize',
@@ -38,7 +38,7 @@ import { h3lp } from '../../lib'
 const utilsTemplate = {
 	header:
 `/* eslint-disable no-template-curly-in-string */
-import { h3lp } from '../../lib'
+import { h3lp } from '../'
 `,
 	cases: [{
 		name: 'template',
@@ -58,5 +58,5 @@ import { h3lp } from '../../lib'
 		.add({ source: path.join(root, 'object.json'), template: objectTemplate })
 		.add({ source: path.join(root, 'string.json'), template: stringTemplate })
 		.add({ source: path.join(root, 'utils.json'), template: utilsTemplate })
-		.build('./src/tests/__tests__')
+		.build('./src/lib/__tests__')
 })()
