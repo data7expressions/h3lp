@@ -12,19 +12,20 @@ module.exports = function (grunt) {
 			doc: { cmd: 'npx typedoc ' }
 		},
 		clean: {
-			dist: ['dist']
+			dist: ['dist'],
+			build: ['build']
 		},
 		copy: {
 			lib: { expand: true, cwd: 'build/lib', src: '**', dest: 'dist/' },
 			readme: { expand: true, src: './README.md', dest: 'dist/' },
-			license: { expand: true, src: './LICENSE', dest: 'dist/' }
+			license: { expand: true, src: './LICENSE', dest: 'dist/' },
+			jest: { expand: true, src: './jest-unit-config.json', dest: 'dist/' }
 		}
 	})
 	grunt.registerTask('create-package', 'create package.json for dist', function () {
 		const data = require('./package.json')
 		delete data.devDependencies
 		data.scripts = {
-			lint: data.scripts.lint,
 			test: data.scripts.test
 		}
 		delete data.private
@@ -32,10 +33,9 @@ module.exports = function (grunt) {
 		data.types = 'index.d.ts'
 		fs.writeFileSync('dist/package.json', JSON.stringify(data, null, 2), 'utf8')
 	})
-	grunt.registerTask('dist', ['exec:tsc', 'exec:lint', 'exec:test', 'clean:dist', 'copy:lib', 'copy:readme', 'copy:license', 'create-package'])
-	grunt.registerTask('to_develop', ['build', 'exec:test', 'exec:to_develop'])
+	grunt.registerTask('dist', ['clean:dist', 'clean:build', 'exec:tsc', 'exec:lint', 'exec:test', 'copy:lib', 'copy:jest', 'copy:readme', 'copy:license', 'create-package'])
+	grunt.registerTask('to_develop', ['dist', 'exec:to_develop'])
 	grunt.registerTask('release', ['dist', 'exec:release'])
-	grunt.registerTask('to_develop', ['build', 'exec:to_develop'])
 	grunt.registerTask('doc', ['exec:doc'])
 	grunt.registerTask('default', [])
 }
