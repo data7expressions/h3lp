@@ -1,6 +1,6 @@
 {
 	"name": "h3lp",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Helper for nodeJs",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -18,9 +18,9 @@
 		"url": "https://github.com/FlavioLionelRita/h3lp.git"
 	},
 	"scripts": {
-		"lint": "grunt lint",
-		"build": "grunt build",
-		"test": "grunt test",
+		"lint": "npx eslint src",		
+		"test": "npx jest --config jest-unit-config.json",
+		"build": "npx tsc",
 		"dist": "grunt dist",
 		"to_develop": "grunt to_develop",
 		"release": "grunt release",
@@ -31,13 +31,13 @@
 		"@types/jest": "^27.0.1",
 		"@types/node": "^15.12.2",
 		"@types/yargs": "^17.0.8",
-		"@typescript-eslint/eslint-plugin": "^4.31.1",
-		"@typescript-eslint/parser": "^4.31.1",
-		"eslint": "^7.32.0",
-		"eslint-config-standard": "^16.0.3",
-		"eslint-plugin-import": "^2.25.4",
+		"@typescript-eslint/eslint-plugin": "^5.42.1",
+		"@typescript-eslint/parser": "^5.42.1",
+		"eslint": "^8.27.0",
+		"eslint-config-standard": "^17.0.0",
+		"eslint-plugin-import": "^2.26.0",
 		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-promise": "^5.1.0",
+		"eslint-plugin-promise": "^6.1.1",
 		"glob": "^8.0.3",
 		"grunt": "^1.5.3",
 		"grunt-contrib-clean": "^2.0.1",
@@ -49,9 +49,9 @@
 		"load-grunt-tasks": "^5.1.0",
 		"ts-jest": "^27.0.5",
 		"ts-node": "^10.0.0",
-		"typedoc": "^0.22.11",
-		"typedoc-plugin-markdown": "3.11.14",
-		"typescript": "^4.3.5"
+		"typedoc": "^0.23.21",
+		"typedoc-plugin-markdown": "3.13.6",
+		"typescript": "4.8.4"
 	},
 	"keywords": [
 		"helper",

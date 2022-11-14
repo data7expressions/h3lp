@@ -45,7 +45,7 @@ export class Utils {
 		cwd: string = process.cwd()
 	): Promise<any> {
 		return new Promise<string>((resolve, reject) => {
-			exec(command, { cwd: cwd }, (error: any, stdout: any, stderr: any) => {
+			exec(command, { cwd }, (error: any, stdout: any, stderr: any) => {
 				if (stdout) return resolve(stdout)
 				if (stderr) return resolve(stderr)
 				if (error) return reject(error)
@@ -138,7 +138,7 @@ export class Utils {
 			return result
 		} else if (typeof source === 'string') {
 			const result = this.stringTemplate(source, replacer)
-			if (parse) {
+			if (parse && result.includes('{')) {
 				const obj = this.tryParse(result)
 				return obj !== null ? obj : result
 			} else {

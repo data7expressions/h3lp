@@ -232,7 +232,7 @@ export class ObjectHelper {
 		for (const name in current) {
 			const currentValue = current[name]
 			if (old === undefined || old === null) {
-				delta.new.push({ name: name, new: currentValue })
+				delta.new.push({ name, new: currentValue })
 			} else {
 				this.deltaValue(name, currentValue, old[name], delta)
 			}
@@ -240,7 +240,7 @@ export class ObjectHelper {
 		if (old !== undefined || old !== null) {
 			for (const name in old) {
 				if (current[name] === undefined) {
-					delta.remove.push({ name: name, old: old[name] })
+					delta.remove.push({ name, old: old[name] })
 				}
 			}
 		}
@@ -249,32 +249,32 @@ export class ObjectHelper {
 
 	private deltaValue (name:string, currentValue:any, oldValue:any, delta:Delta):void {
 		if (oldValue === undefined) {
-			delta.new.push({ name: name, new: currentValue })
+			delta.new.push({ name, new: currentValue })
 		} else if (oldValue === null && currentValue === null) {
-			delta.unchanged.push({ name: name, value: oldValue })
+			delta.unchanged.push({ name, value: oldValue })
 		} else if ((oldValue !== null && currentValue === null) || (oldValue === null && currentValue !== null)) {
-			delta.changed.push({ name: name, new: currentValue, old: oldValue, delta: null })
+			delta.changed.push({ name, new: currentValue, old: oldValue, delta: null })
 		} else if (Array.isArray(currentValue)) {
 			this.deltaArrayValue(name, currentValue, oldValue, delta)
 		} else if (this.validator.isObject(currentValue)) {
 			const objectDelta = this.delta(currentValue, oldValue)
 			const change = objectDelta.changed.length + objectDelta.remove.length + objectDelta.new.length > 0
 			if (change) {
-				delta.changed.push({ name: name, new: currentValue, old: oldValue, delta: objectDelta })
+				delta.changed.push({ name, new: currentValue, old: oldValue, delta: objectDelta })
 			} else {
-				delta.unchanged.push({ name: name, value: oldValue })
+				delta.unchanged.push({ name, value: oldValue })
 			}
 		} else if (oldValue !== currentValue) {
-			delta.changed.push({ name: name, new: currentValue, old: oldValue, delta: null })
+			delta.changed.push({ name, new: currentValue, old: oldValue, delta: null })
 		} else {
-			delta.unchanged.push({ name: name, value: oldValue })
+			delta.unchanged.push({ name, value: oldValue })
 		}
 	}
 
 	private deltaArrayValue (name:string, currentValue:any, oldValue:any, delta:Delta):void {
 		if (!Array.isArray(oldValue)) { throw new Error(`current value in ${name} is array by old no`) }
 		if (currentValue.length === 0 && oldValue.length === 0) {
-			delta.unchanged.push({ name: name, value: oldValue })
+			delta.unchanged.push({ name, value: oldValue })
 		}
 		const arrayDelta = new Delta()
 		const news = currentValue.filter((p:any) => oldValue.indexOf(p) === -1)
@@ -290,6 +290,6 @@ export class ObjectHelper {
 		for (const p in unchanged) {
 			arrayDelta.unchanged.push({ name: p, value: p })
 		}
-		delta.children.push({ name: name, type: 'array', change: change, delta: arrayDelta })
+		delta.children.push({ name, type: 'array', change, delta: arrayDelta })
 	}
 }

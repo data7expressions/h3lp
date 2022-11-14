@@ -46,7 +46,7 @@ export class TestSuiteBuilder {
 			for (const test of _caseRequest.tests) {
 				try {
 					const result = _caseRequest.func(test, request.context)
-					_case.tests.push({ test: test, result: result })
+					_case.tests.push({ test, result })
 				} catch (error: any) {
 					console.log(error.stack)
 					console.log(`test: ${test} error: ${error}`)
@@ -111,7 +111,7 @@ export class TestBuilder {
 					result = test.result
 				}
 				const testText = this.utils.template(caseTemplate.template, {
-					result: result,
+					result,
 					// eslint-disable-next-line quotes
 					test: test.test.includes('\n')
 						? '`' + test.test + '`'
