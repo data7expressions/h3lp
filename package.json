@@ -1,6 +1,6 @@
 {
 	"name": "h3lp",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "Helper for nodeJs",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -26,9 +26,6 @@
 		"release": "grunt release",
 		"doc": "grunt doc"
 	},
-	"dependencies": {
-		"jest": "^29.3.1"
-	},
 	"devDependencies": {
 		"@types/glob": "^8.0.0",
 		"@types/jest": "^29.2.2",
@@ -49,6 +46,7 @@
 		"grunt-contrib-uglify": "^5.0.1",
 		"grunt-exec": "^3.0.0",		
 		"load-grunt-tasks": "^5.1.0",
+		"jest": "^29.3.1",
 		"ts-jest": "^29.0.3",
 		"ts-node": "^10.9.1",
 		"typedoc": "^0.23.21",
