@@ -25,10 +25,10 @@ module.exports = function (grunt) {
 	grunt.registerTask('create-package', 'create package.json for dist', function () {
 		const data = require('./package.json')
 		delete data.devDependencies
+		delete data.private
 		data.scripts = {
 			test: data.scripts.test
 		}
-		delete data.private
 		data.main = 'index.js'
 		data.types = 'index.d.ts'
 		fs.writeFileSync('dist/package.json', JSON.stringify(data, null, 2), 'utf8')
