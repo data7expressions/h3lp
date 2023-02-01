@@ -93,10 +93,12 @@ export class Utils {
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	public isAsync (func:Function): boolean {
+		// info: https://stackoverflow.com/questions/38508420/how-to-know-if-a-function-is-async
 		const string = func.toString().trim()
 		return !!(
 			// native
 			string.match(/^async /) ||
+			string.match(/__awaiter/) ||
 			// babel (this may change, but hey...)
 			string.match(/return _ref[^\\.]*\.apply/)
 			// insert your other dirty transpiler check
