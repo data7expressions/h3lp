@@ -17,7 +17,8 @@ export class TestSuiteBuilder {
 	// eslint-disable-next-line no-useless-constructor
 	constructor (
 		private readonly fs: FsHelper,
-		private readonly obj: ObjectHelper
+		private readonly obj: ObjectHelper,
+		private readonly utils: Utils
 	) {}
 
 	public add (test: IBuildTest): TestSuiteBuilder {
@@ -27,7 +28,7 @@ export class TestSuiteBuilder {
 
 	public async build (path: string): Promise<void> {
 		for (const test of this.tests) {
-			const suite = this.buildSuite(test.build())
+			const suite = await this.buildSuite(test.build())
 			await this.fs.write(
 				`${path}/${suite.name}.json`,
 				JSON.stringify(suite, null, 2)
@@ -35,7 +36,7 @@ export class TestSuiteBuilder {
 		}
 	}
 
-	private buildSuite (request: TestSuiteRequest): TestSuite {
+	private async buildSuite (request: TestSuiteRequest): Promise<TestSuite> {
 		const suite: TestSuite = {
 			name: request.name,
 			context: this.obj.clone(request.context),
@@ -45,8 +46,13 @@ export class TestSuiteBuilder {
 			const _case: TestCase = { name: _caseRequest.name, tests: [] }
 			for (const test of _caseRequest.tests) {
 				try {
-					const result = _caseRequest.func(test, request.context)
-					_case.tests.push({ test, result })
+					if (this.utils.isAsync(_caseRequest.func)) {
+						const result = await _caseRequest.func(test, request.context)
+						_case.tests.push({ test, result })
+					} else {
+						const result = _caseRequest.func(test, request.context)
+						_case.tests.push({ test, result })
+					}
 				} catch (error: any) {
 					console.log(error.stack)
 					console.log(`test: ${test} error: ${error}`)
@@ -154,6 +160,6 @@ export class TestHelper {
 	}
 
 	public createSuiteBuilder (): TestSuiteBuilder {
-		return new TestSuiteBuilder(this.fs, this.obj)
+		return new TestSuiteBuilder(this.fs, this.obj, this.utils)
 	}
 }
