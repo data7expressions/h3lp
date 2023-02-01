@@ -40,10 +40,12 @@ export class TestSuiteBuilder {
 		const suite: TestSuite = {
 			name: request.name,
 			context: this.obj.clone(request.context),
-			cases: []
+			cases: [],
+			errors: 0
 		}
 		for (const _caseRequest of request.cases) {
-			const _case: TestCase = { name: _caseRequest.name, tests: [] }
+			const _case: TestCase = { name: _caseRequest.name, tests: [], errors: 0 }
+			let errors = 0
 			for (const test of _caseRequest.tests) {
 				try {
 					if (this.utils.isAsync(_caseRequest.func)) {
@@ -54,12 +56,14 @@ export class TestSuiteBuilder {
 						_case.tests.push({ test, result })
 					}
 				} catch (error: any) {
-					console.log(error.stack)
-					console.log(`test: ${test} error: ${error}`)
+					errors++
+					_case.tests.push({ test, error: error.toString(), stack: error.stack.toString() })
 				}
 			}
+			_case.errors = errors
 			suite.cases.push(_case)
 		}
+		suite.errors = suite.cases.reduce((errors, p) => p.errors + errors, 0)
 		return suite
 	}
 }

@@ -1,12 +1,15 @@
 
 export interface Test {
 	test:any
-	result:any
+	result?:any
+	error?:string
+	stack?:string
 }
 
 export interface TestCase {
 	name:string
 	tests:Test[]
+	errors: number
 }
 
 export interface TestSuite {
@@ -14,6 +17,7 @@ export interface TestSuite {
 	// method: string
 	context?:any
 	cases:TestCase[]
+	errors: number
 }
 
 export interface TestCaseRequest {
