@@ -91,6 +91,19 @@ export class Utils {
 		return hash
 	}
 
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	public isAsync (func:Function): boolean {
+		const string = func.toString().trim()
+		return !!(
+			// native
+			string.match(/^async /) ||
+			// babel (this may change, but hey...)
+			string.match(/return _ref[^\\.]*\.apply/)
+			// insert your other dirty transpiler check
+			// there are other more complex situations that maybe require you to check the return line for a *promise*
+		)
+	}
+
 	public solveEnvironmentVars (source: any): any {
 		return this.template(source, this.createEnvironmentVariableReplacer(), true)
 	}
