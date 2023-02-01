@@ -64,6 +64,9 @@ export class TestSuiteBuilder {
 			suite.cases.push(_case)
 		}
 		suite.errors = suite.cases.reduce((errors, p) => p.errors + errors, 0)
+		if (suite.errors > 0) {
+			console.error(`${suite.name} ${suite.errors} errors`)
+		}
 		return suite
 	}
 }
