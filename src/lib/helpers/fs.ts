@@ -23,6 +23,13 @@ export class FsHelper {
 		})
 	}
 
+	// public async mkdir (sourcePath:string):Promise<void> {
+	// const fullPath = this.resolve(sourcePath)
+	// return new Promise<void>((resolve, reject) => {
+	// fs.mkdir(fullPath, { recursive: true }, err => err ? reject(err) : resolve())
+	// })
+	// }
+
 	public resolve (source:string):string {
 		const _source = source.trim()
 		if (_source.startsWith('.')) {
@@ -67,7 +74,7 @@ export class FsHelper {
 		const filePath = this.resolve(sourcePath)
 		const dir = path.dirname(filePath)
 		if (!await this.exists(dir)) {
-			await this.mkdir(dir)
+			await this.create(dir)
 		}
 		return new Promise<void>((resolve, reject) => {
 			fs.writeFile(filePath, content, { encoding: 'utf8' }, err => err ? reject(err) : resolve())
@@ -78,17 +85,10 @@ export class FsHelper {
 		const filePath = this.resolve(sourcePath)
 		const dir = path.dirname(filePath)
 		if (!await this.exists(dir)) {
-			await this.mkdir(dir)
+			await this.create(dir)
 		}
 		return new Promise<void>((resolve, reject) => {
 			fs.writeFile(filePath, content, err => err ? reject(err) : resolve())
-		})
-	}
-
-	public async mkdir (sourcePath:string):Promise<void> {
-		const fullPath = this.resolve(sourcePath)
-		return new Promise<void>((resolve, reject) => {
-			fs.mkdir(fullPath, { recursive: true }, err => err ? reject(err) : resolve())
 		})
 	}
 
