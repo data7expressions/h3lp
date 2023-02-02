@@ -1,9 +1,11 @@
 {
     "cSpell.words": [
         "Brieger",
+        "concat",
         "ecma",
         "Flavio",
         "flaviolrita",
-        "Gruntfile"
+        "Gruntfile",
+        "readdir"
     ]
 }
