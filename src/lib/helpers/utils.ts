@@ -58,6 +58,16 @@ export class Utils {
 		return this.validator.isNull(value) ? 0 : parseFloat(value)
 	}
 
+	/**
+	 * Random integer between 2 numbers
+	 * @param min
+	 * @param max
+	 * @returns
+	 */
+	public randomInteger (min:number, max:number): number {
+		return Math.floor(Math.random() * (max - min)) + min
+	}
+
 	public nvl (value: any, _default: any): any {
 		return !this.validator.isEmpty(value) ? value : _default
 	}
