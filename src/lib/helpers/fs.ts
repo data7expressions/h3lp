@@ -109,4 +109,11 @@ export class FsHelper {
 				: resolve(items))
 		})
 	}
+
+	public async isDirectory (sourcePath:string) {
+		if (await this.exists(sourcePath)) {
+			return fs.lstatSync(sourcePath).isDirectory()
+		}
+		return path.parse(sourcePath).ext.toLocaleLowerCase() === ''
+	}
 }

@@ -62,8 +62,10 @@ export class ObjectHelper {
 		}
 	}
 
-	public getValue (source:any, _name:string) :any {
-		const names = this.names(_name)
+	public getValue (source:any, _name:string) :any
+	public getValue (source:any, _name:string[]) :any
+	public getValue (source:any, _name:string|string[]) :any {
+		const names = Array.isArray(_name) ? _name : this.names(_name)
 		let value = source
 		for (const name of names) {
 			if (Array.isArray(value)) {
@@ -93,8 +95,10 @@ export class ObjectHelper {
 		return value
 	}
 
-	public setValue (source:any, name:string, value:any):boolean {
-		const names = name.split('.')
+	public setValue (source:any, name:string, value:any):boolean
+	public setValue (source:any, name:string[], value:any):boolean
+	public setValue (source:any, name:string|string[], value:any):boolean {
+		const names = Array.isArray(name) ? name : name.split('.')
 		const level = names.length - 1
 		let data = source
 		for (let i = 0; i < names.length; i++) {
