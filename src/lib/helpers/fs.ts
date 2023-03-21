@@ -101,7 +101,7 @@ export class FsHelper {
 		})
 	}
 
-	public async readdir (sourcePath:string) {
+	public async readdir (sourcePath:string):Promise<string[]> {
 		const fullPath = this.resolve(sourcePath)
 		return new Promise((resolve, reject) => {
 			fs.readdir(fullPath, (err, items) => err
