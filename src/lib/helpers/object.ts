@@ -9,20 +9,23 @@ export class ObjectHelper {
 		return obj && typeof obj === 'object' ? JSON.parse(JSON.stringify(obj)) : obj
 	}
 
-	public extends (obj: any, base: any):any {
+	public extends (obj: any, base: any, excludes:string[] = []):any {
 		if (obj === null || obj === undefined) {
 			return base
 		}
 		if (base === null || base === undefined) {
 			return obj
 		}
-		return this._extends(this.clone(obj), base)
+		return this._extends(this.clone(obj), base, excludes)
 	}
 
-	private _extends (obj: any, base: any) {
+	private _extends (obj: any, base: any, excludes:string[]) {
 		if (Array.isArray(base)) {
 			if (base.length === 0) {
 				return obj
+			}
+			if (!Array.isArray(obj)) {
+				return base
 			}
 			if (Array.isArray(base[0])) {
 				throw new Error('extends array of array not supported')
@@ -32,15 +35,18 @@ export class ObjectHelper {
 				if (index === -1) {
 					obj.push(this.clone(itemBase))
 				} else {
-					this._extends(obj[index], itemBase)
+					this._extends(obj[index], itemBase, excludes)
 				}
 			}
 		} else if (typeof base === 'object') {
 			for (const entry of Object.entries(base)) {
-				if (obj[entry[0]] === undefined) {
-					obj[entry[0]] = this.clone(entry[1])
-				} else if (typeof obj[entry[0]] === 'object') {
-					this._extends(obj[entry[0]], entry[1])
+				const name = entry[0]
+				const value = entry[1]
+				if (excludes.includes(name)) continue
+				if (obj[name] === undefined) {
+					obj[name] = this.clone(value)
+				} else if (typeof obj[name] === 'object') {
+					this._extends(obj[name], value, excludes)
 				}
 			}
 		}
