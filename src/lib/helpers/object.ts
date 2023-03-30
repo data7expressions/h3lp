@@ -20,7 +20,9 @@ export class ObjectHelper {
 	}
 
 	private _extends (obj: any, base: any, excludes:string[]) {
-		if (Array.isArray(base)) {
+		if (base === undefined || base === null) {
+			return obj
+		} else if (Array.isArray(base)) {
 			if (base.length === 0) {
 				return obj
 			}
@@ -42,7 +44,9 @@ export class ObjectHelper {
 			for (const entry of Object.entries(base)) {
 				const name = entry[0]
 				const value = entry[1]
-				if (excludes.includes(name)) continue
+				if (value === undefined || value === null || excludes.includes(name)) {
+					continue
+				}
 				if (obj[name] === undefined) {
 					obj[name] = this.clone(value)
 				} else if (typeof obj[name] === 'object') {
