@@ -1,9 +1,8 @@
-import { Validator } from './validator'
-import { NormalizeOptions } from '../contract/base'
-
-export class StringHelper {
+import { NormalizeOptions } from '../domain/base'
+import { IStringHelper, IValidator } from '../application'
+export class StringHelper implements IStringHelper {
 	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly validator: Validator) { }
+	constructor (private readonly validator: IValidator) { }
 
 	public toString (value: any): string {
 		return this.validator.isNull(value) ? '' : value.toString()

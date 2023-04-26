@@ -1,7 +1,8 @@
 import fs from 'fs'
 import path from 'path'
+import { IFsHelper } from '../application'
 
-export class FsHelper {
+export class FsHelper implements IFsHelper {
 	public async exists (sourcePath:string):Promise<boolean> {
 		const fullPath = this.resolve(sourcePath)
 		return new Promise<boolean>((resolve) => {
@@ -110,7 +111,7 @@ export class FsHelper {
 		})
 	}
 
-	public async isDirectory (sourcePath:string) {
+	public async isDirectory (sourcePath:string): Promise<boolean> {
 		if (await this.exists(sourcePath)) {
 			return fs.lstatSync(sourcePath).isDirectory()
 		}

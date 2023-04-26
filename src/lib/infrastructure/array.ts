@@ -1,4 +1,5 @@
-export class ArrayHelper {
+import { IArrayHelper } from '../application'
+export class ArrayHelper implements IArrayHelper {
 	/**
      * Gets an array with no duplicates
      * @param array array

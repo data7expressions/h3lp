@@ -5,23 +5,20 @@ import {
 	IBuildTest,
 	TestBuildInfo,
 	TestSuiteTemplate
-} from '../contract/test'
-import { Utils } from './utils'
-import { FsHelper } from './fs'
-import { ObjectHelper } from './object'
-import { StringHelper } from './string'
+} from '../domain'
+import { ITestSuiteBuilder, ITestBuilder, ITestHelper, IStringHelper, IObjectHelper, IFsHelper, IUtils } from '../application'
 
-export class TestSuiteBuilder {
+export class TestSuiteBuilder implements ITestSuiteBuilder {
 	private tests: IBuildTest[] = []
 
 	// eslint-disable-next-line no-useless-constructor
 	constructor (
-		private readonly fs: FsHelper,
-		private readonly obj: ObjectHelper,
-		private readonly utils: Utils
+		private readonly fs: IFsHelper,
+		private readonly obj: IObjectHelper,
+		private readonly utils: IUtils
 	) {}
 
-	public add (test: IBuildTest): TestSuiteBuilder {
+	public add (test: IBuildTest): ITestSuiteBuilder {
 		this.tests.push(test)
 		return this
 	}
@@ -71,14 +68,14 @@ export class TestSuiteBuilder {
 	}
 }
 
-export class TestBuilder {
+export class TestBuilder implements ITestBuilder {
 	private tests: TestBuildInfo[] = []
 
 	// eslint-disable-next-line no-useless-constructor
 	constructor (
-		private readonly str: StringHelper,
-		private readonly utils: Utils,
-		private readonly fs: FsHelper
+		private readonly str: IStringHelper,
+		private readonly utils: IUtils,
+		private readonly fs: IFsHelper
 	) {}
 
 	public add (info: TestBuildInfo): TestBuilder {
@@ -153,13 +150,13 @@ export class TestBuilder {
 	}
 }
 
-export class TestHelper {
+export class TestHelper implements ITestHelper {
 	// eslint-disable-next-line no-useless-constructor
 	constructor (
-		private readonly string: StringHelper,
-		private readonly obj: ObjectHelper,
-		private readonly utils: Utils,
-		private readonly fs: FsHelper
+		private readonly string: IStringHelper,
+		private readonly obj: IObjectHelper,
+		private readonly utils: IUtils,
+		private readonly fs: IFsHelper
 	) {}
 
 	public createBuilder (): TestBuilder {

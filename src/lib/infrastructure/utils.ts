@@ -1,7 +1,6 @@
-import { Validator } from './validator'
-import { ObjectHelper } from './object'
-import { IReplacer } from '../contract'
+import { IReplacer } from '../domain'
 import { exec } from 'child_process'
+import { IContextReplacer, IUtils, IValidator, IObjectHelper } from '../application'
 
 export class EnvironmentVariableReplacer implements IReplacer {
 	replace (match: string): string | undefined {
@@ -9,10 +8,10 @@ export class EnvironmentVariableReplacer implements IReplacer {
 	}
 }
 
-export class ContextReplacer implements IReplacer {
+export class ContextReplacer implements IContextReplacer {
 	private _context?: any
 	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly obj: ObjectHelper) {}
+	constructor (private readonly obj: IObjectHelper) {}
 
 	public context (context: any): ContextReplacer {
 		this._context = context
@@ -24,11 +23,11 @@ export class ContextReplacer implements IReplacer {
 	}
 }
 
-export class Utils {
+export class Utils implements IUtils {
 	// eslint-disable-next-line no-useless-constructor
 	constructor (
-		private readonly validator: Validator,
-		private readonly obj: ObjectHelper
+		private readonly validator: IValidator,
+		private readonly obj: IObjectHelper
 	) {}
 
 	public getType (value: any): string {

@@ -1,4 +1,4 @@
-import { ICache } from '../contract'
+import { ICache } from '../domain'
 
 export class MemoryCache<K, T> implements ICache<K, T> {
 	// eslint-disable-next-line no-useless-constructor

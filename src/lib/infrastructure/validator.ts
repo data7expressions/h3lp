@@ -1,4 +1,5 @@
-export class Validator {
+import { IValidator } from '../application'
+export class Validator implements IValidator {
 	private reInt:RegExp
 	private reDecimal:RegExp
 	private reAlphanumeric:RegExp

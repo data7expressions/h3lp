@@ -1,10 +1,10 @@
-import { StringHelper } from './string'
 import https from 'https'
 import http from 'http'
+import { IHttpHelper, IStringHelper } from '../application'
 
-export class HttpHelper {
+export class HttpHelper implements IHttpHelper {
 	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly str: StringHelper) { }
+	constructor (private readonly str: IStringHelper) { }
 
 	public async get (uri: any): Promise<any> {
 		// https://www.geeksforgeeks.org/node-js-https-request-function/

@@ -1,9 +1,8 @@
 import { Delta } from '../index'
-import { HttpHelper } from './http'
-import { Validator } from './validator'
-export class ObjectHelper {
+import { IObjectHelper, IHttpHelper, IValidator } from '../application'
+export class ObjectHelper implements IObjectHelper {
 	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly http: HttpHelper, private readonly validator: Validator) { }
+	constructor (private readonly http: IHttpHelper, private readonly validator: IValidator) { }
 
 	public clone (obj:any):any {
 		return obj && typeof obj === 'object' ? JSON.parse(JSON.stringify(obj)) : obj
