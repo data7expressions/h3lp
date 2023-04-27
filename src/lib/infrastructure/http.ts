@@ -1,12 +1,12 @@
 import https from 'https'
 import http from 'http'
 import { IHttpHelper, IStringHelper } from '../application'
-import { Service } from '../domain'
+import { Service, Autowired } from '../domain'
 
 @Service('helper.http')
 export class HttpHelper implements IHttpHelper {
-	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly str: IStringHelper) { }
+	@Autowired('helper.str')
+	private str! :IStringHelper
 
 	public async get (uri: any): Promise<any> {
 		// https://www.geeksforgeeks.org/node-js-https-request-function/

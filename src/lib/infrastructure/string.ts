@@ -1,11 +1,11 @@
 import { NormalizeOptions } from '../domain/base'
 import { IStringHelper, IValidator } from '../application'
-import { Service } from '../domain'
+import { Service, Autowired } from '../domain'
 
 @Service('helper.str')
 export class StringHelper implements IStringHelper {
-	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly validator: IValidator) { }
+	@Autowired('helper.val')
+	private validator!:IValidator
 
 	public toString (value: any): string {
 		return this.validator.isNull(value) ? '' : value.toString()
@@ -32,7 +32,7 @@ export class StringHelper implements IStringHelper {
 		}
 	}
 
-	public capitalize = function (str: string): string {
+	public capitalize (str: string): string {
 		return str.charAt(0).toUpperCase() + str.slice(1)
 	}
 

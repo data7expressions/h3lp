@@ -6,12 +6,13 @@
     "editor.tabSize": 2,
     "editor.insertSpaces": false,
     "cSpell.words": [
-        "Brieger",
-        "concat",
-        "ecma",
-        "Flavio",
-        "flaviolrita",
-        "Gruntfile",
-        "readdir"
+      "Autowired",
+      "Brieger",
+      "concat",
+      "ecma",
+      "Flavio",
+      "flaviolrita",
+      "Gruntfile",
+      "readdir"
     ]
 }

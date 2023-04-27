@@ -1,11 +1,14 @@
 import { Delta } from '../index'
 import { IObjectHelper, IHttpHelper, IValidator } from '../application'
-import { Service } from '../domain'
+import { Service, Autowired } from '../domain'
 
 @Service('helper.obj')
 export class ObjectHelper implements IObjectHelper {
-	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly http: IHttpHelper, private readonly validator: IValidator) { }
+	@Autowired('helper.http')
+	private http!:IHttpHelper
+
+	@Autowired('helper.val')
+	private validator!:IValidator
 
 	public clone (obj:any):any {
 		return obj && typeof obj === 'object' ? JSON.parse(JSON.stringify(obj)) : obj

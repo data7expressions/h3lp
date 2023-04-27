@@ -1,14 +1,14 @@
-import { IReplacer, Service } from '../domain'
+import { IReplacer, Service, Autowired } from '../domain'
 import { exec } from 'child_process'
 import { ContextReplacer, EnvironmentVariableReplacer, IUtils, IValidator, IObjectHelper } from '../application'
 
 @Service('helper.utils')
 export class Utils implements IUtils {
-	// eslint-disable-next-line no-useless-constructor
-	constructor (
-		private readonly validator: IValidator,
-		private readonly obj: IObjectHelper
-	) {}
+	@Autowired('helper.val')
+	private validator!:IValidator
+
+	@Autowired('helper.obj')
+	private obj!:IObjectHelper
 
 	public getType (value: any): string {
 		if (Array.isArray(value)) return 'array'
