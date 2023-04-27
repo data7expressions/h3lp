@@ -1,100 +1,78 @@
 import { IUtils, IValidator, IFsHelper, IHttpHelper, IObjectHelper, IStringHelper, ITestHelper, IArrayHelper } from '.'
 export class H3lp {
-	private _utils?:IUtils
-	private _val?:IValidator
-	private _fs?:IFsHelper
-	private _http?:IHttpHelper
-	private _obj?:IObjectHelper
-	private _str?:IStringHelper
-	private _test?:ITestHelper
-	private _array?:IArrayHelper
-
-	public get utils ():IUtils {
-		if (this._utils === undefined) {
-			throw new Error('Utils not implemented')
+	private static instances:any = {}
+	public static add (...instances:any[]):void {
+		for (const instance of instances) {
+			H3lp._add(instance)
 		}
-		return this._utils
 	}
 
-	public set utils (value:IUtils) {
-		this._utils = value
+	private static _add (instance:any):void {
+		if (instance.__service === undefined) {
+			throw new Error('instance not implement Service decorator')
+		}
+		const names = instance.__service.split('.')
+		const level = names.length - 1
+		let data = H3lp.instances
+		for (let i = 0; i < names.length; i++) {
+			const name = names[i]
+			if (i === level) {
+				data[name] = instance
+				return
+			}
+			if (data[name] === undefined) {
+				data[name] = {}
+			}
+			data = data[name]
+		}
+	}
+
+	public static get<T> (service:string):T {
+		const names = service.split('.')
+		let value = H3lp.instances
+		for (const name of names) {
+			if (value[name] === undefined) {
+				throw new Error(`Service ${service} cannot found`)
+			} else {
+				value = value[name]
+			}
+		}
+		const instance:T = value as T
+		if (instance === undefined) {
+			throw new Error(`Service ${service} not implemented`)
+		}
+		return instance
+	}
+
+	public get utils ():IUtils {
+		return H3lp.get<IUtils>('helper.utils')
 	}
 
 	public get val ():IValidator {
-		if (this._val === undefined) {
-			throw new Error('Validator not implemented')
-		}
-		return this._val
-	}
-
-	public set val (value:IValidator) {
-		this._val = value
+		return H3lp.get<IValidator>('helper.val')
 	}
 
 	public get fs ():IFsHelper {
-		if (this._fs === undefined) {
-			throw new Error('Fs Helper not implemented')
-		}
-		return this._fs
-	}
-
-	public set fs (value:IFsHelper) {
-		this._fs = value
+		return H3lp.get<IFsHelper>('helper.fs')
 	}
 
 	public get http ():IHttpHelper {
-		if (this._http === undefined) {
-			throw new Error('Http Helper not implemented')
-		}
-		return this._http
-	}
-
-	public set http (value:IHttpHelper) {
-		this._http = value
+		return H3lp.get<IHttpHelper>('helper.http')
 	}
 
 	public get obj ():IObjectHelper {
-		if (this._obj === undefined) {
-			throw new Error('Obj Helper not implemented')
-		}
-		return this._obj
-	}
-
-	public set obj (value:IObjectHelper) {
-		this._obj = value
+		return H3lp.get<IObjectHelper>('helper.obj')
 	}
 
 	public get str ():IStringHelper {
-		if (this._str === undefined) {
-			throw new Error('String Helper not implemented')
-		}
-		return this._str
-	}
-
-	public set str (value:IStringHelper) {
-		this._str = value
+		return H3lp.get<IStringHelper>('helper.str')
 	}
 
 	public get test ():ITestHelper {
-		if (this._test === undefined) {
-			throw new Error('Test Helper not implemented')
-		}
-		return this._test
-	}
-
-	public set test (value:ITestHelper) {
-		this._test = value
+		return H3lp.get<ITestHelper>('helper.test')
 	}
 
 	public get array ():IArrayHelper {
-		if (this._array === undefined) {
-			throw new Error('Test Helper not implemented')
-		}
-		return this._array
-	}
-
-	public set array (value:IArrayHelper) {
-		this._array = value
+		return H3lp.get<IArrayHelper>('helper.array')
 	}
 }
-export const h3lp = new H3lp()

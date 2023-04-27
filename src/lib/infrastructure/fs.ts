@@ -1,7 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 import { IFsHelper } from '../application'
+import { Service } from '../domain'
 
+@Service('helper.fs')
 export class FsHelper implements IFsHelper {
 	public async exists (sourcePath:string):Promise<boolean> {
 		const fullPath = this.resolve(sourcePath)

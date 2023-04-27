@@ -1,5 +1,8 @@
 import { Delta } from '../index'
 import { IObjectHelper, IHttpHelper, IValidator } from '../application'
+import { Service } from '../domain'
+
+@Service('helper.obj')
 export class ObjectHelper implements IObjectHelper {
 	// eslint-disable-next-line no-useless-constructor
 	constructor (private readonly http: IHttpHelper, private readonly validator: IValidator) { }

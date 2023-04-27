@@ -1,4 +1,6 @@
 import { IValidator } from '../application'
+import { Service } from '../domain'
+@Service('helper.val')
 export class Validator implements IValidator {
 	private reInt:RegExp
 	private reDecimal:RegExp

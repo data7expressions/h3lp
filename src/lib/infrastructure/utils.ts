@@ -1,28 +1,8 @@
-import { IReplacer } from '../domain'
+import { IReplacer, Service } from '../domain'
 import { exec } from 'child_process'
-import { IContextReplacer, IUtils, IValidator, IObjectHelper } from '../application'
+import { ContextReplacer, EnvironmentVariableReplacer, IUtils, IValidator, IObjectHelper } from '../application'
 
-export class EnvironmentVariableReplacer implements IReplacer {
-	replace (match: string): string | undefined {
-		return process.env[match]
-	}
-}
-
-export class ContextReplacer implements IContextReplacer {
-	private _context?: any
-	// eslint-disable-next-line no-useless-constructor
-	constructor (private readonly obj: IObjectHelper) {}
-
-	public context (context: any): ContextReplacer {
-		this._context = context
-		return this
-	}
-
-	replace (match: string): string | undefined {
-		return this.obj.getValue(this._context, match)
-	}
-}
-
+@Service('helper.utils')
 export class Utils implements IUtils {
 	// eslint-disable-next-line no-useless-constructor
 	constructor (

@@ -1,4 +1,5 @@
 import { IReplacer } from '../domain'
+import { IObjectHelper } from './object'
 
 export interface IContextReplacer extends IReplacer {
 	context (context: any): IContextReplacer
@@ -21,4 +22,25 @@ export interface IUtils {
 	createContextReplacer () :IContextReplacer
 	template (template: any, replacer: IReplacer | any, parse?:boolean): string
 	implementReplacer (replacer: any): boolean
+}
+
+export class EnvironmentVariableReplacer implements IReplacer {
+	replace (match: string): string | undefined {
+		return process.env[match]
+	}
+}
+
+export class ContextReplacer implements IContextReplacer {
+	private _context?: any
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly obj: IObjectHelper) {}
+
+	public context (context: any): ContextReplacer {
+		this._context = context
+		return this
+	}
+
+	replace (match: string): string | undefined {
+		return this.obj.getValue(this._context, match)
+	}
 }

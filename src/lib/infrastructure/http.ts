@@ -1,7 +1,9 @@
 import https from 'https'
 import http from 'http'
 import { IHttpHelper, IStringHelper } from '../application'
+import { Service } from '../domain'
 
+@Service('helper.http')
 export class HttpHelper implements IHttpHelper {
 	// eslint-disable-next-line no-useless-constructor
 	constructor (private readonly str: IStringHelper) { }

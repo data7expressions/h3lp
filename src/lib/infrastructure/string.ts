@@ -1,5 +1,8 @@
 import { NormalizeOptions } from '../domain/base'
 import { IStringHelper, IValidator } from '../application'
+import { Service } from '../domain'
+
+@Service('helper.str')
 export class StringHelper implements IStringHelper {
 	// eslint-disable-next-line no-useless-constructor
 	constructor (private readonly validator: IValidator) { }
