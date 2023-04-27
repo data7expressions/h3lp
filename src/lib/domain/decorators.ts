@@ -9,8 +9,12 @@ export function Service (name:string) {
 
 export function Autowired (name: string) {
 	return function (target: any, propertyKey: string) {
+		let instance : any
 		const getter = function () {
-			return Factory.get(name)
+			if (instance === undefined) {
+				instance = Factory.get(name)
+			}
+			return instance
 		}
 		Object.defineProperty(target, propertyKey, {
 			get: getter
