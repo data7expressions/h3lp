@@ -151,7 +151,7 @@ export class TestBuilder implements ITestBuilder {
 	}
 }
 
-@Service('helper.helper')
+@Service('helper.test')
 export class TestHelper implements ITestHelper {
 	public createBuilder (): TestBuilder {
 		return new TestBuilder()
