@@ -2,23 +2,14 @@ import { IValidator } from '../application'
 import { Service } from '../domain'
 @Service('helper.val')
 export class Validator implements IValidator {
-	private reInt:RegExp
-	private reDecimal:RegExp
-	private reAlphanumeric:RegExp
-	private reAlpha:RegExp
-	private reDate:RegExp
-	private reDateTime: RegExp
-	private reTime: RegExp
-	constructor () {
-		this.reInt = /^[0-9]+$/ // /^\d+$/
-		this.reDecimal = /^[0-9]*[.][0-9]+$/ // /^\d+\.\d+$/
-		this.reAlphanumeric = /[a-zA-Z0-9_.]+$/
-		this.reAlpha = /[a-zA-Z]+$/
-		this.reDate = /^\d{4}-\d{2}-\d{2}$/
-		this.reDateTime = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/
-		// https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime
-		this.reTime = /\[0-2]\d:[0-5]\d:[0-5]\d/
-	}
+	private get reAlphanumeric ():RegExp { return /[a-zA-Z0-9_.]+$/ }
+	private get reInt ():RegExp { return /^[0-9]+$/ }
+	private get reDecimal ():RegExp { return /^[0-9]*[.][0-9]+$/ }
+	private get reAlpha ():RegExp { return /[a-zA-Z]+$/ }
+	private get reDate ():RegExp { return /^\d{4}-\d{2}-\d{2}$/ }
+	private get reDateTime ():RegExp { return /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/ }
+	// https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime
+	private get reTime ():RegExp { return /\[0-2]\d:[0-5]\d:[0-5]\d/ }
 
 	public isObject (obj:any):boolean {
 		return obj && typeof obj === 'object' && obj.constructor === Object && !Array.isArray(obj)

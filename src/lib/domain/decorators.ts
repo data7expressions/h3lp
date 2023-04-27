@@ -3,7 +3,7 @@ import { Factory } from './factory'
 
 export function Service (name:string) {
 	return function (constructor: Function) {
-		Factory.add(name, constructor.prototype)
+		Factory.add(name, Object.create(constructor.prototype))
 	}
 }
 

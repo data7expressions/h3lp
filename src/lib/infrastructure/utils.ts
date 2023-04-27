@@ -99,11 +99,11 @@ export class Utils implements IUtils {
 		return this.template(source, this.createEnvironmentVariableReplacer(), true)
 	}
 
-	public createEnvironmentVariableReplacer () {
+	public createEnvironmentVariableReplacer ():EnvironmentVariableReplacer {
 		return new EnvironmentVariableReplacer()
 	}
 
-	public createContextReplacer () {
+	public createContextReplacer ():ContextReplacer {
 		return new ContextReplacer(this.obj)
 	}
 
