@@ -1,4 +1,6 @@
+import { Sealed } from './decorators'
 
+@Sealed
 export class Factory {
 	private static instances:any = {}
 	public static add (service:string, instance:any):void {
