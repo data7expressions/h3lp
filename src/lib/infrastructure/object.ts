@@ -2,12 +2,12 @@ import { Delta } from '../index'
 import { IObjectHelper, IHttpHelper, IValidator } from '../application'
 import { Service, Autowired } from '../domain'
 
-@Service('helper.obj')
+@Service('h3lp.obj')
 export class ObjectHelper implements IObjectHelper {
-	@Autowired('helper.http')
+	@Autowired('h3lp.http')
 	private http!:IHttpHelper
 
-	@Autowired('helper.val')
+	@Autowired('h3lp.val')
 	private validator!:IValidator
 
 	public clone (obj:any):any {

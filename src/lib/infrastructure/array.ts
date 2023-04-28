@@ -1,7 +1,7 @@
 import { IArrayHelper } from '../application'
 import { Service } from '../domain'
 
-@Service('helper.array')
+@Service('h3lp.array')
 export class ArrayHelper implements IArrayHelper {
 	/**
      * Gets an array with no duplicates

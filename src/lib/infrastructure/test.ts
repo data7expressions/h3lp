@@ -6,13 +6,13 @@ import {
 import { ITestHelper, IStringHelper, IObjectHelper, IFsHelper, IUtils, ITestSuiteBuilder, ITestBuilder } from '../application'
 
 export class TestSuiteBuilder implements ITestSuiteBuilder {
-	@Autowired('helper.obj')
+	@Autowired('h3lp.obj')
 	private obj!:IObjectHelper
 
-	@Autowired('helper.utils')
+	@Autowired('h3lp.utils')
 	private utils!:IUtils
 
-	@Autowired('helper.fs')
+	@Autowired('h3lp.fs')
 	private fs!:IFsHelper
 
 	private tests: IBuildTest[] = []
@@ -70,13 +70,13 @@ export class TestSuiteBuilder implements ITestSuiteBuilder {
 export class TestBuilder implements ITestBuilder {
 	private tests: TestBuildInfo[] = []
 
-	@Autowired('helper.utils')
+	@Autowired('h3lp.utils')
 	private utils!:IUtils
 
-	@Autowired('helper.fs')
+	@Autowired('h3lp.fs')
 	private fs!:IFsHelper
 
-	@Autowired('helper.str')
+	@Autowired('h3lp.string')
 	private str!:IStringHelper
 
 	public add (info: TestBuildInfo): TestBuilder {
@@ -151,7 +151,7 @@ export class TestBuilder implements ITestBuilder {
 	}
 }
 
-@Service('helper.test')
+@Service('h3lp.test')
 export class TestHelper implements ITestHelper {
 	public createBuilder (): TestBuilder {
 		return new TestBuilder()

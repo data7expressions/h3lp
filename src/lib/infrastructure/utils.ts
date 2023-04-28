@@ -2,12 +2,12 @@ import { IReplacer, Service, Autowired } from '../domain'
 import { exec } from 'child_process'
 import { ContextReplacer, EnvironmentVariableReplacer, IUtils, IValidator, IObjectHelper } from '../application'
 
-@Service('helper.utils')
+@Service('h3lp.utils')
 export class Utils implements IUtils {
-	@Autowired('helper.val')
+	@Autowired('h3lp.val')
 	private validator!:IValidator
 
-	@Autowired('helper.obj')
+	@Autowired('h3lp.obj')
 	private obj!:IObjectHelper
 
 	public getType (value: any): string {

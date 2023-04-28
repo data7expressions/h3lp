@@ -3,9 +3,9 @@ import http from 'http'
 import { IHttpHelper, IStringHelper } from '../application'
 import { Service, Autowired } from '../domain'
 
-@Service('helper.http')
+@Service('h3lp.http')
 export class HttpHelper implements IHttpHelper {
-	@Autowired('helper.str')
+	@Autowired('h3lp.string')
 	private str! :IStringHelper
 
 	public async get (uri: any): Promise<any> {

@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Factory } from './factory'
 
+export function Sealed (constructor: Function) {
+	Object.seal(constructor)
+	Object.seal(constructor.prototype)
+}
+
 export function Service (name:string) {
 	return function (constructor: Function) {
 		Factory.add(name, Object.create(constructor.prototype))
 	}
-}
-
-export function Sealed (constructor: Function) {
-	Object.seal(constructor)
-	Object.seal(constructor.prototype)
 }
 
 export function Autowired (name: string) {

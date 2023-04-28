@@ -3,7 +3,7 @@ import path from 'path'
 import { IFsHelper } from '../application'
 import { Service } from '../domain'
 
-@Service('helper.fs')
+@Service('h3lp.fs')
 export class FsHelper implements IFsHelper {
 	public async exists (sourcePath:string):Promise<boolean> {
 		const fullPath = this.resolve(sourcePath)

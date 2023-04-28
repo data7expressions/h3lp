@@ -1,27 +1,27 @@
 import { IUtils, IValidator, IFsHelper, IHttpHelper, IObjectHelper, IStringHelper, ITestHelper, IArrayHelper } from '.'
 import { Autowired } from '../domain'
 export class H3lp {
-	@Autowired('helper.utils')
+	@Autowired('h3lp.utils')
 	public utils!: IUtils
 
-	@Autowired('helper.val')
+	@Autowired('h3lp.val')
 	public val!:IValidator
 
-	@Autowired('helper.fs')
+	@Autowired('h3lp.fs')
 	public fs!:IFsHelper
 
-	@Autowired('helper.http')
+	@Autowired('h3lp.http')
 	public http!:IHttpHelper
 
-	@Autowired('helper.obj')
+	@Autowired('h3lp.obj')
 	public obj!:IObjectHelper
 
-	@Autowired('helper.str')
+	@Autowired('h3lp.string')
 	public str!:IStringHelper
 
-	@Autowired('helper.test')
+	@Autowired('h3lp.test')
 	public test!:ITestHelper
 
-	@Autowired('helper.array')
+	@Autowired('h3lp.array')
 	public array!:IArrayHelper
 }

@@ -1,6 +1,6 @@
 import { IValidator } from '../application'
 import { Service } from '../domain'
-@Service('helper.val')
+@Service('h3lp.val')
 export class Validator implements IValidator {
 	private get reAlphanumeric ():RegExp { return /[a-zA-Z0-9_.]+$/ }
 	private get reInt ():RegExp { return /^[0-9]+$/ }

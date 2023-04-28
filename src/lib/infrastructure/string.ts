@@ -2,9 +2,9 @@ import { NormalizeOptions } from '../domain/base'
 import { IStringHelper, IValidator } from '../application'
 import { Service, Autowired } from '../domain'
 
-@Service('helper.str')
+@Service('h3lp.string')
 export class StringHelper implements IStringHelper {
-	@Autowired('helper.val')
+	@Autowired('h3lp.val')
 	private validator!:IValidator
 
 	public toString (value: any): string {
