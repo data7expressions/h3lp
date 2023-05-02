@@ -1,8 +1,7 @@
 import { Delta } from '../domain'
 export interface IObjectHelper {
 	clone (obj:any):any
-	extends (obj: any, base: any, excludes:string[]):any
-	extends (obj: any, base: any, excludes:string[]):any
+	extends (obj: any, base: any, excludes?:string[]):any
 	names (value:string):string[]
 	getValue (source:any, _name:string) :any
 	getValue (source:any, _name:string[]) :any
