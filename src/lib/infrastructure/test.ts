@@ -1,19 +1,12 @@
 import {
-	Service, Autowired,
 	IBuildTest, TestBuildInfo, TestSuiteRequest,
 	TestSuite, TestCase, TestSuiteTemplate
 } from '../domain'
 import { ITestHelper, IStringHelper, IObjectHelper, IFsHelper, IUtils, ITestSuiteBuilder, ITestBuilder } from '../application'
 
 export class TestSuiteBuilder implements ITestSuiteBuilder {
-	@Autowired('h3lp.obj')
-	private obj!:IObjectHelper
-
-	@Autowired('h3lp.utils')
-	private utils!:IUtils
-
-	@Autowired('h3lp.fs')
-	private fs!:IFsHelper
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly utils:IUtils, private readonly fs:IFsHelper, private readonly obj:IObjectHelper) {}
 
 	private tests: IBuildTest[] = []
 
@@ -68,16 +61,9 @@ export class TestSuiteBuilder implements ITestSuiteBuilder {
 }
 
 export class TestBuilder implements ITestBuilder {
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly utils:IUtils, private readonly fs:IFsHelper, private readonly str:IStringHelper) {}
 	private tests: TestBuildInfo[] = []
-
-	@Autowired('h3lp.utils')
-	private utils!:IUtils
-
-	@Autowired('h3lp.fs')
-	private fs!:IFsHelper
-
-	@Autowired('h3lp.string')
-	private str!:IStringHelper
 
 	public add (info: TestBuildInfo): TestBuilder {
 		this.tests.push(info)
@@ -151,13 +137,20 @@ export class TestBuilder implements ITestBuilder {
 	}
 }
 
-@Service('h3lp.test')
 export class TestHelper implements ITestHelper {
+	// eslint-disable-next-line no-useless-constructor
+	constructor (
+		private readonly utils:IUtils,
+		private readonly fs:IFsHelper,
+		private readonly str:IStringHelper,
+		private readonly obj:IObjectHelper
+	) {}
+
 	public createBuilder (): TestBuilder {
-		return new TestBuilder()
+		return new TestBuilder(this.utils, this.fs, this.str)
 	}
 
 	public createSuiteBuilder (): TestSuiteBuilder {
-		return new TestSuiteBuilder()
+		return new TestSuiteBuilder(this.utils, this.fs, this.obj)
 	}
 }

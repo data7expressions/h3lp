@@ -1,11 +1,9 @@
 import { NormalizeOptions } from '../domain/base'
 import { IStringHelper, IValidator } from '../application'
-import { Service, Autowired } from '../domain'
 
-@Service('h3lp.string')
 export class StringHelper implements IStringHelper {
-	@Autowired('h3lp.val')
-	private validator!:IValidator
+	// eslint-disable-next-line no-useless-constructor
+	constructor (private readonly validator:IValidator) {}
 
 	public toString (value: any): string {
 		return this.validator.isNull(value) ? '' : value.toString()
