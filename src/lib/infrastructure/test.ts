@@ -93,7 +93,7 @@ export class TestBuilder implements ITestBuilder {
 			const tests: string[] = []
 			const caseTemplate = template.cases.find((p) => p.name === _case.name)
 			if (!caseTemplate) {
-				console.error(`Test template for case ${_case.name} not found`)
+				console.warn(`Test template for case ${_case.name} not found`)
 				continue
 			}
 			for (const test of _case.tests) {
