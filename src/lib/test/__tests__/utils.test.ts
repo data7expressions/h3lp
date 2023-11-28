@@ -8,8 +8,8 @@ describe('utils', () => {
 		expect(h3lp.utils.template('order number ${orders.0.number}', context)).toStrictEqual('order number 20001')
 		expect(h3lp.utils.template('no existe ${noExiste}', context)).toStrictEqual('no existe ${noExiste}')
 	})
-	// test('templateEnv', () => {
-	// expect(h3lp.utils.template('Display: ${DISPLAY}  shell: ${SHELL}', h3lp.utils.createEnvironmentVariableReplacer())).toStrictEqual('Display: :0  shell: /bin/bash')
-	// expect(h3lp.utils.template('Display: $DISPLAY shell: $SHELL', h3lp.utils.createEnvironmentVariableReplacer())).toStrictEqual('Display: :0 shell: /bin/bash')
-	// })
+	test('templateEnv', () => {
+		expect(h3lp.utils.template('Display: ${DISPLAY}  shell: ${SHELL}', h3lp.utils.createEnvironmentVariableReplacer())).toStrictEqual('Display: :1  shell: /bin/bash')
+		expect(h3lp.utils.template('Display: $DISPLAY shell: $SHELL', h3lp.utils.createEnvironmentVariableReplacer())).toStrictEqual('Display: :1 shell: /bin/bash')
+	})
 })

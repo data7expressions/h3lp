@@ -13,7 +13,60 @@
           "test": "house",
           "result": "House"
         }
-      ]
+      ],
+      "errors": 0
+    },
+    {
+      "name": "notation camelCase",
+      "tests": [
+        {
+          "test": "hello world",
+          "result": "helloWorld"
+        },
+        {
+          "test": "house",
+          "result": "house"
+        },
+        {
+          "test": "hello-world",
+          "result": "helloWorld"
+        },
+        {
+          "test": "hello_world",
+          "result": "helloWorld"
+        },
+        {
+          "test": "hello.world",
+          "result": "helloWorld"
+        }
+      ],
+      "errors": 0
+    },
+    {
+      "name": "notation pascalCase",
+      "tests": [
+        {
+          "test": "hello world",
+          "result": "HelloWorld"
+        },
+        {
+          "test": "house",
+          "result": "House"
+        },
+        {
+          "test": "hello-world",
+          "result": "HelloWorld"
+        },
+        {
+          "test": "hello_world",
+          "result": "HelloWorld"
+        },
+        {
+          "test": "hello.world",
+          "result": "HelloWorld"
+        }
+      ],
+      "errors": 0
     },
     {
       "name": "initCap",
@@ -30,7 +83,8 @@
           "test": "Los hermanos sean unidos porque ésa es la ley primera",
           "result": "Los Hermanos Sean Unidos Porque Ésa Es La Ley Primera"
         }
-      ]
+      ],
+      "errors": 0
     },
     {
       "name": "normalize",
@@ -159,7 +213,9 @@
           "test": "Ź ź Ż ż Ž ž Ƶ ƶ Ȥ ȥ",
           "result": "ZzZzZzZzZz"
         }
-      ]
+      ],
+      "errors": 0
     }
-  ]
+  ],
+  "errors": 0
 }

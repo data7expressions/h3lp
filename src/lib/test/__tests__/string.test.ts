@@ -7,6 +7,20 @@ describe('string', () => {
 		expect(h3lp.str.capitalize('hello world')).toStrictEqual('Hello world')
 		expect(h3lp.str.capitalize('house')).toStrictEqual('House')
 	})
+	test('notation camelCase', () => {
+		expect(h3lp.str.notation('hello world',"camelCase")).toStrictEqual('helloWorld')
+		expect(h3lp.str.notation('house',"camelCase")).toStrictEqual('house')
+		expect(h3lp.str.notation('hello-world',"camelCase")).toStrictEqual('helloWorld')
+		expect(h3lp.str.notation('hello_world',"camelCase")).toStrictEqual('helloWorld')
+		expect(h3lp.str.notation('hello.world',"camelCase")).toStrictEqual('helloWorld')
+	})
+	test('notation pascalCase', () => {
+		expect(h3lp.str.notation('hello world',"pascalCase")).toStrictEqual('HelloWorld')
+		expect(h3lp.str.notation('house',"pascalCase")).toStrictEqual('House')
+		expect(h3lp.str.notation('hello-world',"pascalCase")).toStrictEqual('HelloWorld')
+		expect(h3lp.str.notation('hello_world',"pascalCase")).toStrictEqual('HelloWorld')
+		expect(h3lp.str.notation('hello.world',"pascalCase")).toStrictEqual('HelloWorld')
+	})
 	test('initCap', () => {
 		expect(h3lp.str.initCap('Lo peor que hacen los malos es obligarnos a dudar de los buenos')).toStrictEqual('Lo Peor Que Hacen Los Malos Es Obligarnos A Dudar De Los Buenos')
 		expect(h3lp.str.initCap('El dinero no puede comprar la vida')).toStrictEqual('El Dinero No Puede Comprar La Vida')

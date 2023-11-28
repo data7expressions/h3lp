@@ -41,11 +41,11 @@ module.exports = function (grunt) {
 		}
 	})
 	grunt.registerTask('internal-build-test', 'build test', function () {
-		const task = require('./build/dev/task/buildTest')
+		const task = require('./build/dev/tasks/buildTest')
 		task.apply(this.async())
 	})
 	grunt.registerTask('internal-build-test-suite', 'build test suite', function () {
-		const task = require('./build/dev/task/buildTestSuite')
+		const task = require('./build/dev/tasks/buildTestSuite')
 		task.apply(this.async())
 	})
 	grunt.registerTask('changelog-format', 'apply format to changelog', function () {
@@ -81,7 +81,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('doc', ['exec:doc'])
 	grunt.registerTask('lint', ['exec:lint'])
 	grunt.registerTask('build', ['lint', 'clean:build', 'exec:tsc'])
-	grunt.registerTask('build-test', ['build', 'internal-build-test', 'internal-build-test-suite'])
+	grunt.registerTask('build-test', ['build', 'internal-build-test-suite', 'internal-build-test'])
 	grunt.registerTask('test', ['build', 'exec:test'])
 	grunt.registerTask('dist', ['test', 'clean:dist', 'copy:lib', 'copy:jest', 'copy:readme', 'copy:license', 'create-package'])
 	grunt.registerTask('release', ['dist', 'doc', 'exec:getOriginalBranch', 'run-release-if-applicable'])

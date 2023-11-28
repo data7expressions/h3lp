@@ -44,17 +44,17 @@ export class StringHelper implements IStringHelper {
 		return arr.join(' ')
 	}
 
-	public notation (str: string, type: 'camelCase'|'pascalCase' = 'camelCase'): string {
-		const newStr = str.split(' ')
-		let i
-		const arr = []
+	public notation (source: string, type: 'camelCase'|'pascalCase' = 'camelCase'): string {
+		const buffer = Array.from(source)
+		const result = []
 		let nextUpper = false
 		if (type === 'pascalCase') {
 			nextUpper = true
 		}
-		for (i = 0; i < newStr.length; i++) {
-			let char = newStr[i]
-			if (['_', '.', '-'].includes(char)) {
+		const length = buffer.length
+		for (let i = 0; i < length; i++) {
+			let char = buffer[i]
+			if (['_', '.', '-', ' '].includes(char)) {
 				nextUpper = true
 				continue
 			}
@@ -62,9 +62,9 @@ export class StringHelper implements IStringHelper {
 				char = this.capitalize(char)
 				nextUpper = false
 			}
-			arr.push(char)
+			result.push(char)
 		}
-		return arr.join(' ')
+		return result.join('')
 	}
 
 	/**
