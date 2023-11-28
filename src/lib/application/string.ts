@@ -9,4 +9,5 @@ initCap (str: string): string
 normalize (source: string, options?: NormalizeOptions): string
 plural (word: string, amount?: number): string
 singular (word: string, amount?: number): string
+notation (str: string, type?:'camelCase'|'pascalCase'): string
 }

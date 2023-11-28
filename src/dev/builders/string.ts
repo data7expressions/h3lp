@@ -13,6 +13,16 @@ export class StringBuildTest implements IBuildTest {
 					tests: ['hello world', 'house']
 				},
 				{
+					name: 'notation camelCase',
+					func: (item: any) => h3lp.str.notation(item, 'camelCase'),
+					tests: ['hello world', 'house', 'hello-world', 'hello_world', 'hello.world']
+				},
+				{
+					name: 'notation pascalCase',
+					func: (item: any) => h3lp.str.notation(item, 'pascalCase'),
+					tests: ['hello world', 'house', 'hello-world', 'hello_world', 'hello.world']
+				},
+				{
 					name: 'initCap',
 					func: (item: any) => h3lp.str.initCap(item),
 					tests: [

@@ -44,6 +44,29 @@ export class StringHelper implements IStringHelper {
 		return arr.join(' ')
 	}
 
+	public notation (str: string, type: 'camelCase'|'pascalCase' = 'camelCase'): string {
+		const newStr = str.split(' ')
+		let i
+		const arr = []
+		let nextUpper = false
+		if (type === 'pascalCase') {
+			nextUpper = true
+		}
+		for (i = 0; i < newStr.length; i++) {
+			let char = newStr[i]
+			if (['_', '.', '-'].includes(char)) {
+				nextUpper = true
+				continue
+			}
+			if (nextUpper) {
+				char = this.capitalize(char)
+				nextUpper = false
+			}
+			arr.push(char)
+		}
+		return arr.join(' ')
+	}
+
 	/**
 	 * Normalize a string with utf-8 characters.
 	 * @param source string to normalize
