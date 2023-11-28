@@ -49,6 +49,7 @@ Helper sets
 | initCap   | Capitalize words                                                                                          |
 | plural    | convert word to plural                                                                                    |
 | singular  | convert word to singular                                                                                  |
+| notation  | convert to notation camelCase or pascalCase                                                               |
 
 ## Test Helper
 

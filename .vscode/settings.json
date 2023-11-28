@@ -8,11 +8,15 @@
     "cSpell.words": [
       "Autowired",
       "Brieger",
+      "commitlint",
       "concat",
       "ecma",
       "Flavio",
       "flaviolrita",
+      "github",
       "Gruntfile",
+      "npmjs",
       "readdir"
-    ]
+    ],
+    "editor.inlineSuggest.showToolbar": "onHover"
 }

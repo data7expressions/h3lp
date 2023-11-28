@@ -18,13 +18,13 @@
 		"url": "https://github.com/FlavioLionelRita/h3lp.git"
 	},
 	"scripts": {
-		"lint": "npx eslint src",
-		"test": "npx jest --config jest-unit-config.json",
-		"build": "npx tsc",
+		"lint": "grunt lint",
+		"build": "grunt build",
+		"build-test": "grunt build-test",
+		"test": "grunt test",		
 		"dist": "grunt dist",
-		"to_develop": "grunt to_develop",
-		"release": "grunt release",
-		"doc": "grunt doc"
+		"doc": "grunt doc",
+		"release": "grunt release"
 	},
 	"devDependencies": {
 		"@types/glob": "^8.1.0",

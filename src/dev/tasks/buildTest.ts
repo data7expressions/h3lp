@@ -51,7 +51,7 @@ import { h3lp } from '../../'
 	]
 }
 
-;(async () => {
+export async function apply (callback: any) {
 	const root = './src/dev/testSuite'
 	await h3lp.test
 		.createBuilder()
@@ -59,4 +59,6 @@ import { h3lp } from '../../'
 		.add({ source: path.join(root, 'string.json'), template: stringTemplate })
 		.add({ source: path.join(root, 'utils.json'), template: utilsTemplate })
 		.build('./src/lib/test/__tests__')
-})()
+	callback()
+}
+apply(function () { console.log('end') })
