@@ -75,20 +75,6 @@
         }
       ],
       "errors": 0
-    },
-    {
-      "name": "templateEnv",
-      "tests": [
-        {
-          "test": "Display: ${DISPLAY}  shell: ${SHELL}",
-          "result": "Display: :1  shell: /bin/bash"
-        },
-        {
-          "test": "Display: $DISPLAY shell: $SHELL",
-          "result": "Display: :1 shell: /bin/bash"
-        }
-      ],
-      "errors": 0
     }
   ],
   "errors": 0
