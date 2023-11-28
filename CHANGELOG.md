@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Versions
 
+### [1.5.1](https://github.com/FlavioLionelRita/h3lp/compare/v1.5.0...v1.5.1) (2023-11-28)
+
 ## [1.5.0](https://github.com/FlavioLionelRita/h3lp/compare/v1.4.4...v1.5.0) (2023-11-28)
 
 **Features:**
