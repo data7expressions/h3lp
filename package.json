@@ -1,6 +1,6 @@
 {
 	"name": "h3lp",
-	"version": "1.4.1",
+	"version": "1.4.2",
 	"description": "Helper for nodeJs",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -16,6 +16,9 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/FlavioLionelRita/h3lp.git"
+	},
+	"standard-version": {
+		"header": "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n## Versions\n"
 	},
 	"scripts": {
 		"lint": "grunt lint",
