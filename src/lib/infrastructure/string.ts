@@ -44,11 +44,11 @@ export class StringHelper implements IStringHelper {
 		return arr.join(' ')
 	}
 
-	public notation (source: string, type: 'camelCase'|'pascalCase' = 'camelCase'): string {
+	public notation (source: string, type: 'camel'|'pascal' = 'camel'): string {
 		const buffer = Array.from(source)
 		const result = []
 		let nextUpper = false
-		if (type === 'pascalCase') {
+		if (type === 'pascal') {
 			nextUpper = true
 		}
 		const length = buffer.length

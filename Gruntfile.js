@@ -30,7 +30,8 @@ module.exports = function (grunt) {
 		},
 		clean: {
 			dist: ['dist'],
-			build: ['build']
+			build: ['build'],
+			test: ['src/lib/test/']
 		},
 		copy: {
 			lib: { expand: true, cwd: 'build/lib', src: '**', dest: 'dist/' },
@@ -82,7 +83,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('doc', ['exec:doc'])
 	grunt.registerTask('lint', ['exec:lint'])
 	grunt.registerTask('build', ['lint', 'clean:build', 'exec:tsc'])
-	grunt.registerTask('build-test', ['build', 'internal-build-test-suite', 'internal-build-test'])
+	grunt.registerTask('build-test', ['clean:test', 'build', 'internal-build-test-suite', 'internal-build-test'])
 	grunt.registerTask('test', ['build', 'exec:test'])
 	grunt.registerTask('dist', ['test', 'clean:dist', 'copy:lib', 'copy:jest', 'copy:readme', 'copy:license', 'create-package'])
 	grunt.registerTask('release', ['dist', 'doc', 'exec:getOriginalBranch', 'run-release-if-applicable'])

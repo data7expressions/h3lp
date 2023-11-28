@@ -36,11 +36,11 @@ import { h3lp } from '../../'
 		},
 		{
 			name: 'notation camelCase',
-			template: '\t\texpect(h3lp.str.notation(${test},"camelCase")).toStrictEqual(${result})\n'
+			template: '\t\texpect(h3lp.str.notation(${test},"camel")).toStrictEqual(${result})\n'
 		},
 		{
 			name: 'notation pascalCase',
-			template: '\t\texpect(h3lp.str.notation(${test},"pascalCase")).toStrictEqual(${result})\n'
+			template: '\t\texpect(h3lp.str.notation(${test},"pascal")).toStrictEqual(${result})\n'
 		}
 	]
 }

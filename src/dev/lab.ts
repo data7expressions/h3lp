@@ -6,5 +6,5 @@ import { h3lp } from '../lib'
 	// result = h3lp.utils.template('Display: $DISPLAY shell: $SHELL', h3lp.utils.createEnvironmentVariableReplacer())
 	// console.log(result)
 	// console.log(h3lp.str.capitalize('hello world'))
-	console.log(h3lp.str.notation('hello world', 'camelCase'))
+	console.log(h3lp.str.notation('hello world', 'camel'))
 })()
