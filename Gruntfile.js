@@ -59,6 +59,7 @@ module.exports = function (grunt) {
 		grunt.config.set('version', version)
 	})
 	grunt.registerTask('create-package', 'create package.json for dist', function () {
+		const fs = require('fs')
 		const data = require('./package.json')
 		delete data.devDependencies
 		delete data.private
@@ -67,7 +68,7 @@ module.exports = function (grunt) {
 		}
 		data.main = 'index.js'
 		data.types = 'index.d.ts'
-		grunt.file.write('dist/package.json', JSON.stringify(data, null, 2), 'utf8')
+		fs.writeFileSync('dist/package.json', JSON.stringify(data, null, 2), 'utf8')
 	})
 	grunt.registerTask('exec-release', ['exec:standardVersion', 'changelog-format', 'copy:changeLog', 'create-package', 'get-version', 'exec:gitFlowRelease'])
 	grunt.registerTask('run-release-if-applicable', 'run release if applicable', function () {
