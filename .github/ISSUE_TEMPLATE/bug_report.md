@@ -5,7 +5,7 @@ name: Bug report
 # NOTE
 
   This is used to report product bugs:
-  To report a security vulnerability, please visit [issues](https://github.com/FlavioLionelRita/h3lp/issues)
+  To report a security vulnerability, please visit [issues](https://github.com/data7expressions/h3lp/issues)
 
 ## Bug description
 

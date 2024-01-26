@@ -1,6 +1,6 @@
 {
 	"name": "h3lp",
-	"version": "1.5.1",
+	"version": "1.5.2",
 	"description": "Helper for nodeJs",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -9,13 +9,13 @@
 		"node": ">=10"
 	},
 	"main": "src/index.js",
-	"homepage": "https://github.com/FlavioLionelRita/h3lp#readme",
+	"homepage": "https://github.com/data7expressions/h3lp#readme",
 	"bugs": {
-		"url": "https://github.com/FlavioLionelRita/h3lp/issues"
+		"url": "https://github.com/data7expressions/h3lp/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/FlavioLionelRita/h3lp.git"
+		"url": "https://github.com/data7expressions/h3lp.git"
 	},
 	"standard-version": {
 		"header": "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n## Versions\n"
@@ -35,7 +35,6 @@
 		"@types/yargs": "^17.0.24",
 		"@typescript-eslint/eslint-plugin": "^6.12.0",
 		"@typescript-eslint/parser": "^6.12.0",
-		"@types/glob": "^8.1.0",
 		"eslint": "^8.54.0",
 		"eslint-config-standard": "^17.1.0",
 		"eslint-plugin-import": "^2.27.5",
@@ -52,7 +51,6 @@
 		"load-grunt-tasks": "^5.1.0",
 		"grunt-file-append": "0.0.7",
 		"grunt-file-creator": "0.1.3",
-		"glob": "^10.3.10",
 		"ts-jest": "^29.1.0",
 		"ts-node": "^10.9.1",
 		"typedoc": "^0.25.4",
