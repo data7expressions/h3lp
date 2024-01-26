@@ -9,13 +9,13 @@
 		"node": ">=10"
 	},
 	"main": "src/index.js",
-	"homepage": "https://github.com/FlavioLionelRita/h3lp#readme",
+	"homepage": "https://github.com/data7expressions/h3lp#readme",
 	"bugs": {
-		"url": "https://github.com/FlavioLionelRita/h3lp/issues"
+		"url": "https://github.com/data7expressions/h3lp/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/FlavioLionelRita/h3lp.git"
+		"url": "https://github.com/data7expressions/h3lp.git"
 	},
 	"standard-version": {
 		"header": "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n## Versions\n"
