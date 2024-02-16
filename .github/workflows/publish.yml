@@ -29,6 +29,8 @@ jobs:
       - name: Delete branch
         run: |
           git push origin --delete ${{ github.ref_name }} --no-verify
-          echo "Branch ${{ github.ref_name }} deleted"        
+          echo "Branch ${{ github.ref_name }} deleted"
+        with:
+          access_token: ${{ secrets.GH_TOKEN }}          
 
 
