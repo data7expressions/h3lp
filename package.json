@@ -1,6 +1,6 @@
 {
 	"name": "h3lp",
-	"version": "1.5.2",
+	"version": "1.5.3",
 	"description": "Helper for nodeJs",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -55,7 +55,7 @@
 		"ts-node": "^10.9.1",
 		"typedoc": "^0.25.4",
 		"typedoc-plugin-markdown": "3.17.1",
-		"typescript": "5.3.2"
+		"typescript": "5.3.3"
 	},
 	"keywords": [
 		"helper",

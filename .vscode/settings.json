@@ -18,5 +18,5 @@
       "npmjs",
       "readdir"
     ],
-    "editor.inlineSuggest.showToolbar": "always"
+    "editor.inlineSuggest.showToolbar": "onHover"
 }
