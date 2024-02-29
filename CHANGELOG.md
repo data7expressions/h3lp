@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Versions
 
+## [1.6.0](https://github.com/data7expressions/h3lp/compare/v1.5.8...v1.6.0) (2024-02-29)
+
+**Features:**
+
+* **string:** solve bugfix in notation ([3af5453](https://github.com/data7expressions/h3lp/commit/3af5453c230c54941be0eedea5f1ab06f82956aa)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
+
 ### [1.5.8](https://github.com/data7expressions/h3lp/compare/v1.5.7...v1.5.8) (2024-02-16)
 
 ### [1.5.7](https://github.com/data7expressions/h3lp/compare/v1.5.6...v1.5.7) (2024-02-16)
