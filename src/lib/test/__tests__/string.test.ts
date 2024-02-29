@@ -13,6 +13,8 @@ describe('string', () => {
 		expect(h3lp.str.notation('hello-world',"camel")).toStrictEqual('helloWorld')
 		expect(h3lp.str.notation('hello_world',"camel")).toStrictEqual('helloWorld')
 		expect(h3lp.str.notation('hello.world',"camel")).toStrictEqual('helloWorld')
+		expect(h3lp.str.notation('Hello.world',"camel")).toStrictEqual('helloWorld')
+		expect(h3lp.str.notation('_Hello.world',"camel")).toStrictEqual('helloWorld')
 	})
 	test('notation pascalCase', () => {
 		expect(h3lp.str.notation('hello world',"pascal")).toStrictEqual('HelloWorld')

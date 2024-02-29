@@ -55,12 +55,17 @@ export class StringHelper implements IStringHelper {
 		for (let i = 0; i < length; i++) {
 			let char = buffer[i]
 			if (['_', '.', '-', ' '].includes(char)) {
-				nextUpper = true
+				// It is in the case that the text begins with a special character
+				if (result.length > 0) {
+					nextUpper = true
+				}
 				continue
 			}
 			if (nextUpper) {
 				char = this.capitalize(char)
 				nextUpper = false
+			} else if (type === 'camel' && result.length === 0) {
+				char = char.toLowerCase()
 			}
 			result.push(char)
 		}
