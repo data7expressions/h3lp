@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Versions
 
+### [1.6.3](https://github.com/data7expressions/h3lp/compare/v1.6.2...v1.6.3) (2024-03-22)
+
+**Bug Fixes:**
+
+* **obj:** bugfix obj.delta in deltaArray ([9714ee9](https://github.com/data7expressions/h3lp/commit/9714ee92cdbfaed50a2581ef28a96ccdcd11fb45)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
+
 ### [1.6.2](https://github.com/data7expressions/h3lp/compare/v1.6.1...v1.6.2) (2024-03-22)
 
 **Bug Fixes:**

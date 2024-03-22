@@ -301,8 +301,17 @@ export class ObjectHelper implements IObjectHelper {
 	}
 
 	private deltaArray (name:string, current:any[], old:any[], delta:Delta):void {
-		if (!Array.isArray(old)) { throw new Error(`current value in ${name} is array by old no`) }
-		if (current.length === 0 && old.length === 0) {
+		if (current && Array.isArray(current) && (!old || !Array.isArray(old))) {
+			const arrayDelta = new Delta()
+			arrayDelta.new = current.map((p, i) => ({ name: i.toString(), new: p }))
+			if (delta.children === undefined) delta.children = []
+			delta.children.push({ name, type: 'array', change: true, delta: arrayDelta })
+		} else if (old && Array.isArray(old) && (!current || !Array.isArray(current))) {
+			const arrayDelta = new Delta()
+			arrayDelta.remove = old.map((p, i) => ({ name: i.toString(), old: p }))
+			if (delta.children === undefined) delta.children = []
+			delta.children.push({ name, type: 'array', change: true, delta: arrayDelta })
+		} else if (current.length === 0 && old.length === 0) {
 			if (delta.unchanged === undefined) delta.unchanged = []
 			delta.unchanged.push({ name, value: old })
 		} else if (current.length > 0 && typeof current[0] !== 'object') {
