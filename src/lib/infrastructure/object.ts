@@ -243,18 +243,26 @@ export class ObjectHelper implements IObjectHelper {
 		if (current === undefined || current === null) {
 			throw new Error('current value can\'t empty')
 		}
-		for (const name in current) {
-			const currentValue = current[name]
-			if (old === undefined || old === null) {
-				delta.new.push({ name, new: currentValue })
-			} else {
-				this.deltaValue(name, currentValue, old[name], delta)
+		if (typeof current !== 'object') {
+			this.deltaValue('', current, old, delta)
+		} else if (Array.isArray(current)) {
+			this.deltaArray('', current, old, delta)
+		} else {
+			for (const name in current) {
+				const currentValue = current[name]
+				if (old === undefined || old === null) {
+					if (delta.new === undefined) delta.new = []
+					delta.new.push({ name, new: currentValue })
+				} else {
+					this.deltaValue(name, currentValue, old[name], delta)
+				}
 			}
-		}
-		if (old !== undefined || old !== null) {
-			for (const name in old) {
-				if (current[name] === undefined) {
-					delta.remove.push({ name, old: old[name] })
+			if (old !== undefined || old !== null) {
+				for (const name in old) {
+					if (current[name] === undefined) {
+						if (delta.remove === undefined) delta.remove = []
+						delta.remove.push({ name, old: old[name] })
+					}
 				}
 			}
 		}
@@ -263,47 +271,115 @@ export class ObjectHelper implements IObjectHelper {
 
 	private deltaValue (name:string, currentValue:any, oldValue:any, delta:Delta):void {
 		if (oldValue === undefined) {
+			if (delta.new === undefined) delta.new = []
 			delta.new.push({ name, new: currentValue })
 		} else if (oldValue === null && currentValue === null) {
+			if (delta.unchanged === undefined) delta.unchanged = []
 			delta.unchanged.push({ name, value: oldValue })
 		} else if ((oldValue !== null && currentValue === null) || (oldValue === null && currentValue !== null)) {
-			delta.changed.push({ name, new: currentValue, old: oldValue, delta: null })
+			if (delta.changed === undefined) delta.changed = []
+			delta.changed.push({ name, new: currentValue, old: oldValue })
 		} else if (Array.isArray(currentValue)) {
-			this.deltaArrayValue(name, currentValue, oldValue, delta)
+			this.deltaArray(name, currentValue, oldValue, delta)
 		} else if (this.validator.isObject(currentValue)) {
 			const objectDelta = this.delta(currentValue, oldValue)
-			const change = objectDelta.changed.length + objectDelta.remove.length + objectDelta.new.length > 0
+			const change = this.deltaChange(objectDelta)
 			if (change) {
+				if (delta.changed === undefined) delta.changed = []
 				delta.changed.push({ name, new: currentValue, old: oldValue, delta: objectDelta })
 			} else {
+				if (delta.unchanged === undefined) delta.unchanged = []
 				delta.unchanged.push({ name, value: oldValue })
 			}
 		} else if (oldValue !== currentValue) {
-			delta.changed.push({ name, new: currentValue, old: oldValue, delta: null })
+			if (delta.changed === undefined) delta.changed = []
+			delta.changed.push({ name, new: currentValue, old: oldValue })
 		} else {
+			if (delta.unchanged === undefined) delta.unchanged = []
 			delta.unchanged.push({ name, value: oldValue })
 		}
 	}
 
-	private deltaArrayValue (name:string, currentValue:any, oldValue:any, delta:Delta):void {
-		if (!Array.isArray(oldValue)) { throw new Error(`current value in ${name} is array by old no`) }
-		if (currentValue.length === 0 && oldValue.length === 0) {
-			delta.unchanged.push({ name, value: oldValue })
+	private deltaArray (name:string, current:any[], old:any[], delta:Delta):void {
+		if (!Array.isArray(old)) { throw new Error(`current value in ${name} is array by old no`) }
+		if (current.length === 0 && old.length === 0) {
+			if (delta.unchanged === undefined) delta.unchanged = []
+			delta.unchanged.push({ name, value: old })
+		} else if (current.length > 0 && typeof current[0] !== 'object') {
+			const arrayDelta = new Delta()
+			const news = current.filter((p:any) => old.indexOf(p) === -1)
+			const unchanged = current.filter((p:any) => old.indexOf(p) !== -1)
+			const removes = old.filter(p => current.indexOf(p) === -1)
+			for (const p of news) {
+				if (arrayDelta.new === undefined) arrayDelta.new = []
+				arrayDelta.new.push({ name: current.indexOf(p).toString(), new: p })
+			}
+			for (const p of removes) {
+				if (arrayDelta.remove === undefined) arrayDelta.remove = []
+				arrayDelta.remove.push({ name: old.indexOf(p).toString(), old: p })
+			}
+			for (const p of unchanged) {
+				if (arrayDelta.unchanged === undefined) arrayDelta.unchanged = []
+				arrayDelta.unchanged.push({ name: current.indexOf(p).toString(), value: p })
+			}
+			const change = news.length + removes.length > 0
+			if (delta.children === undefined) delta.children = []
+			delta.children.push({ name, type: 'array', change, delta: arrayDelta })
+		} else if (Array.isArray(current[0])) {
+			throw new Error(`array of array not supported in ${name}`)
+		} else {
+			const arrayDelta = this.deltaArrayOfObject(name, current, old)
+			const change = this.deltaChange(arrayDelta)
+			if (delta.children === undefined) delta.children = []
+			delta.children.push({ name, type: 'array', change, delta: arrayDelta })
+		}
+	}
+
+	private deltaArrayOfObject (name:string, current:any[], old:any[]):Delta {
+		const key = Object.keys(current[0]).find(p => ['id', 'code', 'name', 'key'].includes(p.toLowerCase()))
+		if (key === undefined) {
+			throw new Error(`key not found in ${name} array`)
 		}
 		const arrayDelta = new Delta()
-		const news = currentValue.filter((p:any) => oldValue.indexOf(p) === -1)
-		const unchanged = currentValue.filter((p:any) => oldValue.indexOf(p) !== -1)
-		const removes = oldValue.filter(p => currentValue.indexOf(p) === -1)
-		const change = news.length + removes.length > 0
-		for (const p in news) {
-			arrayDelta.new.push({ name: p, new: p })
+		for (const item of current) {
+			const oldItem = old.find((p:any) => p[key] === item[key])
+			if (oldItem === undefined) {
+				if (arrayDelta.new === undefined) arrayDelta.new = []
+				arrayDelta.new.push({ name, new: item })
+			} else {
+				const objectDelta = this.delta(item, oldItem)
+				const change = this.deltaChange(objectDelta)
+				if (change) {
+					if (arrayDelta.changed === undefined) arrayDelta.changed = []
+					arrayDelta.changed.push({ name, new: item, old: oldItem, delta: objectDelta })
+				} else {
+					if (arrayDelta.unchanged === undefined) arrayDelta.unchanged = []
+					arrayDelta.unchanged.push({ name, value: oldItem })
+				}
+			}
 		}
-		for (const p in removes) {
-			arrayDelta.remove.push({ name: p, old: p })
+		for (const item of old) {
+			if (current.find((p:any) => p[key] === item[key]) === undefined) {
+				if (arrayDelta.remove === undefined) arrayDelta.remove = []
+				arrayDelta.remove.push({ name, old: item })
+			}
 		}
-		for (const p in unchanged) {
-			arrayDelta.unchanged.push({ name: p, value: p })
+		return arrayDelta
+	}
+
+	private deltaChange (delta:Delta): boolean {
+		const main = (delta.changed ? delta.changed.length : 0) + (delta.remove ? delta.remove.length : 0) + (delta.new ? delta.new.length : 0) > 0
+		if (main) {
+			return true
+		} else if (delta.children) {
+			for (const child of delta.children) {
+				if (child.change) {
+					return true
+				}
+			}
+			return false
+		} else {
+			return false
 		}
-		delta.children.push({ name, type: 'array', change, delta: arrayDelta })
 	}
 }
