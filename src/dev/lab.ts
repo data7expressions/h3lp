@@ -1,10 +1,11 @@
 /* eslint-disable no-template-curly-in-string */
 import { h3lp } from '../lib'
 ;(async () => {
-	// let result = h3lp.utils.template('Display: ${DISPLAY} shell: ${SHELL}', h3lp.utils.createEnvironmentVariableReplacer())
-	// console.log(result)
-	// result = h3lp.utils.template('Display: $DISPLAY shell: $SHELL', h3lp.utils.createEnvironmentVariableReplacer())
-	// console.log(result)
-	// console.log(h3lp.str.capitalize('hello world'))
-	console.log(h3lp.str.notation('_Hello world', 'camel'))
+	const a = { a: 1, b: [{ code: 'BR', name: 'Brasil', zones: [{ code: 'Belén', gmt: -3 }, { code: 'Manaos', gmt: -4 }, { code: 'Rio Branco ', gmt: -5 }] }] }
+	const b = { a: 1, b: [{ code: 'BR', name: 'Brasil', zones: [{ code: 'Belén', gmt: -3 }, { code: 'Manaos', gmt: -4 }, { code: 'Rio Branco ', gmt: -6 }] }] }
+
+	const delta = h3lp.obj.delta(a, b)
+	const workspace = __dirname.replace('build/', 'src/')
+	console.log(JSON.stringify(delta))
+	await h3lp.fs.write(workspace + '/delta.json', JSON.stringify(delta, null, 2))
 })()

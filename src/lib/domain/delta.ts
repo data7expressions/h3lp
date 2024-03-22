@@ -17,18 +17,11 @@ export interface RemovedValue
 }
 
 export class Delta {
-	public new:NewValue[]
-	public changed:ChangedValue[]
-	public unchanged:UnchangedValue[]
-	public remove:RemovedValue[]
-	public children:ChildDelta[]
-	constructor () {
-		this.new = []
-		this.changed = []
-		this.unchanged = []
-		this.remove = []
-		this.children = []
-	}
+	public new?:NewValue[]
+	public changed?:ChangedValue[]
+	public unchanged?:UnchangedValue[]
+	public remove?:RemovedValue[]
+	public children?:ChildDelta[]
 }
 export interface ChildDelta
 {
@@ -42,5 +35,5 @@ export interface ChangedValue
 	name:string
 	new:any
 	old:any
-	delta:Delta|null
+	delta?:Delta
 }
