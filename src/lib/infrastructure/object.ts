@@ -338,16 +338,18 @@ export class ObjectHelper implements IObjectHelper {
 			throw new Error(`array of array not supported in ${name}`)
 		} else {
 			const arrayDelta = this.deltaArrayOfObject(name, current, old)
-			const change = this.deltaChange(arrayDelta)
-			if (delta.children === undefined) delta.children = []
-			delta.children.push({ name, type: 'array', change, delta: arrayDelta })
+			if (arrayDelta) {
+				const change = this.deltaChange(arrayDelta)
+				if (delta.children === undefined) delta.children = []
+				delta.children.push({ name, type: 'array', change, delta: arrayDelta })
+			}
 		}
 	}
 
-	private deltaArrayOfObject (name:string, current:any[], old:any[]):Delta {
+	private deltaArrayOfObject (name:string, current:any[], old:any[]):Delta| null {
 		const key = Object.keys(current[0]).find(p => ['id', 'code', 'name', 'key'].includes(p.toLowerCase()))
 		if (key === undefined) {
-			throw new Error(`key not found in ${name} array`)
+			return null
 		}
 		const arrayDelta = new Delta()
 		for (const item of current) {
