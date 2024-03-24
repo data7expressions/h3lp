@@ -56,4 +56,11 @@ describe('object', () => {
 		const delta = h3lp.obj.delta(a, b)
 		expect(JSON.stringify(delta)).toStrictEqual(expected)
 	})
+	test('delta ignore option', () => {
+		const a = { a: 1, b: [{ code: 'BR', name: 'Brasil', zones: [{ code: 'Belén', gmt: -3 }, { code: 'Manaos', gmt: -4 }, { code: 'Rio Branco ', gmt: -5 }] }] }
+	  const b = { a: 1, b: [{ code: 'BR', name: 'Brasil', zones: [{ code: 'Belén', gmt: -3 }, { code: 'Manaos', gmt: -4 }, { code: 'Rio Branco ', gmt: -6 }] }] }
+		const expected = '{"unchanged":[{"name":"a","value":1}],"children":[{"name":"b","type":"array","change":false,"delta":{"unchanged":[{"name":"b","value":{"code":"BR","name":"Brasil","zones":[{"code":"Belén","gmt":-3},{"code":"Manaos","gmt":-4},{"code":"Rio Branco ","gmt":-6}]}}]}}]}'
+		const delta = h3lp.obj.delta(a, b,{ ignore: ['b.zones.gmt'] })
+		expect(JSON.stringify(delta)).toStrictEqual(expected)
+	})
 })

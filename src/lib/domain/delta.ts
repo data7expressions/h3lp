@@ -37,3 +37,7 @@ export interface ChangedValue
 	old:any
 	delta?:Delta
 }
+
+export interface DeltaOptions {
+	ignore?:string[]
+}

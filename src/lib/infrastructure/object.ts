@@ -1,4 +1,4 @@
-import { Delta } from '../index'
+import { Delta, DeltaOptions } from '../index'
 import { IObjectHelper, IHttpHelper, IValidator } from '../application'
 
 export class ObjectHelper implements IObjectHelper {
@@ -238,27 +238,43 @@ export class ObjectHelper implements IObjectHelper {
 		return results
 	}
 
-	public delta (current:any, old?:any):Delta {
+	public delta (current:any, old?:any, options?: DeltaOptions):Delta {
+		return this._delta('', current, old, options)
+	}
+
+	private _delta (path:string, current:any, old?:any, options?: DeltaOptions):Delta {
 		const delta = new Delta()
 		if (current === undefined || current === null) {
 			throw new Error('current value can\'t empty')
 		}
 		if (typeof current !== 'object') {
-			this.deltaValue('', current, old, delta)
+			if (!(options && options.ignore && options.ignore.includes(path))) {
+				this._deltaValue(path, '', current, old, delta, options || {})
+			}
 		} else if (Array.isArray(current)) {
-			this.deltaArray('', current, old, delta)
+			if (!(options && options.ignore && options.ignore.includes(path))) {
+				this._deltaArray(path, '', current, old, delta, options || {})
+			}
 		} else {
 			for (const name in current) {
+				const _path = path === '' ? name : `${path}.${name}`
+				if (options && options.ignore && options.ignore.includes(_path)) {
+					continue
+				}
 				const currentValue = current[name]
 				if (old === undefined || old === null) {
 					if (delta.new === undefined) delta.new = []
 					delta.new.push({ name, new: currentValue })
 				} else {
-					this.deltaValue(name, currentValue, old[name], delta)
+					this._deltaValue(path === '' ? name : `${path}.${name}`, name, currentValue, old[name], delta, options || {})
 				}
 			}
 			if (old !== undefined || old !== null) {
 				for (const name in old) {
+					const _path = path === '' ? name : `${path}.${name}`
+					if (options && options.ignore && options.ignore.includes(_path)) {
+						continue
+					}
 					if (current[name] === undefined) {
 						if (delta.remove === undefined) delta.remove = []
 						delta.remove.push({ name, old: old[name] })
@@ -269,7 +285,7 @@ export class ObjectHelper implements IObjectHelper {
 		return delta
 	}
 
-	private deltaValue (name:string, currentValue:any, oldValue:any, delta:Delta):void {
+	private _deltaValue (path:string, name:string, currentValue:any, oldValue:any, delta:Delta, options: DeltaOptions):void {
 		if (oldValue === undefined) {
 			if (delta.new === undefined) delta.new = []
 			delta.new.push({ name, new: currentValue })
@@ -280,10 +296,10 @@ export class ObjectHelper implements IObjectHelper {
 			if (delta.changed === undefined) delta.changed = []
 			delta.changed.push({ name, new: currentValue, old: oldValue })
 		} else if (Array.isArray(currentValue)) {
-			this.deltaArray(name, currentValue, oldValue, delta)
+			this._deltaArray(path, name, currentValue, oldValue, delta, options)
 		} else if (this.validator.isObject(currentValue)) {
-			const objectDelta = this.delta(currentValue, oldValue)
-			const change = this.deltaChange(objectDelta)
+			const objectDelta = this._delta(path, currentValue, oldValue, options)
+			const change = this._deltaChange(objectDelta)
 			if (change) {
 				if (delta.changed === undefined) delta.changed = []
 				delta.changed.push({ name, new: currentValue, old: oldValue, delta: objectDelta })
@@ -300,7 +316,7 @@ export class ObjectHelper implements IObjectHelper {
 		}
 	}
 
-	private deltaArray (name:string, current:any[], old:any[], delta:Delta):void {
+	private _deltaArray (path:string, name:string, current:any[], old:any[], delta:Delta, options: DeltaOptions):void {
 		if (current && Array.isArray(current) && (!old || !Array.isArray(old))) {
 			const arrayDelta = new Delta()
 			arrayDelta.new = current.map((p, i) => ({ name: i.toString(), new: p }))
@@ -337,19 +353,17 @@ export class ObjectHelper implements IObjectHelper {
 		} else if (Array.isArray(current[0])) {
 			throw new Error(`array of array not supported in ${name}`)
 		} else {
-			const arrayDelta = this.deltaArrayOfObject(name, current, old)
-			if (arrayDelta) {
-				const change = this.deltaChange(arrayDelta)
-				if (delta.children === undefined) delta.children = []
-				delta.children.push({ name, type: 'array', change, delta: arrayDelta })
-			}
+			const arrayDelta = this._deltaArrayOfObject(path, name, current, old, options)
+			const change = this._deltaChange(arrayDelta)
+			if (delta.children === undefined) delta.children = []
+			delta.children.push({ name, type: 'array', change, delta: arrayDelta })
 		}
 	}
 
-	private deltaArrayOfObject (name:string, current:any[], old:any[]):Delta| null {
+	private _deltaArrayOfObject (path:string, name:string, current:any[], old:any[], options: DeltaOptions):Delta {
 		const key = Object.keys(current[0]).find(p => ['id', 'code', 'name', 'key'].includes(p.toLowerCase()))
 		if (key === undefined) {
-			return null
+			throw new Error(`key not found in ${path}`)
 		}
 		const arrayDelta = new Delta()
 		for (const item of current) {
@@ -358,8 +372,8 @@ export class ObjectHelper implements IObjectHelper {
 				if (arrayDelta.new === undefined) arrayDelta.new = []
 				arrayDelta.new.push({ name, new: item })
 			} else {
-				const objectDelta = this.delta(item, oldItem)
-				const change = this.deltaChange(objectDelta)
+				const objectDelta = this._delta(path, item, oldItem, options)
+				const change = this._deltaChange(objectDelta)
 				if (change) {
 					if (arrayDelta.changed === undefined) arrayDelta.changed = []
 					arrayDelta.changed.push({ name, new: item, old: oldItem, delta: objectDelta })
@@ -378,7 +392,7 @@ export class ObjectHelper implements IObjectHelper {
 		return arrayDelta
 	}
 
-	private deltaChange (delta:Delta): boolean {
+	private _deltaChange (delta:Delta): boolean {
 		const main = (delta.changed ? delta.changed.length : 0) + (delta.remove ? delta.remove.length : 0) + (delta.new ? delta.new.length : 0) > 0
 		if (main) {
 			return true
