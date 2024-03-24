@@ -6,8 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.7.0](https://github.com/data7expressions/h3lp/compare/v1.6.4...v1.7.0) (2024-03-24)
 
-
-### Features
+**Features:**
 
 * **obj:** add ignore option to delta object ([99bed13](https://github.com/data7expressions/h3lp/commit/99bed13251ed38ae650af1c3e36b6ee39b7df522)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
 
