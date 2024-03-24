@@ -1,4 +1,4 @@
-import { Delta } from '../domain'
+import { Delta, DeltaOptions } from '../domain'
 export interface IObjectHelper {
 	clone (obj:any):any
 	extends (obj: any, base: any, excludes?:string[]):any
@@ -15,5 +15,5 @@ export interface IObjectHelper {
 	createKey (data:any):string
 	find (obj: any, predicate: (value:any)=>boolean): any
 	filter (obj: any, predicate: (value:any)=>boolean): any[]
-	delta (current:any, old?:any):Delta
+	delta (current:any, old?:any, options?: DeltaOptions):Delta
 }
