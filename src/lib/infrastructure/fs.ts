@@ -26,13 +26,6 @@ export class FsHelper implements IFsHelper {
 		})
 	}
 
-	// public async mkdir (sourcePath:string):Promise<void> {
-	// const fullPath = this.resolve(sourcePath)
-	// return new Promise<void>((resolve, reject) => {
-	// fs.mkdir(fullPath, { recursive: true }, err => err ? reject(err) : resolve())
-	// })
-	// }
-
 	public resolve (source:string):string {
 		const _source = source.trim()
 		if (_source.startsWith('.')) {
@@ -60,6 +53,26 @@ export class FsHelper implements IFsHelper {
 		return new Promise<void>((resolve, reject) => {
 			fs.unlink(fullPath, err => err ? reject(err) : resolve())
 		})
+	}
+
+	public async removeDir (directoryPath:string): Promise<void> {
+		try {
+			const stats = await this.lstat(directoryPath)
+			if (!stats.isDirectory()) {
+				await this.remove(directoryPath)
+				return
+			}
+			const files = await this.readdir(directoryPath)
+			await Promise.all(files.map(async (file) => {
+				const filePath = path.join(directoryPath, file)
+				await this.removeDir(filePath)
+			}))
+			return new Promise<void>((resolve, reject) => {
+				fs.rmdir(directoryPath, err => err ? reject(err) : resolve())
+			})
+		} catch (err) {
+			console.error(`Error removing directory ${directoryPath}: ${err}`)
+		}
 	}
 
 	public async copy (src: string, dest:string): Promise<void> {
