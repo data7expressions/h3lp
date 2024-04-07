@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## Versions
 
+### [1.8.2](https://github.com/data7expressions/h3lp/compare/v1.8.1...v1.8.2) (2024-04-07)
+
+
+### Bug Fixes
+
+* **fs:** add remove dir on IFsHelper ([2685b46](https://github.com/data7expressions/h3lp/commit/2685b46136db13c742903ef10df8fa1b2163d384)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
+
 ### [1.8.1](https://github.com/data7expressions/h3lp/compare/v1.8.0...v1.8.1) (2024-04-07)
 
 ## [1.8.0](https://github.com/data7expressions/h3lp/compare/v1.7.0...v1.8.0) (2024-04-07)
