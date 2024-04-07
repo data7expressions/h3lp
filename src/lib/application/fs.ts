@@ -6,6 +6,7 @@ export interface IFsHelper {
 	resolve (source:string):string
 	read (filePath: string): Promise<string|null>
 	remove (sourcePath:string):Promise<void>
+	removeDir (directoryPath:string): Promise<void>
 	copy (src: string, dest:string): Promise<void>
 	write (sourcePath: string, content: string): Promise<void>
 	writeBinary (sourcePath: string, content: Buffer): Promise<void>
