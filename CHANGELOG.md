@@ -6,8 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.8.0](https://github.com/data7expressions/h3lp/compare/v1.7.0...v1.8.0) (2024-04-07)
 
-
-### Features
+**Features:**
 
 * **file:** add remove dir ([552706e](https://github.com/data7expressions/h3lp/commit/552706e4897840c109f13e57112b2814df448c0a)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
 
