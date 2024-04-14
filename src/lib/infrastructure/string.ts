@@ -44,30 +44,53 @@ export class StringHelper implements IStringHelper {
 		return arr.join(' ')
 	}
 
+	public isUpperCase (char: string): boolean {
+		const ascii = char.charCodeAt(0)
+		return ascii >= 65 && ascii <= 90
+	}
+
+	public isLowerCase (char: string): boolean {
+		const ascii = char.charCodeAt(0)
+		return ascii >= 97 && ascii <= 122
+	}
+
+	public isCharacter (char: string): boolean {
+		const ascii = char.charCodeAt(0)
+		return (ascii >= 65 && ascii <= 90) || (ascii >= 97 && ascii <= 122)
+	}
+
+	public isDigit (char: string): boolean {
+		const ascii = char.charCodeAt(0)
+		return ascii >= 48 && ascii <= 57
+	}
+
 	public notation (source: string, type: 'camel'|'pascal' = 'camel'): string {
 		const buffer = Array.from(source)
 		const result = []
-		let nextUpper = false
-		if (type === 'pascal') {
-			nextUpper = true
-		}
+		let nextUpper = type === 'pascal'
+		let previousIsUpper = false
 		const length = buffer.length
 		for (let i = 0; i < length; i++) {
 			let char = buffer[i]
+			const isUpper = this.isUpperCase(char)
 			if (['_', '.', '-', ' '].includes(char)) {
 				// It is in the case that the text begins with a special character
 				if (result.length > 0) {
 					nextUpper = true
+					previousIsUpper = false
 				}
 				continue
 			}
-			if (nextUpper) {
+			if (isUpper && type === 'camel' && result.length === 0) {
+				char = char.toLowerCase()
+			} else if (previousIsUpper && isUpper) {
+				char = char.toLowerCase()
+			} else if (nextUpper) {
 				char = this.capitalize(char)
 				nextUpper = false
-			} else if (type === 'camel' && result.length === 0) {
-				char = char.toLowerCase()
 			}
 			result.push(char)
+			previousIsUpper = isUpper
 		}
 		return result.join('')
 	}

@@ -13,8 +13,10 @@ describe('string', () => {
 		expect(h3lp.str.notation('hello-world',"camel")).toStrictEqual('helloWorld')
 		expect(h3lp.str.notation('hello_world',"camel")).toStrictEqual('helloWorld')
 		expect(h3lp.str.notation('hello.world',"camel")).toStrictEqual('helloWorld')
-		expect(h3lp.str.notation('Hello.world',"camel")).toStrictEqual('helloWorld')
-		expect(h3lp.str.notation('_Hello.world',"camel")).toStrictEqual('helloWorld')
+		expect(h3lp.str.notation('HELLO_WORLD',"camel")).toStrictEqual('helloWorld')
+		expect(h3lp.str.notation('helloWorld',"camel")).toStrictEqual('helloWorld')
+		expect(h3lp.str.notation('HelloWorld',"camel")).toStrictEqual('helloWorld')
+		expect(h3lp.str.notation('HelloWORLD',"camel")).toStrictEqual('helloWorld')
 	})
 	test('notation pascalCase', () => {
 		expect(h3lp.str.notation('hello world',"pascal")).toStrictEqual('HelloWorld')
@@ -22,6 +24,10 @@ describe('string', () => {
 		expect(h3lp.str.notation('hello-world',"pascal")).toStrictEqual('HelloWorld')
 		expect(h3lp.str.notation('hello_world',"pascal")).toStrictEqual('HelloWorld')
 		expect(h3lp.str.notation('hello.world',"pascal")).toStrictEqual('HelloWorld')
+		expect(h3lp.str.notation('HELLO_WORLD',"pascal")).toStrictEqual('HelloWorld')
+		expect(h3lp.str.notation('helloWorld',"pascal")).toStrictEqual('HelloWorld')
+		expect(h3lp.str.notation('HelloWorld',"pascal")).toStrictEqual('HelloWorld')
+		expect(h3lp.str.notation('HelloWORLD',"pascal")).toStrictEqual('HelloWorld')
 	})
 	test('initCap', () => {
 		expect(h3lp.str.initCap('Lo peor que hacen los malos es obligarnos a dudar de los buenos')).toStrictEqual('Lo Peor Que Hacen Los Malos Es Obligarnos A Dudar De Los Buenos')
