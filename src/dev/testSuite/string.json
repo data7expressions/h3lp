@@ -38,6 +38,22 @@
         {
           "test": "hello.world",
           "result": "helloWorld"
+        },
+        {
+          "test": "HELLO_WORLD",
+          "result": "helloWorld"
+        },
+        {
+          "test": "helloWorld",
+          "result": "helloWorld"
+        },
+        {
+          "test": "HelloWorld",
+          "result": "helloWorld"
+        },
+        {
+          "test": "HelloWORLD",
+          "result": "helloWorld"
         }
       ],
       "errors": 0
@@ -63,6 +79,22 @@
         },
         {
           "test": "hello.world",
+          "result": "HelloWorld"
+        },
+        {
+          "test": "HELLO_WORLD",
+          "result": "HelloWorld"
+        },
+        {
+          "test": "helloWorld",
+          "result": "HelloWorld"
+        },
+        {
+          "test": "HelloWorld",
+          "result": "HelloWorld"
+        },
+        {
+          "test": "HelloWORLD",
           "result": "HelloWorld"
         }
       ],
