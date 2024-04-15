@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Versions
 
+### [1.9.1](https://github.com/data7expressions/h3lp/compare/v1.9.0...v1.9.1) (2024-04-15)
+
 ## [1.9.0](https://github.com/data7expressions/h3lp/compare/v1.8.4...v1.9.0) (2024-04-15)
 
 **Features:**
