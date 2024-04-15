@@ -15,12 +15,16 @@ export class Utils implements IUtils {
 		return typeof value
 	}
 
+	public escapeShell (cmd:string) {
+		return cmd.replace(/(["'$`\\])/g, '\\$1')
+	}
+
 	public async exec (
-		command: string,
+		cmd: string,
 		cwd: string = process.cwd()
 	): Promise<any> {
 		return new Promise<string>((resolve, reject) => {
-			exec(command, { cwd }, (error: any, stdout: any, stderr: any) => {
+			exec(this.escapeShell(cmd), { cwd }, (error: any, stdout: any, stderr: any) => {
 				if (stdout) return resolve(stdout)
 				if (stderr) return resolve(stderr)
 				if (error) return reject(error)
