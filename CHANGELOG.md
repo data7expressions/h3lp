@@ -6,8 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.9.0](https://github.com/data7expressions/h3lp/compare/v1.8.4...v1.9.0) (2024-04-15)
 
-
-### Features
+**Features:**
 
 * add scapeShell ([21bc7f6](https://github.com/data7expressions/h3lp/commit/21bc7f6bd3cc9d213f4729f1b99482d9b080c4dc)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
 
