@@ -1,5 +1,10 @@
 import { NormalizeOptions } from '../domain/base'
 
+export interface EqualOptions {
+	ignoreCase?: boolean
+	normalize?: boolean
+}
+
 export interface IStringHelper {
 	toString (value: any): string
 	replace (string: string, search: string, replace: string):string
@@ -13,4 +18,5 @@ export interface IStringHelper {
 	isUpperCase (char: string): boolean
 	isLowerCase (char: string): boolean
 	isDigit (char: string): boolean
+	equal(a:string, b:string, options:EqualOptions): boolean
 }

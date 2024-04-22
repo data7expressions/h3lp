@@ -1,5 +1,5 @@
 import { Delta, DeltaOptions } from '../index'
-import { IObjectHelper, IHttpHelper, IValidator } from '../application'
+import { IObjectHelper, IHttpHelper, IValidator, ObjectEqualOptions } from '../application'
 
 export class ObjectHelper implements IObjectHelper {
 	// eslint-disable-next-line no-useless-constructor
@@ -136,12 +136,45 @@ export class ObjectHelper implements IObjectHelper {
 		return true
 	}
 
+	getKeyProperty (sources:any, alternatives:string[] = ['id', 'code', 'name', 'key']):string|undefined {
+		const propertiesName = Object.keys(sources).map(p => p.toLowerCase())
+		for (const alternative of alternatives) {
+			if (propertiesName.includes(alternative.toLowerCase())) {
+				return alternative
+			}
+		}
+		return undefined
+	}
+
 	public sort (source: any):any {
 		const target:any = {}
 		for (const key of Object.keys(source).sort()) {
-			target[key] = source[key]
+			if (source[key] === null) {
+				target[key] = null
+			} else if (Array.isArray(source[key])) {
+				const propertyKey = this.getKeyProperty(source[key])
+				if (propertyKey) {
+					target[key] = source[key].sort((a:any, b:any) => a[propertyKey] > b[propertyKey] ? 1 : -1).map((p:any) => this.sort(p))
+				} else {
+					target[key] = source[key].map((p:any) => this.sort(p))
+				}
+			} else if (typeof source[key] === 'object') {
+				target[key] = this.sort(source[key])
+			} else {
+				target[key] = source[key]
+			}
 		}
 		return target
+	}
+
+	public equal (a:any, b:any, options:ObjectEqualOptions): boolean {
+		if (!options.strict) {
+			const _a = this.sort(a)
+			const _b = this.sort(b)
+			return JSON.stringify(_a) === JSON.stringify(_b)
+		} else {
+			return JSON.stringify(a) === JSON.stringify(b)
+		}
 	}
 
 	public fromEntries (entries: [string, any][]):any {
