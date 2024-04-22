@@ -6,8 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.10.0](https://github.com/data7expressions/h3lp/compare/v1.9.1...v1.10.0) (2024-04-22)
 
-
-### Features
+**Features:**
 
 * **string,object:** add equal ([0b4f441](https://github.com/data7expressions/h3lp/commit/0b4f441a43307cbca8ab28fa44fc96bf23a5fe16)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
 
