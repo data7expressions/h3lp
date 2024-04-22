@@ -1,5 +1,5 @@
 import { NormalizeOptions } from '../domain/base'
-import { IStringHelper, IValidator } from '../application'
+import { EqualOptions, IStringHelper, IValidator } from '../application'
 
 export class StringHelper implements IStringHelper {
 	// eslint-disable-next-line no-useless-constructor
@@ -11,6 +11,18 @@ export class StringHelper implements IStringHelper {
 
 	public replace (string: string, search: string, replace: string) {
 		return string.split(search).join(replace)
+	}
+
+	public equal (a:string, b:string, options:EqualOptions = {}): boolean {
+		if (options.normalize) {
+			a = this.normalize(a)
+			b = this.normalize(b)
+			return a === b
+		} else if (options.ignoreCase) {
+			return a.toLowerCase() === b.toLowerCase()
+		} else {
+			return a === b
+		}
 	}
 
 	public concat (values: any[]): any {
