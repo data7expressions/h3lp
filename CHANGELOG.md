@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Versions
 
+### [1.10.1](https://github.com/data7expressions/h3lp/compare/v1.10.0...v1.10.1) (2024-04-23)
+
+**Bug Fixes:**
+
+* **obj:** bugfix sort method ([2876637](https://github.com/data7expressions/h3lp/commit/28766375af3b3ec99cdd3d3415b2e9f91ee83246)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
+
 ## [1.10.0](https://github.com/data7expressions/h3lp/compare/v1.9.1...v1.10.0) (2024-04-22)
 
 **Features:**
