@@ -148,20 +148,28 @@ export class ObjectHelper implements IObjectHelper {
 
 	public sort (source: any):any {
 		const target:any = {}
-		for (const key of Object.keys(source).sort()) {
-			if (source[key] === null) {
-				target[key] = null
-			} else if (Array.isArray(source[key])) {
-				const propertyKey = this.getKeyProperty(source[key])
-				if (propertyKey) {
-					target[key] = source[key].sort((a:any, b:any) => a[propertyKey] > b[propertyKey] ? 1 : -1).map((p:any) => this.sort(p))
-				} else {
-					target[key] = source[key].map((p:any) => this.sort(p))
-				}
-			} else if (typeof source[key] === 'object') {
-				target[key] = this.sort(source[key])
+		if (source === null) {
+			return null
+		} else if (Array.isArray(source)) {
+			const propertyKey = this.getKeyProperty(source[0])
+			if (propertyKey) {
+				const result = source.map((p:any) => this.sort(p)).sort((a:any, b:any) => a[propertyKey] > b[propertyKey] ? 1 : -1)
+				return result
 			} else {
-				target[key] = source[key]
+				const result = source.map((p:any) => this.sort(p)).sort((a:any, b:any) => JSON.stringify(a) > JSON.stringify(b) ? 1 : -1)
+				return result
+			}
+		} else if (typeof source === 'object') {
+			for (const key of Object.keys(source).sort()) {
+				if (source[key] === null) {
+					target[key] = null
+				} else if (Array.isArray(source[key])) {
+					target[key] = this.sort(source[key])
+				} else if (typeof source[key] === 'object') {
+					target[key] = this.sort(source[key])
+				} else {
+					target[key] = source[key]
+				}
 			}
 		}
 		return target
