@@ -1,6 +1,6 @@
 {
 	"name": "h3lp",
-	"version": "1.10.1",
+	"version": "1.11.0",
 	"description": "Helper for nodeJs",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -31,10 +31,10 @@
 	},
 	"devDependencies": {
 		"@types/jest": "^29.5.10",
-		"@types/node": "^20.12.7",
+		"@types/node": "^20.12.9",
 		"@types/yargs": "^17.0.24",
-		"@typescript-eslint/eslint-plugin": "^7.0.0",
-		"@typescript-eslint/parser": "^7.5.0",
+		"@typescript-eslint/eslint-plugin": "^7.8.0",
+		"@typescript-eslint/parser": "^7.8.0",
 		"eslint": "^8.56.0",
 		"eslint-config-standard": "^17.1.0",
 		"eslint-plugin-import": "^2.27.5",
@@ -54,7 +54,7 @@
 		"ts-jest": "^29.1.0",
 		"ts-node": "^10.9.1",
 		"typedoc": "^0.25.4",
-		"typedoc-plugin-markdown": "3.17.1",
+		"typedoc-plugin-markdown": "4.0.0",
 		"typescript": "5.4.5"
 	},
 	"keywords": [
