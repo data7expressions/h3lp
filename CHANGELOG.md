@@ -6,8 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.12.0](https://github.com/data7expressions/h3lp/compare/v1.11.0...v1.12.0) (2024-05-08)
 
-
-### Features
+**Features:**
 
 * update IFsHelper ([20adaa9](https://github.com/data7expressions/h3lp/commit/20adaa949a29527123601e5fce86a0db843fcdd0)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
 
