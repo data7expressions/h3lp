@@ -18,6 +18,33 @@ export class FsHelper implements IFsHelper {
 		})
 	}
 
+	public dirname (sourcePath:string):string {
+		return path.dirname(sourcePath)
+	}
+
+	public basename (sourcePath:string):string {
+		return path.basename(sourcePath)
+	}
+
+	public join (...paths:string[]):string {
+		return path.join(...paths)
+	}
+
+	public extname (sourcePath:string):string {
+		return path.extname(sourcePath)
+	}
+
+	public async move (sourcePath:string, destPath:string):Promise<void> {
+		const _sourcePath = this.resolve(sourcePath)
+		const _destPath = this.resolve(destPath)
+		if (!await this.exists(_sourcePath)) {
+			throw new Error(`not exists ${sourcePath}`)
+		}
+		return new Promise<void>((resolve, reject) => {
+			fs.rename(_sourcePath, _destPath, err => err ? reject(err) : resolve())
+		})
+	}
+
 	public async create (sourcePath:string):Promise<void> {
 		const fullPath = this.resolve(sourcePath)
 		if (await this.exists(fullPath)) { return }
