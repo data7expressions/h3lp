@@ -13,4 +13,9 @@ export interface IFsHelper {
 	lstat (sourcePath:string):Promise<fs.Stats>
 	readdir (sourcePath:string):Promise<string[]>
 	isDirectory (sourcePath:string):Promise<boolean>
+	dirname (sourcePath:string):string
+	basename (sourcePath:string):string
+	join (...paths:string[]):string
+	extname (sourcePath:string):string
+	move (sourcePath:string, destPath:string):Promise<void>
 }
