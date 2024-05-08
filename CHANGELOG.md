@@ -6,8 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.11.0](https://github.com/data7expressions/h3lp/compare/v1.10.1...v1.11.0) (2024-05-08)
 
-
-### Features
+**Features:**
 
 * complete fs methods ([c92e08c](https://github.com/data7expressions/h3lp/commit/c92e08c27968c68b3b663d0a6f354aa9be19a522)), closes [#0](https://github.com/data7expressions/h3lp/issues/0)
 
