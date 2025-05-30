@@ -404,7 +404,6 @@ export class StringHelper implements IStringHelper {
 	/**
 	* Returns the plural of an English word.
 	*
-	* @export
 	* @param {string} word
 	* @param {number} [amount]
 	* @returns {string}
@@ -439,7 +438,6 @@ export class StringHelper implements IStringHelper {
 	/**
 	* Returns the singular of an English word.
 	*
-	* @export
 	* @param {string} word
 	* @param {number} [amount]
 	* @returns {string}
